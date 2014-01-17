@@ -54,7 +54,7 @@ GXX_WARNING_FLAGS = \
 #
 # compiler
 #
-ARCH = "../3rdparty"
+ARCH = "$$PWD/3rdparty"
 
 # architecture
 contains(QMAKE_HOST.arch, x86_64):{

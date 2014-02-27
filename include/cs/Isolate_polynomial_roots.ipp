@@ -29,12 +29,12 @@ void isolate_polynomial_roots_cgal(
     //CS_BENCHMARK_POINT();
 
     typedef typename Kernel_::Algebraic_kernel_with_sqrt                 Algebraic_kernel_with_sqrt;
-    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
+    //typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
     typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1   Algebraic_real_1;
     typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type  Multiplicity_type;
     typedef typename Algebraic_kernel_with_sqrt::Solve_1            Solve_1;
     typedef typename Kernel_::Algebraic_kernel                 Algebraic_kernel;
-    typedef typename Algebraic_kernel::Polynomial_1       Simple_polynomial_1;
+    //typedef typename Algebraic_kernel::Polynomial_1       Simple_polynomial_1;
     typedef typename Algebraic_kernel::Algebraic_real_1   Simple_algebraic_real_1;
     typedef typename Algebraic_kernel::Multiplicity_type  Simple_multiplicity_type;
     typedef typename Algebraic_kernel::Solve_1            Simple_solve_1;
@@ -265,15 +265,15 @@ void isolate_polynomial_roots_contfrac(
     //CS_BENCHMARK_POINT();
 
     typedef typename Kernel_::Algebraic_kernel_with_sqrt            Algebraic_kernel_with_sqrt;
-    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
+    //typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
     typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1   Algebraic_real_1;
     typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type  Multiplicity_type;
     typedef typename Algebraic_kernel_with_sqrt::Solve_1            Solve_1;
-    typedef typename Kernel_::Algebraic_kernel                      Algebraic_kernel;
-    typedef typename Algebraic_kernel::Polynomial_1                 Simple_polynomial_1;
-    typedef typename Algebraic_kernel::Algebraic_real_1             Simple_algebraic_real_1;
-    typedef typename Algebraic_kernel::Multiplicity_type            Simple_multiplicity_type;
-    typedef typename Algebraic_kernel::Solve_1                      Simple_solve_1;
+    //typedef typename Kernel_::Algebraic_kernel                      Algebraic_kernel;
+    //typedef typename Algebraic_kernel::Polynomial_1                 Simple_polynomial_1;
+    //typedef typename Algebraic_kernel::Algebraic_real_1             Simple_algebraic_real_1;
+    //typedef typename Algebraic_kernel::Multiplicity_type            Simple_multiplicity_type;
+    //typedef typename Algebraic_kernel::Solve_1                      Simple_solve_1;
 
     //
     // WARNING: sometimes the contfrac implementation hangs up!

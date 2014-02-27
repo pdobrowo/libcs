@@ -19,9 +19,7 @@
  */
 #include <cs/Contfrac.h>
 #include <cs/Benchmark.h>
-#include <realroot/GMP.hpp>
-#include <realroot/polynomial_tensor.hpp>
-#include <realroot/solver_uv_continued_fraction.hpp>
+#include <cs/Realroot.h>
 
 contfrac_interval::contfrac_interval(const CGAL::Gmpq &low_, const CGAL::Gmpq &high_)
     : low(low_),

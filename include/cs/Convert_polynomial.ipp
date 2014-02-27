@@ -115,10 +115,10 @@ void apart_polynomial(
     CS_BENCHMARK_POINT();
 
     typedef typename Kernel_::Algebraic_kernel                             Algebraic_kernel;
-    typedef typename Kernel_::Algebraic_kernel_with_sqrt                   Algebraic_kernel_with_sqrt;
+    //typedef typename Kernel_::Algebraic_kernel_with_sqrt                   Algebraic_kernel_with_sqrt;
 
     typedef typename Algebraic_kernel::Polynomial_1                   Simple_polynomial_1;
-    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1         Polynomial_1;
+    //typedef typename Algebraic_kernel_with_sqrt::Polynomial_1         Polynomial_1;
 
     // a common polynomial degree
     int degree = polynomial.degree();

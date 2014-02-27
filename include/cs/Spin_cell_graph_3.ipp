@@ -609,7 +609,7 @@ size_t Spin_cell_graph_3<K, P, G>::collect_cell_neighbour_information()
         // preprocess - build up coordinate tree
         typedef Index_tree_node_visitor_n<Cell> Index_tree_node_visitor;
         typedef typename Index_tree_node_visitor::Index_tree_node Index_tree_node;
-        typedef Index_tree_node * Index_tree_node_ptr;
+        //typedef Index_tree_node * Index_tree_node_ptr;
         typedef Multi_list_n<Index_tree_node_visitor> Multi_list;
         typedef Multi_list_rope_n<Index_tree_node_visitor> Multi_list_rope;
         typedef Multi_list_link_n<Index_tree_node_visitor> Multi_list_link;

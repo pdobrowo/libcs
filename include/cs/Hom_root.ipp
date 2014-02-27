@@ -53,16 +53,16 @@ void extract_isolated_hom_roots(
 {
     CS_BENCHMARK_POINT();
 
-    typedef typename Kernel_::Hom_polynomial                             Hom_polynomial;
+    //typedef typename Kernel_::Hom_polynomial                             Hom_polynomial;
     typedef typename Kernel_::Hom_polynomial_with_sqrt                   Hom_polynomial_with_sqrt;
 
     typedef typename Kernel_::Algebraic_kernel_with_sqrt                 Algebraic_kernel_with_sqrt;
 
-    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
+    //typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
     typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1   Algebraic_real_1;
-    typedef typename Algebraic_kernel_with_sqrt::Bound              Bound;
-    typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type  Multiplicity_type;
-    typedef typename Algebraic_kernel_with_sqrt::Solve_1            Solve_1;
+    //typedef typename Algebraic_kernel_with_sqrt::Bound              Bound;
+    //typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type  Multiplicity_type;
+    //typedef typename Algebraic_kernel_with_sqrt::Solve_1            Solve_1;
 
     // minimal polynomial
     Hom_polynomial_with_sqrt hom_polynomial = hom_polynomial_;

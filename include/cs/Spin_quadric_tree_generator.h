@@ -20,7 +20,7 @@
 #ifndef LIBCS_SPIN_QUADRIC_TREE_GENERATOR_H
 #define LIBCS_SPIN_QUADRIC_TREE_GENERATOR_H
 
-#include <Spin_quadric_tree_3.h>
+#include <cs/Spin_quadric_tree_3.h>
 
 namespace CS
 {

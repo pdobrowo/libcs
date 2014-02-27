@@ -17,22 +17,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Spin_kernel_3.h"
-#include "Spin_qsic_mesh_3.h"
-#include "Spin_qsip_mesh_3.h"
-#include "Spin_quadric_mesh_3.h"
-#include "Spin_quadric_tree_3.h"
-#include "Spin_quadric_tree_generator.h"
-#include "Spin_configuration_space_3.h"
-#include "Spin_cell_graph_3.h"
-#include "Build.h"
-#include "Loader_scene.h"
-#include "Loader_sphere_tree.h"
-#include "Predicate_tt_3.h"
-#include "Predicate_bb_3.h"
-#include "Benchmark.h"
-#include "Bigint.h"
-#include "Uniform_random_spin_3.h"
+#include <cs/Spin_kernel_3.h>
+#include <cs/Spin_qsic_mesh_3.h>
+#include <cs/Spin_qsip_mesh_3.h>
+#include <cs/Spin_quadric_mesh_3.h>
+#include <cs/Spin_quadric_tree_3.h>
+#include <cs/Spin_quadric_tree_generator.h>
+#include <cs/Spin_configuration_space_3.h>
+#include <cs/Spin_cell_graph_3.h>
+#include <cs/Build.h>
+#include <cs/Loader_scene.h>
+#include <cs/Loader_sphere_tree.h>
+#include <cs/Predicate_tt_3.h>
+#include <cs/Predicate_bb_3.h>
+#include <cs/Benchmark.h>
+#include <cs/Bigint.h>
+#include <cs/Uniform_random_spin_3.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Filtered_kernel.h>
 #include <CGAL/Root_of_traits.h>

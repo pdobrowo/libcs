@@ -28,7 +28,7 @@ void Predicate_list_generator<Kernel_, Predicate_bb_3<Kernel_> >::create_predica
         ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
         OutputIterator predicates_iterator)
 {
-    typedef typename Kernel_::Point_3   Point_3;
+    //typedef typename Kernel_::Point_3   Point_3;
     typedef typename Kernel_::Vector_3  Vector_3;
     typedef typename Kernel_::RT        RT;
 

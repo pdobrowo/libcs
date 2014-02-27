@@ -60,7 +60,7 @@ QMAKE_CXXFLAGS += -fopenmp
 LIBS += -lgomp
 
 # CS
-INCLUDEPATH += "../cs"
+INCLUDEPATH += "../include"
 LIBS += -L"../bin"
 
 win32-g++:{

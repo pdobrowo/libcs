@@ -14,7 +14,7 @@
    AMD K7, GMP 4.1, LINUX 2.4.19, gcc 2.95.3
    Alpha ev6, GMP 4.1, Tru64 v4.0, gcc 2.95.3
 */
-#include "Uspensky_Hanrot.h"
+#include <cs/Uspensky_Hanrot.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

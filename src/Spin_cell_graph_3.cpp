@@ -17,23 +17,4 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Config.h"
-
-namespace CS
-{
-namespace Config
-{
-static int g_neighbour_collect_algorithm = 3;
-
-int neighbour_collect_algorithm()
-{
-    return g_neighbour_collect_algorithm;
-}
-
-void set_neighbour_collect_algorithm(int index)
-{
-    if (index >= 1 && index <= 3)
-        g_neighbour_collect_algorithm = index;
-}
-} // namespace Config
-} // namespace CS
+#include <cs/Spin_cell_graph_3.h>

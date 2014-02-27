@@ -17,16 +17,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Build.h"
+#include <cs/Coordinate.h>
 
 namespace CS
 {
-const char *build_string()
+std::ostream &operator <<(std::ostream &stream, const Coordinate &coordinate)
 {
-#if defined(_DEBUG) || !defined(NDEBUG)
-    return "libcs " __TIMESTAMP__ " Debug";
-#else
-    return "libcs " __TIMESTAMP__ " Release";
-#endif
+    stream << "[ ";
+
+    for (Coordinate::const_iterator iterator = coordinate.begin(); iterator != coordinate.end(); ++iterator)
+        stream << *iterator << " ";
+
+    stream << "]";
+
+    return stream;
 }
 } // namespace CS

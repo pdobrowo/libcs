@@ -17,19 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Coordinate.h"
+#include <cs/Hom_root.h>
 
 namespace CS
 {
-std::ostream &operator <<(std::ostream &stream, const Coordinate &coordinate)
+bigint to_bigint(const CGAL::Gmpz &g)
 {
-    stream << "[ ";
+    CS_BENCHMARK_POINT();
 
-    for (Coordinate::const_iterator iterator = coordinate.begin(); iterator != coordinate.end(); ++iterator)
-        stream << *iterator << " ";
-
-    stream << "]";
-
-    return stream;
+    const mpz_t &m = g.mpz();
+    return bigint(m[0]);
 }
 } // namespace CS

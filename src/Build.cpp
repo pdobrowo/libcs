@@ -17,15 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Hom_root.h"
+#include <cs/Build.h>
 
 namespace CS
 {
-bigint to_bigint(const CGAL::Gmpz &g)
+const char *build_string()
 {
-    CS_BENCHMARK_POINT();
-
-    const mpz_t &m = g.mpz();
-    return bigint(m[0]);
+#if defined(_DEBUG) || !defined(NDEBUG)
+    return "libcs " __TIMESTAMP__ " Debug";
+#else
+    return "libcs " __TIMESTAMP__ " Release";
+#endif
 }
 } // namespace CS

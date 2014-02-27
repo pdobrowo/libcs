@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Contfrac.h"
-#include "Benchmark.h"
+#include <cs/Contfrac.h>
+#include <cs/Benchmark.h>
 #include <realroot/GMP.hpp>
 #include <realroot/polynomial_tensor.hpp>
 #include <realroot/solver_uv_continued_fraction.hpp>

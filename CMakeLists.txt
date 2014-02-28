@@ -20,7 +20,7 @@
 project(cs)
 cmake_minimum_required(VERSION 2.6)
 
-#set(CMAKE_BUILD_TYPE Release)
+set(LIBCS_WITH_EXACT_KERNEL 0)
 
 add_definitions(
 #   -Werror
@@ -75,13 +75,13 @@ include_directories(
 set(ARCH ${CMAKE_SOURCE_DIR}/3rdparty)
 
 # architecture
-if (CMAKE_SIZEOF_VOID_P MATCHES "8")
+if(CMAKE_SIZEOF_VOID_P MATCHES "8")
     set(ARCH ${ARCH}/amd64)
-endif (CMAKE_SIZEOF_VOID_P MATCHES "8")
+endif(CMAKE_SIZEOF_VOID_P MATCHES "8")
 
-if (CMAKE_SIZEOF_VOID_P MATCHES "4")
+if(CMAKE_SIZEOF_VOID_P MATCHES "4")
     set(ARCH ${ARCH}/i386)
-endif (CMAKE_SIZEOF_VOID_P MATCHES "4")
+endif(CMAKE_SIZEOF_VOID_P MATCHES "4")
 
 # system
 if(WIN32)
@@ -94,20 +94,22 @@ endif()
 
 message("external libraries: " ${ARCH})
 
-# lidia
-set(LIDIA ${ARCH}/lidia-2.3.0)
-include_directories(${LIDIA}/include)
-link_directories(${LIDIA}/lib)
+if(LIBCS_WITH_EXACT_KERNEL)
+    # lidia
+    set(LIDIA ${ARCH}/lidia-2.3.0)
+    include_directories(${LIDIA}/include)
+    link_directories(${LIDIA}/lib)
 
-# libqi
-set(LIBQI ${ARCH}/libqi-0.9.33)
-include_directories(${LIBQI}/include)
-link_directories(${LIBQI}/lib)
+    # libqi
+    set(LIBQI ${ARCH}/libqi-0.9.33)
+    include_directories(${LIBQI}/include)
+    link_directories(${LIBQI}/lib)
 
-# realroot
-set(REALROOT ${ARCH}/realroot)
-include_directories(${REALROOT}/include)
-link_directories(${REALROOT}/lib)
+    # realroot
+    set(REALROOT ${ARCH}/realroot)
+    include_directories(${REALROOT}/include)
+    link_directories(${REALROOT}/lib)
+endif(LIBCS_WITH_EXACT_KERNEL)
 
 # optimization
 #CONFIG(release, debug|release) {
@@ -118,7 +120,7 @@ link_directories(${REALROOT}/lib)
 #add_definitions(-O3 -march=core2)
 #}
 
-if (WIN32)
+if(WIN32)
     # boost needs that
     add_definitions(-DBOOST_THREAD_USE_LIB)
 
@@ -186,6 +188,7 @@ set(cs_HEADERS
     include/cs/Spin_qsic_3.ipp
     include/cs/Spin_QC_sample_generator_3.ipp
     include/cs/Spin_kernel_3.ipp
+    include/cs/Spin_inexact_kernel_3.ipp
     include/cs/Spin_configuration_space_3.ipp
     include/cs/Spin_cell_graph_3.ipp
     include/cs/Spin_3.ipp
@@ -221,6 +224,7 @@ set(cs_HEADERS
     include/cs/Spin_qsic_3.h
     include/cs/Spin_QC_sample_generator_3.h
     include/cs/Spin_kernel_3.h
+    include/cs/Spin_inexact_kernel_3.h
     include/cs/Spin_configuration_space_3.h
     include/cs/Spin_cell_graph_3.h
     include/cs/Spin_3.h
@@ -273,34 +277,50 @@ set(cs_HEADERS
     include/cs/Config.h
 )
 
-set(cs_SOURCES
+set(cs_BASE_SOURCES
     ${cs_HEADERS}
-    src/Uspensky_Hanrot.c
-    src/Spin_cell_graph_3.cpp
+    src/Spin_inexact_kernel_3.cpp
     src/Spin_3.cpp
     src/Scene_loader.cpp
     src/Random.cpp
     src/Math_utils.cpp
-    src/Hom_root.cpp
     src/Coordinate.cpp
-    src/Contfrac.cpp
     src/Benchmark.cpp
     src/Build.cpp
     src/Config.cpp
 )
 
+if(LIBCS_WITH_EXACT_KERNEL)
+    set(cs_SOURCES
+        ${cs_BASE_SOURCES}
+        src/Spin_kernel_3.cpp
+        src/Uspensky_Hanrot.c
+        src/Hom_root.cpp
+        src/Contfrac.cpp
+    )
+else(LIBCS_WITH_EXACT_KERNEL)
+    set(cs_SOURCES
+        ${cs_BASE_SOURCES}
+    )
+endif(LIBCS_WITH_EXACT_KERNEL)
+
 add_library(cs SHARED ${cs_SOURCES})
 
 target_link_libraries(cs 
-    LiDIA
-    qi
     CGAL
-    mpfi
-    mpfr
-    gmp
-    realroot
     log4cxx
 )
+
+if(LIBCS_WITH_EXACT_KERNEL)
+    target_link_libraries(cs
+        LiDIA
+        qi
+        mpfi
+        mpfr
+        gmp
+        realroot
+    )
+endif(LIBCS_WITH_EXACT_KERNEL)
 
 if(WIN32)
     target_link_libraries(cs

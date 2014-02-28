@@ -307,16 +307,16 @@ Spin_quadric_mesh_3<R>::Spin_quadric_mesh_3(const Spin_quadric_3<R> &spin_quadri
     : m_spin_quadric(spin_quadric)
 {
     // doublify quadric coefficients
-    m_a11 = LiDIA::dbl(m_spin_quadric.a11());
-    m_a12 = LiDIA::dbl(m_spin_quadric.a12());
-    m_a13 = LiDIA::dbl(m_spin_quadric.a13());
-    m_a14 = LiDIA::dbl(m_spin_quadric.a14());
-    m_a22 = LiDIA::dbl(m_spin_quadric.a22());
-    m_a23 = LiDIA::dbl(m_spin_quadric.a23());
-    m_a24 = LiDIA::dbl(m_spin_quadric.a24());
-    m_a33 = LiDIA::dbl(m_spin_quadric.a33());
-    m_a34 = LiDIA::dbl(m_spin_quadric.a34());
-    m_a44 = LiDIA::dbl(m_spin_quadric.a44());
+    m_a11 = to_double(m_spin_quadric.a11());
+    m_a12 = to_double(m_spin_quadric.a12());
+    m_a13 = to_double(m_spin_quadric.a13());
+    m_a14 = to_double(m_spin_quadric.a14());
+    m_a22 = to_double(m_spin_quadric.a22());
+    m_a23 = to_double(m_spin_quadric.a23());
+    m_a24 = to_double(m_spin_quadric.a24());
+    m_a33 = to_double(m_spin_quadric.a33());
+    m_a34 = to_double(m_spin_quadric.a34());
+    m_a44 = to_double(m_spin_quadric.a44());
 }
 
 template<class R>

@@ -17,24 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <log4cxx/logger.h>
-#include <log4cxx/propertyconfigurator.h>
+#ifndef TEST_EXACT_PERF_H
+#define TEST_EXACT_PERF_H
 
-//#include "test_various.h"
-//#include "test_exact_perf.h"
-//#include "test_cell_perf.h"
-#include "test_inexact_perf.h"
+void test_inexact_perf();
 
-static log4cxx::LoggerPtr g_logger(log4cxx::Logger::getLogger("Test.main"));
-
-int main()
-{
-    // configure logger
-    log4cxx::PropertyConfigurator::configure("logger.conf");
-
-    //test_exact_perf();
-    //test_cell_perf();
-    test_inexact_perf();
-
-    return 0;
-}
+#endif // TEST_EXACT_PERF_H

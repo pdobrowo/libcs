@@ -132,13 +132,13 @@ linux*:{
 #
 # libs
 #
-LIBS += -lqi
-LIBS += -lLiDIA
-LIBS += -lmpfi
+#LIBS += -lqi
+#LIBS += -lLiDIA
+#LIBS += -lmpfi
 LIBS += -lmpfr
-LIBS += -lgmp
+#LIBS += -lgmp
 LIBS += -lCGAL
-LIBS += -lrealroot
+#LIBS += -lrealroot
 LIBS += -llog4cxx
 LIBS += -lcs
 
@@ -164,11 +164,13 @@ INCLUDEPATH += src
 
 # source
 SOURCES += main.cpp \
-    test_various.cpp \
-    test_exact_perf.cpp \
-    test_cell_perf.cpp
+#   test_various.cpp \
+#   test_exact_perf.cpp \
+#   test_cell_perf.cpp \
+    test_inexact_perf.cpp
 
 HEADERS += \
-    test_various.h \
-    test_exact_perf.h \
-    test_cell_perf.h
+#   test_various.h \
+#   test_exact_perf.h \
+#   test_cell_perf.h \
+    test_inexact_perf.h

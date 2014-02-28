@@ -17,24 +17,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <log4cxx/logger.h>
-#include <log4cxx/propertyconfigurator.h>
+#ifndef LIBCS_MATRIX_44_H
+#define LIBCS_MATRIX_44_H
 
-//#include "test_various.h"
-//#include "test_exact_perf.h"
-//#include "test_cell_perf.h"
-#include "test_inexact_perf.h"
-
-static log4cxx::LoggerPtr g_logger(log4cxx::Logger::getLogger("Test.main"));
-
-int main()
+namespace CS
 {
-    // configure logger
-    log4cxx::PropertyConfigurator::configure("logger.conf");
+// Matrix_44:
+//
+// | a11 a12 a13 a14 |
+// | a12 a22 a23 a24 |
+// | a13 a23 a33 a34 |
+// | a14 a24 a34 a44 |
+//
+template<class RT_>
+class Matrix_44
+{
+public:    
+    typedef RT_ RT;
 
-    //test_exact_perf();
-    //test_cell_perf();
-    test_inexact_perf();
+    Matrix_44();
 
-    return 0;
-}
+    void        set_zero();
+    void        set_identity();
+
+    const RT &  get(int i, int j) const;
+    void        set(int i, int j, const RT &v);
+
+private:
+    RT m_e[4][4];
+};
+} // namespace CS
+
+#include "Matrix_44.ipp"
+
+#endif // LIBCS_MATRIX_44_H

@@ -25,9 +25,9 @@
 #include "Predicate_h_3.h"
 #include "Predicate_s_3.h"
 #include "Predicate_g_3.h"
-#include <libqi.h>
 #include <ostream>
 #include <cassert>
+#include <sstream>
 #include <string>
 
 namespace CS

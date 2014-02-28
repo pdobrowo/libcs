@@ -200,16 +200,16 @@ void Spin_quadric_3<Kernel_>::construct(const Predicate_g_3<Kernel_> &g3)
     RT aymby = ay - by;
     RT azmbz = az - bz;
 
-    m_a11 = ( az * by - ay * bz) * kxmlx + (-az * bx + ax * bz) * kymly + azmbz * (-ky * lx + kx * ly) + (-ay * bx + ax * by) * kzmlz - aymby * (kz * lx - kx * lz) - axmbx * (-kz * ly + ky *lz);  // s12^2
+    m_a11 = (az * by - ay * bz) * kxmlx + (-az * bx + ax * bz) * kymly + azmbz * (-ky * lx + kx * ly) + (-ay * bx + ax * by) * kzmlz - aymby * (kz * lx - kx * lz) - axmbx * (-kz * ly + ky *lz);  // s12^2
     m_a22 = (-az * by + ay * bz) * kxmlx + (-az * bx + ax * bz) * kymly - azmbz * (-ky * lx + kx * ly) + (ay * bx - ax * by) * kzmlz  - aymby * (kz * lx - kx * lz) + axmbx * (-kz * ly + ky * lz); // s23^2
-    m_a33 = ( az * by - ay * bz) * kxmlx + (az * bx - ax * bz) * kymly  - azmbz * (-ky * lx + kx * ly) + (ay * bx - ax * by) * kzmlz  + aymby * (kz * lx - kx * lz) - axmbx * (-kz * ly + ky * lz); // s31^2
+    m_a33 = (az * by - ay * bz) * kxmlx + (az * bx - ax * bz) * kymly  - azmbz * (-ky * lx + kx * ly) + (ay * bx - ax * by) * kzmlz  + aymby * (kz * lx - kx * lz) - axmbx * (-kz * ly + ky * lz); // s31^2
     m_a44 = (-az * by + ay * bz) * kxmlx + (az * bx - ax * bz) * kymly  + azmbz * (-ky * lx + kx * ly) + (-ay * bx + ax * by) * kzmlz + aymby * (kz * lx - kx * lz) + axmbx * (-kz * ly + ky * lz); // s0^2
     m_a12 = (-ay * bx + ax * by) * kxmlx + axmbx * (-ky * lx + kx * ly) + (-az * by + ay * bz) * kzmlz + azmbz * (-kz * ly + ky * lz); // s23 s12
     m_a13 = (-ay * bx + ax * by) * kymly + aymby * (-ky * lx + kx * ly) + (az * bx - ax * bz) * kzmlz  + azmbz * (kz * lx - kx * lz);  // s31 s12
-    m_a14 = ( az * bx - ax * bz) * kxmlx - (-az * by + ay * bz) * kymly - axmbx * (kz * lx - kx * lz)  + aymby * (-kz * ly + ky * lz); // s0 s12
-    m_a23 = ( az * bx - ax * bz) * kxmlx + (-az * by + ay * bz) * kymly + axmbx * (kz * lx - kx * lz)  + aymby * (-kz * ly + ky * lz); // s23 s31
+    m_a14 = (az * bx - ax * bz) * kxmlx - (-az * by + ay * bz) * kymly - axmbx * (kz * lx - kx * lz)  + aymby * (-kz * ly + ky * lz); // s0 s12
+    m_a23 = (az * bx - ax * bz) * kxmlx + (-az * by + ay * bz) * kymly + axmbx * (kz * lx - kx * lz)  + aymby * (-kz * ly + ky * lz); // s23 s31
     m_a24 = (-ay * bx + ax * by) * kymly - aymby * (-ky * lx + kx * ly) - (az * bx - ax * bz) * kzmlz  + azmbz * (kz * lx - kx * lz);  // s23 s0
-    m_a34 = ( ay * bx - ax * by) * kxmlx + axmbx * (-ky * lx + kx * ly) + (-az * by + ay * bz) * kzmlz - azmbz * (-kz * ly + ky * lz); // s0 s31
+    m_a34 = (ay * bx - ax * by) * kxmlx + axmbx * (-ky * lx + kx * ly) + (-az * by + ay * bz) * kzmlz - azmbz * (-kz * ly + ky * lz); // s0 s31
 
 #endif
 
@@ -285,7 +285,50 @@ std::ostream &operator <<(std::ostream &os, const Spin_quadric_3<Kernel_> &q)
 template<class Kernel_>
 std::string Spin_quadric_3<Kernel_>::to_string() const
 {
-    return QI::quad2string(matrix(), true);
+    //return QI::quad2string(matrix(), true);
+
+    // copied and adopted from libqi: kernel/QIElem.cc
+    bool homogeneous = true;
+    RT v[10] = { m_a11, 2 * m_a12, 2 * m_a13, 2 * m_a14, m_a22, 2 * m_a23, 2 * m_a24, m_a33, 2 * m_a34, m_a44 };
+
+    const char *hom_labels[] = {"x^2","x*y","x*z","x*w","y^2","y*z","y*w","z^2","z*w","w^2"};
+    const char *aff_labels[] = {"x^2","x*y","x*z","x","y^2","y*z","y","z^2","z"};
+    const char **labels = homogeneous ? hom_labels : aff_labels;
+
+    bool first_coefficient = true;
+    std::stringstream result(std::stringstream::in | std::stringstream::out);
+    RT coefficient;
+
+    for (int k = 0; k < 10; k ++)
+    {
+        if (v[k] == 0)
+            continue;
+
+        if (!first_coefficient && v[k] > 0)
+            result << "+";
+        else
+            if (v[k] < 0)
+                result << "-";
+
+        coefficient = abs(v[k]);
+
+        if (coefficient != 1 || (k > 8 && !homogeneous))
+            result << coefficient;
+
+        if (homogeneous || (k <= 8))
+        {
+            if (coefficient != 1)
+                result << "*";
+
+            result << labels[k];
+        }
+
+        first_coefficient = false;
+    }
+
+    std::string result_string = result.str();
+    return result_string.length() > 0 ? result_string : "0";
+
 }
 
 template<class Kernel_>

@@ -17,4 +17,4 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <cs/Spin_cell_graph_3.h>
+#include "Spin_inexact_kernel_3.h"

@@ -25,7 +25,7 @@
 
 // algebraic kernel
 #if 1
-#define CGAL_USE_MPFI 1
+#   define CGAL_USE_MPFI 1
 #endif
 
 #include <CGAL/basic.h>
@@ -197,92 +197,8 @@ struct Spin_kernel_3
 #endif
 
     // matrix
-    typedef LiDIA::matrix<RT>                       Matrix;
-};
-
-// Spin_inexact_kernel_3 is an adapter for a standard CGAL geometric kernel
-// this is an inexact and reduced version
-// several things are not available in this version - QSICs, QSIPs and other
-template<class K_>
-struct Spin_inexact_kernel_3
-    : public K_
-{
-    // derived types
-    typedef typename K_::RT                         RT;
-
-    // spin kernel
-    typedef Spin_inexact_kernel_3                   Kernel;
-
-    // spin types
-    typedef CS::Spin_quadric_3<Kernel>              Spin_quadric_3;
-
-    // predicates
-    typedef CS::Predicate_h_3<Kernel>               Predicate_h_3;
-    typedef CS::Predicate_s_3<Kernel>               Predicate_s_3;
-    typedef CS::Predicate_g_3<Kernel>               Predicate_g_3;
-    typedef CS::Predicate_tt_3<Kernel>              Predicate_tt_3;
-    typedef CS::Predicate_bb_3<Kernel>              Predicate_bb_3;
-    typedef CS::Ball_3<Kernel>                      Ball_3;
-
-    // meshers
-    typedef CS::Spin_quadric_mesh_3<Kernel>         Spin_quadric_mesh_3;
-
-    // inexact spin
-    typedef CS::Spin_3<RT>                          Spin_3;
-    typedef CS::Diff_spin_3<RT>                     Diff_spin_3;
-
-    // sentence
-    typedef CS::Spin_quadric_tree_3<Kernel>         Spin_quadric_tree_3;
-
-    // spin cell graph and configuration space generators based on base predicate type
-    template<class Predicate>
-    struct Spin_cell_graph_3_generator
-    {
-        typedef CS::Spin_cell_graph_3<Kernel, Predicate> Type;
-    };
-
-    // spin raster graph and configuration space generators based on base predicate type
-    template<class Predicate>
-    struct Spin_raster_graph_3_generator
-    {
-        typedef CS::Spin_raster_graph_3<Kernel, Predicate> Type;
-    };
-
-    // spin exact graph and configuration space generators based on base predicate type
-    template<class Predicate>
-    struct Spin_exact_graph_3_generator
-    {
-        typedef CS::Spin_exact_graph_3<Kernel, Predicate> Type;
-    };
-
-    // configuration space
-    template<class Predicate, class Representation>
-    struct Spin_configuration_space_3
-    {
-        typedef CS::Spin_configuration_space_3<Kernel, Predicate, Representation> Type;
-    };
-
-    // shortcuts
-    template<class Predicate>
-    struct Spin_cell_configuration_space_3
-    {
-        typedef CS::Spin_cell_configuration_space_3<Kernel, Predicate> Type;
-    };
-
-    template<class Predicate>
-    struct Spin_raster_configuration_space_3
-    {
-        typedef CS::Spin_raster_configuration_space_3<Kernel, Predicate> Type;
-    };
-
-    template<class Predicate>
-    struct Spin_exact_configuration_space_3
-    {
-        typedef CS::Spin_exact_configuration_space_3<Kernel, Predicate> Type;
-    };
-
-    // matrix
-    typedef LiDIA::matrix<RT>                       Matrix;
+    typedef CS::Matrix_44<RT>   Matrix;
+    typedef LiDIA::matrix<RT>   LidiaMatrix;
 };
 } // namespace CS
 

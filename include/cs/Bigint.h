@@ -206,6 +206,14 @@ class Modular_traits< Bigint > {
 };
 } // namespace CGAL
 
+namespace CS
+{
+inline to_double(const CGAL::Bigint &x)
+{
+    return LiDIA::dbl(x);
+}
+} // namespace CS
+
 #include "Bigint.ipp"
 
 #endif // LIBCS_BIGINT_H

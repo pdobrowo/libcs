@@ -17,24 +17,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <log4cxx/logger.h>
-#include <log4cxx/propertyconfigurator.h>
+#include "Matrix_44.h"
 
-//#include "test_various.h"
-//#include "test_exact_perf.h"
-//#include "test_cell_perf.h"
-#include "test_inexact_perf.h"
-
-static log4cxx::LoggerPtr g_logger(log4cxx::Logger::getLogger("Test.main"));
-
-int main()
+namespace CS
 {
-    // configure logger
-    log4cxx::PropertyConfigurator::configure("logger.conf");
-
-    //test_exact_perf();
-    //test_cell_perf();
-    test_inexact_perf();
-
-    return 0;
+template<class RT_>
+Matrix_44<RT_>::Matrix_44()
+{
+    set_zero();
 }
+
+template<class RT_>
+void Matrix_44<RT_>::set_zero()
+{
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            m_e[i][j] = 0;
+}
+
+template<class RT_>
+void Matrix_44<RT_>::set_identity()
+{
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            m_e[i][j] = (i == j);
+}
+
+template<class RT_>
+const RT_ &Matrix_44<RT_>::get(int i, int j) const
+{
+    return m_e[i][j];
+}
+
+template<class RT_>
+void Matrix_44<RT_>::set(int i, int j, const RT &v)
+{
+    m_e[i][j] = v;
+}
+} // namespace CS

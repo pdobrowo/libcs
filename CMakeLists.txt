@@ -171,7 +171,7 @@ if(UNIX)
     add_definitions(-frounding-math)
 endif()
 
-set(cs_HDRS
+set(cs_HEADERS
     3rdparty/libqi.h
     include/cs/Uspensky_Hanrot.h
     include/cs/Uniform_random_spin_3.ipp
@@ -273,7 +273,8 @@ set(cs_HDRS
     include/cs/Config.h
 )
 
-set(cs_SRCS
+set(cs_SOURCES
+    ${cs_HEADERS}
     src/Uspensky_Hanrot.c
     src/Spin_cell_graph_3.cpp
     src/Spin_3.cpp
@@ -288,7 +289,7 @@ set(cs_SRCS
     src/Config.cpp
 )
 
-add_library(cs SHARED ${cs_SRCS})
+add_library(cs SHARED ${cs_SOURCES})
 
 target_link_libraries(cs 
     LiDIA

@@ -22,48 +22,50 @@ cmake_minimum_required(VERSION 2.6)
 
 set(LIBCS_WITH_EXACT_KERNEL 0)
 
-add_definitions(
-#   -Werror
-    -Wall
-    -Wextra
-#   -pedantic
-#   -Weffc++
-    -Wwrite-strings
-    -Winit-self
-    -Wcast-align
-    -Wcast-qual
-#   -Wold-style-cast
-    -Wpointer-arith
-    -Wstrict-aliasing
-    -Wuninitialized
-#   -Wmissing-declarations
-#   -Woverloaded-virtual
-#   -Wnon-virtual-dtor
-#   -Wctor-dtor-privacy
-#   -Wlong-long
-    -Wunreachable-code
-#   -Wfloat-equal
-    -Wabi
-#   -Wswitch-enum
-    -Wformat=2
-#   -Wundef
-#   -Wshadow
-#   -Wconversion
-    -Wlogical-op
-#   -Waggregate-return
-    -Wmissing-field-initializers
-    -Wredundant-decls
-    -Wmissing-include-dirs
-#   -Wswitch-default
-    -Wsync-nand
-    -Wunused
-#   -Wstrict-overflow=5
-#   -Wunsafe-loop-optimizations
-    -Wmissing-format-attribute
-#   -Wpadded
-#   -Winline
-    -Wdisabled-optimization
-)
+if(UNIX)
+    add_definitions(
+    #   -Werror
+        -Wall
+        -Wextra
+    #   -pedantic
+    #   -Weffc++
+        -Wwrite-strings
+        -Winit-self
+        -Wcast-align
+        -Wcast-qual
+    #   -Wold-style-cast
+        -Wpointer-arith
+        -Wstrict-aliasing
+        -Wuninitialized
+    #   -Wmissing-declarations
+    #   -Woverloaded-virtual
+    #   -Wnon-virtual-dtor
+    #   -Wctor-dtor-privacy
+    #   -Wlong-long
+        -Wunreachable-code
+    #   -Wfloat-equal
+        -Wabi
+    #   -Wswitch-enum
+        -Wformat=2
+    #   -Wundef
+    #   -Wshadow
+    #   -Wconversion
+        -Wlogical-op
+    #   -Waggregate-return
+        -Wmissing-field-initializers
+        -Wredundant-decls
+        -Wmissing-include-dirs
+    #   -Wswitch-default
+        -Wsync-nand
+        -Wunused
+    #   -Wstrict-overflow=5
+    #   -Wunsafe-loop-optimizations
+        -Wmissing-format-attribute
+    #   -Wpadded
+    #   -Winline
+        -Wdisabled-optimization
+    )
+endif(UNIX)
 
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 

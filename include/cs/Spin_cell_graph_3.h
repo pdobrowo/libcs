@@ -27,7 +27,6 @@
 #include "Config.h"
 #include "Benchmark.h"      // TODO: add Timing.h
 #include "Index_tree_n.h"
-#include <parallel/algorithm>
 #include <boost/scoped_array.hpp>
 #include <boost/interprocess/detail/atomic.hpp>
 #include <log4cxx/logger.h>

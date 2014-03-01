@@ -1301,7 +1301,8 @@ void Spin_cell_graph_3<K, P, G>::sort_cell_list(Cell_list &cells)
         LOG4CXX_DEBUG(m_logger, "Multiway merge sort");
 
         // parallel sort
-        __gnu_parallel::sort(cells.begin(), cells.end());
+//        __gnu_parallel::sort(cells.begin(), cells.end());
+        std::sort(cells.begin(), cells.end());
     }
     else if (SORT_ALGORITHM == 3)
     {

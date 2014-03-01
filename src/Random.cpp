@@ -19,7 +19,13 @@
  */
 #include <cs/Random.h>
 #include <cstdlib>
+#ifdef __linux__
 #include <unistd.h>
+#endif // __linux__
+#ifdef _WIN32
+#include <windows.h>
+int getpid() { return static_cast<int>(GetCurrentProcessId()); }
+#endif // _WIN32
 
 int init_srand()
 {

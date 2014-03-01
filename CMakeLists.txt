@@ -20,8 +20,23 @@
 project(cs)
 cmake_minimum_required(VERSION 2.6)
 
+# configuration: with exact kernel
 set(LIBCS_WITH_EXACT_KERNEL 0)
+message("with exact kernel: " ${LIBCS_WITH_EXACT_KERNEL})
 
+# CGAL
+find_package(CGAL REQUIRED)
+include(${CGAL_USE_FILE})
+
+# log4cxx
+#find_package(log4cxx REQUIRED)
+#include_directories(${log4cxx_INCLUDE_DIRS})
+
+# boost
+find_package(Boost COMPONENTS thread REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
+# compiler settings
 if(UNIX)
     add_definitions(
     #   -Werror
@@ -67,13 +82,15 @@ if(UNIX)
     )
 endif(UNIX)
 
+# output directory
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
+# base include directory
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
 )
 
-# external libraries
+# non-packaged 3rdparty external libraries
 set(ARCH ${CMAKE_SOURCE_DIR}/3rdparty)
 
 # architecture
@@ -94,7 +111,7 @@ if(UNIX)
     set(ARCH ${ARCH}/linux)
 endif()
 
-message("external libraries: " ${ARCH})
+message("3rdparty external libraries: " ${ARCH})
 
 if(LIBCS_WITH_EXACT_KERNEL)
     # lidia
@@ -114,25 +131,16 @@ if(LIBCS_WITH_EXACT_KERNEL)
 endif(LIBCS_WITH_EXACT_KERNEL)
 
 # optimization
-#CONFIG(release, debug|release) {
 #add_definitions(-DCGAL_NDEBUG)
-#QMAKE_CXXFLAGS -= -D_DEBUG
-#add_definitions(-DNDEBUG)
-#QMAKE_CXXFLAGS -= -O2
-#add_definitions(-O3 -march=core2)
-#}
 
 if(WIN32)
     # boost needs that
-    add_definitions(-DBOOST_THREAD_USE_LIB)
-
-    # CGAL needs that
-    add_definitions(-frounding-math)
+#    add_definitions(-DBOOST_THREAD_USE_LIB)
 
     # boost
-    set(BOOST ${ARCH}/boost-1.49)
-    include_directories(${BOOST}/include)
-    link_directories(${BOOST}/lib)
+#    set(BOOST ${ARCH}/boost-1.49)
+#    include_directories(${BOOST}/include)
+#    link_directories(${BOOST}/lib)
 
     # GMP
     set(GMP ${ARCH}/gmp-5.0.5)
@@ -150,9 +158,9 @@ if(WIN32)
     link_directories(${MPFI}/lib)
 
     # CGAL
-    set(CGAL ${ARCH}/CGAL-4.0)
-    include_directories(${CGAL}/include)
-    link_directories(${CGAL}/lib)
+#    set(CGAL ${ARCH}/CGAL-4.0)
+#    include_directories(${CGAL}/include)
+#    link_directories(${CGAL}/lib)
 
     # APR
     set(APR ${ARCH}/apr-1.4.6)
@@ -168,11 +176,6 @@ if(WIN32)
     set(LOG4CXX ${ARCH}/log4cxx-0.10.0)
     include_directories(${LOG4CXX}/include)
     link_directories(${LOG4CXX}/lib)
-endif()
-
-if(UNIX)
-    # CGAL needs that
-    add_definitions(-frounding-math)
 endif()
 
 set(cs_HEADERS
@@ -309,8 +312,9 @@ endif(LIBCS_WITH_EXACT_KERNEL)
 add_library(cs SHARED ${cs_SOURCES})
 
 target_link_libraries(cs 
-    CGAL
-    log4cxx
+    ${CGAL_LIBRARIES}
+    ${Boost_LIBRARIES}
+    ${log4cxx_LIBRARIES}
 )
 
 if(LIBCS_WITH_EXACT_KERNEL)
@@ -326,7 +330,6 @@ endif(LIBCS_WITH_EXACT_KERNEL)
 
 if(WIN32)
     target_link_libraries(cs
-        boost_thread-mgw46-mt-1_49
         apr-1
         aprutil-1
         ws2_32
@@ -336,8 +339,3 @@ if(WIN32)
     )
 endif()
 
-if(UNIX)
-    target_link_libraries(cs
-        boost_thread
-    )
-endif()

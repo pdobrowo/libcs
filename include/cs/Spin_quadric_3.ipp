@@ -225,53 +225,51 @@ void Spin_quadric_3<Kernel_>::construct(const Predicate_g_3<Kernel_> &g3)
 template<class Kernel_>
 typename Spin_quadric_3<Kernel_>::Matrix Spin_quadric_3<Kernel_>::matrix() const
 {
-    // TODO: This may be cached instead of raw values
-    Matrix m(4, 4);
+    Matrix matrix;
 
-    m.sto(0, 0, m_a11);
-    m.sto(0, 1, m_a12);
-    m.sto(0, 2, m_a13);
-    m.sto(0, 3, m_a14);
-    m.sto(1, 0, m_a12);
-    m.sto(1, 1, m_a22);
-    m.sto(1, 2, m_a23);
-    m.sto(1, 3, m_a24);
-    m.sto(2, 0, m_a13);
-    m.sto(2, 1, m_a23);
-    m.sto(2, 2, m_a33);
-    m.sto(2, 3, m_a34);
-    m.sto(3, 0, m_a14);
-    m.sto(3, 1, m_a24);
-    m.sto(3, 2, m_a34);
-    m.sto(3, 3, m_a44);
+    matrix.set(0, 0, m_a11);
+    matrix.set(0, 1, m_a12);
+    matrix.set(0, 2, m_a13);
+    matrix.set(0, 3, m_a14);
+    matrix.set(1, 0, m_a12);
+    matrix.set(1, 1, m_a22);
+    matrix.set(1, 2, m_a23);
+    matrix.set(1, 3, m_a24);
+    matrix.set(2, 0, m_a13);
+    matrix.set(2, 1, m_a23);
+    matrix.set(2, 2, m_a33);
+    matrix.set(2, 3, m_a34);
+    matrix.set(3, 0, m_a14);
+    matrix.set(3, 1, m_a24);
+    matrix.set(3, 2, m_a34);
+    matrix.set(3, 3, m_a44);
 
-    return m;
+    return matrix;
 }
 
 template<class Kernel_>
 typename Spin_quadric_3<Kernel_>::Matrix Spin_quadric_3<Kernel_>::ellipsoid_matrix() const
 {
-    // TODO: This may be cached instead of raw values
-    Matrix m(4, 4);
+    Matrix matrix;
 
-    m.sto(0, 0, m_a11 + 1);
-    m.sto(0, 1, m_a12);
-    m.sto(0, 2, m_a13);
-    m.sto(0, 3, m_a14);
-    m.sto(1, 0, m_a12);
-    m.sto(1, 1, m_a22 + 1);
-    m.sto(1, 2, m_a23);
-    m.sto(1, 3, m_a24);
-    m.sto(2, 0, m_a13);
-    m.sto(2, 1, m_a23);
-    m.sto(2, 2, m_a33 + 1);
-    m.sto(2, 3, m_a34);
-    m.sto(3, 0, m_a14);
-    m.sto(3, 1, m_a24);
-    m.sto(3, 2, m_a34);
-    m.sto(3, 3, m_a44 + 1);
+    matrix.set(0, 0, m_a11 + 1);
+    matrix.set(0, 1, m_a12);
+    matrix.set(0, 2, m_a13);
+    matrix.set(0, 3, m_a14);
+    matrix.set(1, 0, m_a12);
+    matrix.set(1, 1, m_a22 + 1);
+    matrix.set(1, 2, m_a23);
+    matrix.set(1, 3, m_a24);
+    matrix.set(2, 0, m_a13);
+    matrix.set(2, 1, m_a23);
+    matrix.set(2, 2, m_a33 + 1);
+    matrix.set(2, 3, m_a34);
+    matrix.set(3, 0, m_a14);
+    matrix.set(3, 1, m_a24);
+    matrix.set(3, 2, m_a34);
+    matrix.set(3, 3, m_a44 + 1);
 
-    return m;
+    return matrix;
 }
 
 template<class Kernel_>

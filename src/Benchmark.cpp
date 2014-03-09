@@ -29,6 +29,11 @@ int random_int(int min, int max)
                     static_cast<long long>(rand()) * static_cast<long long>(max - min) / static_cast<long long>(RAND_MAX));
 }
 
+double random_double(double min, double max)
+{
+    return min + (max - min) * (static_cast<double>(rand()) / static_cast<double>(RAND_MAX));
+}
+
 unsigned long long get_tick_count()
 {    
 #ifdef __linux__

@@ -48,6 +48,7 @@ namespace CS
 {
 // randomness
 int random_int(int min, int max);
+double random_double(double min, double max);
 
 // tick counter
 unsigned long long get_tick_count();
@@ -70,9 +71,9 @@ public:
     typedef boost::function<void (const std::string &)> Report_proc;
 
 public:
-    static RT       randomPoint(int cube_size = 10);
-    static Vector_3 randomVector(int cube_size = 10);
-    static Plane_3  randomPlane(int cube_size = 10);
+    static RT       random_point(int cube_size = 10);
+    static Vector_3 random_vector(int cube_size = 10);
+    static Plane_3  random_plane(int cube_size = 10);
 
     void random_H3_intersection_test(size_t count, Report_proc proc) const;
     void intersection_test(const std::vector<Predicate_g_3> &predicates, Report_proc proc) const;

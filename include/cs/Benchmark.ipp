@@ -22,13 +22,13 @@
 namespace CS
 {
 template<class Kernel_>
-typename Benchmark<Kernel_>::RT Benchmark<Kernel_>::randomPoint(int cube_size)
+typename Benchmark<Kernel_>::RT Benchmark<Kernel_>::random_point(int cube_size)
 {
     return random_int(-cube_size, cube_size);
 }
 
 template<class Kernel_>
-typename Benchmark<Kernel_>::Vector_3 Benchmark<Kernel_>::randomVector(int cube_size)
+typename Benchmark<Kernel_>::Vector_3 Benchmark<Kernel_>::random_vector(int cube_size)
 {
     // take vector from cube: [0; cube_size]^3
     int x = random_int(-cube_size, cube_size);
@@ -39,7 +39,7 @@ typename Benchmark<Kernel_>::Vector_3 Benchmark<Kernel_>::randomVector(int cube_
 }
 
 template<class Kernel_>
-typename Benchmark<Kernel_>::Plane_3 Benchmark<Kernel_>::randomPlane(int cube_size)
+typename Benchmark<Kernel_>::Plane_3 Benchmark<Kernel_>::random_plane(int cube_size)
 {
     // take plane coefficients from cube: [0; cube_size]^3
     int a = random_int(-cube_size, cube_size);
@@ -60,7 +60,7 @@ void Benchmark<Kernel_>::random_H3_intersection_test(size_t count, Report_proc p
     std::vector<Predicate_g_3> predicates;
 
     for (size_t i = 0; i < count; ++i)
-        predicates.push_back(Predicate_h_3(randomVector(), randomPlane()));
+        predicates.push_back(Predicate_h_3(random_vector(), random_plane()));
 
     now = get_tick_count();
     {

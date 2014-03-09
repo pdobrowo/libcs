@@ -60,24 +60,32 @@ void Spin_configuration_space_3<K, P, R>::create_from_scene(
 
     generator.create_predicate_list(robot_begin, robot_end,
                                     obstacle_begin, obstacle_end,
-                                    std::back_inserter(m_predicate_list));
+                                    std::back_inserter(m_predicates));
 
     size_t total_number_of_predicates = number_of_obstacle_faces * number_of_robot_faces;
 
     timer_end = get_tick_count();
 
-    LOG4CXX_INFO(m_logger, "Prepared " << m_predicate_list.size() << "/" << total_number_of_predicates << " predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicate_list.size()) / float(total_number_of_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
+    LOG4CXX_INFO(m_logger, "Prepared " << m_predicates.size() << "/" << total_number_of_predicates << " predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
+
+    // prepare generic predicate list
+    LOG4CXX_DEBUG(m_logger, "Creating generic predicate list");
+
+    LOG4CXX_DEBUG(m_logger, "Sub-predicate count is " << SUB_PREDICATE_COUNT);
+
+    m_generic_predicates.reserve(SUB_PREDICATE_COUNT * m_predicates.size());
+
+    BOOST_FOREACH(const Predicate &predicate, m_predicates)
+        for (size_t j = 0; j < SUB_PREDICATE_COUNT; ++j)
+            m_generic_predicates.push_back(Predicate_g_3(predicate.sub_predicates()[j]));
 
     // create spin quadric list
     LOG4CXX_DEBUG(m_logger, "Creating spin quadric list");
 
-    LOG4CXX_DEBUG(m_logger, "Sub-predicate count is " << SUB_PREDICATE_COUNT);
+    m_spin_quadrics.reserve(m_generic_predicates.size());
 
-    m_quadrics.reserve(SUB_PREDICATE_COUNT * m_predicate_list.size());
-
-    BOOST_FOREACH(const Predicate &predicate, m_predicate_list)
-        for (size_t j = 0; j < SUB_PREDICATE_COUNT; ++j)
-            m_quadrics.push_back(Spin_quadric_3(predicate.sub_predicates()[j]));
+    BOOST_FOREACH(const Predicate_g_3 &generic_predicate, m_generic_predicates)
+        m_spin_quadrics.push_back(Spin_quadric_3(generic_predicate));
 
 #ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
@@ -104,12 +112,12 @@ void Spin_configuration_space_3<K, P, R>::create_from_scene(
 
 #endif // DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
-    LOG4CXX_INFO(m_logger, "Prepared " << m_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");
+    LOG4CXX_INFO(m_logger, "Prepared " << m_spin_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");
 
     // create representation
     LOG4CXX_DEBUG(m_logger, "Creating representation");
 
-    m_representation.reset(new Representation(m_predicate_list, m_quadrics, parameters));
+    m_representation.reset(new Representation(m_predicates, m_spin_quadrics, parameters));
 
     timer_all_end = get_tick_count();
     LOG4CXX_INFO(m_logger, "Configuration space created [" << (timer_all_end - timer_all_start) << " ms]");
@@ -143,5 +151,59 @@ const typename Spin_configuration_space_3<K, P, R>::Representation &Spin_configu
 {
     assert(!!m_representation);
     return *m_representation;
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Spin_quadric_const_iterator Spin_configuration_space_3<K, P, R>::spin_quadrics_begin() const
+{
+    return m_spin_quadrics.begin();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Spin_quadric_const_iterator Spin_configuration_space_3<K, P, R>::spin_quadrics_end() const
+{
+    return m_spin_quadrics.end();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Spin_quadric_size_type Spin_configuration_space_3<K, P, R>::size_of_spin_quadrics() const
+{
+    return m_spin_quadrics.size();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Predicate_const_iterator Spin_configuration_space_3<K, P, R>::predicates_begin() const
+{
+    return m_predicates.begin();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Predicate_const_iterator Spin_configuration_space_3<K, P, R>::predicates_end() const
+{
+    return m_predicates.end();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_predicates() const
+{
+    return m_predicates.size();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Generic_predicate_const_iterator Spin_configuration_space_3<K, P, R>::generic_predicates_begin() const
+{
+    return m_generic_predicates.begin();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Generic_predicate_const_iterator Spin_configuration_space_3<K, P, R>::generic_predicates_end() const
+{
+    return m_generic_predicates.end();
+}
+
+template<class K, class P, class R>
+typename Spin_configuration_space_3<K, P, R>::Generic_predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_generic_predicates() const
+{
+    return m_generic_predicates.size();
 }
 } // namespace CS

@@ -50,6 +50,8 @@ class Spin_configuration_space_3
     typedef typename Kernel_::Point_3               Point_3;
     typedef typename Kernel_::Vector_3              Vector_3;
 
+    typedef typename Kernel_::Predicate_g_3         Predicate_g_3;
+
     typedef Predicate_                              Predicate;
     typedef typename Predicate::Sub_predicate       Sub_predicate;
     static const size_t SUB_PREDICATE_COUNT       = Predicate::SUB_PREDICATE_COUNT;
@@ -57,6 +59,10 @@ class Spin_configuration_space_3
     typedef typename Kernel_::Spin_quadric_3        Spin_quadric_3;
 
     typedef Predicate_list_generator<Kernel_, Predicate> Generator;
+
+    typedef std::vector<Spin_quadric_3>             Spin_quadric_container;
+    typedef std::vector<Predicate>                  Predicate_container;
+    typedef std::vector<Predicate_g_3>              Generic_predicate_container;
 
 public:
     typedef Representation_                         Representation;
@@ -68,29 +74,59 @@ public:
     // configuration space route
     typedef typename Representation::Route          Route;
 
+    // quadrics
+    typedef typename Spin_quadric_container::const_iterator Spin_quadric_const_iterator;
+    typedef typename Spin_quadric_container::size_type      Spin_quadric_size_type;
+
+    // predicates
+    typedef typename Predicate_container::const_iterator Predicate_const_iterator;
+    typedef typename Predicate_container::size_type      Predicate_size_type;
+
+    // generic predicates
+    typedef typename Generic_predicate_container::const_iterator Generic_predicate_const_iterator;
+    typedef typename Generic_predicate_container::size_type      Generic_predicate_size_type;
+
     // ctor
     Spin_configuration_space_3();
 
     // scene from primitives
     template<typename RobotInputIterator, typename ObstacleInputIterator>
-    void create_from_scene(
-        RobotInputIterator robot_begin, RobotInputIterator robot_end,
-        ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
-        const Parameters &parameters/* = Parameters()*/);
+    void                                    create_from_scene(RobotInputIterator robot_begin, RobotInputIterator robot_end,
+                                                              ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
+                                                              const Parameters &parameters = Parameters());
 
     // route finder
-    Route                   find_route(const Sample &begin, const Sample &end);
+    Route                                   find_route(const Sample &begin, const Sample &end);
 
     // representation
-    Representation &        rep();
-    const Representation &  rep() const;
+    Representation &                        rep();
+    const Representation &                  rep() const;
+
+    // predicates
+    Predicate_const_iterator                predicates_begin() const;
+    Predicate_const_iterator                predicates_end() const;
+
+    Predicate_size_type                     size_of_predicates() const;
+
+    // generic predicates
+    Generic_predicate_const_iterator        generic_predicates_begin() const;
+    Generic_predicate_const_iterator        generic_predicates_end() const;
+
+    Generic_predicate_size_type             size_of_generic_predicates() const;
+
+    // quadrics
+    Spin_quadric_const_iterator             spin_quadrics_begin() const;
+    Spin_quadric_const_iterator             spin_quadrics_end() const;
+
+    Spin_quadric_size_type                  size_of_spin_quadrics() const;
 
 private:
     // predicate level
-    std::vector<Predicate>                  m_predicate_list;
+    Predicate_container                     m_predicates;
+    Generic_predicate_container             m_generic_predicates;
 
     // quadrics level
-    std::vector<Spin_quadric_3>             m_quadrics;
+    Spin_quadric_container                  m_spin_quadrics;
 
     // representation: cell graph or exact graph
     boost::scoped_ptr<Representation>       m_representation;

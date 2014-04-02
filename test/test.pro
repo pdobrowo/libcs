@@ -56,8 +56,8 @@ CONFIG(release, debug|release) {
 }
 
 # parallel
-QMAKE_CXXFLAGS += -fopenmp
-LIBS += -lgomp
+#QMAKE_CXXFLAGS += -fopenmp
+#LIBS += -lgomp
 
 # CS
 INCLUDEPATH += "../include"

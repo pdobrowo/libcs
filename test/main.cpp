@@ -25,10 +25,11 @@
 //#include "test_cell_perf.h"
 #include "test_inexact_perf.h"
 
-static log4cxx::LoggerPtr g_logger(log4cxx::Logger::getLogger("Test.main"));
-
 int main()
 {
+    // setup global logger
+    log4cxx::LoggerPtr g_logger(log4cxx::Logger::getLogger("Test.main"));
+
     // configure logger
     log4cxx::PropertyConfigurator::configure("logger.conf");
 

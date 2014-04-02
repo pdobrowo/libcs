@@ -347,6 +347,9 @@ template<typename OutputCellIterator>
 bool Spin_cell_graph_3<K, P, G>::find_cell_route(Cell_const_iterator begin, Cell_const_iterator end, OutputCellIterator outputCellIterator)
 {
     // TODO: implement with Dijkstra
+    (void)begin;
+    (void)end;
+    (void)outputCellIterator;
     return false;
 }
 

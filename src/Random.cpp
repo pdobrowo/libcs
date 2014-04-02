@@ -22,6 +22,10 @@
 #ifdef __linux__
 #include <unistd.h>
 #endif // __linux__
+#ifdef __FreeBSD__
+#include <sys/types.h>
+#include <unistd.h>
+#endif // __FreeBSD__
 #ifdef _WIN32
 #include <windows.h>
 int getpid() { return static_cast<int>(GetCurrentProcessId()); }

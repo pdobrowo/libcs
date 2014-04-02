@@ -65,13 +65,13 @@ if(UNIX)
     #   -Wundef
     #   -Wshadow
     #   -Wconversion
-        -Wlogical-op
+    #   -Wlogical-op
     #   -Waggregate-return
         -Wmissing-field-initializers
         -Wredundant-decls
         -Wmissing-include-dirs
     #   -Wswitch-default
-        -Wsync-nand
+    #   -Wsync-nand
         -Wunused
     #   -Wstrict-overflow=5
     #   -Wunsafe-loop-optimizations

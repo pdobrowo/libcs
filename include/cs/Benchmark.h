@@ -29,9 +29,9 @@
 #include <sys/time.h>
 #endif // __linux__
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #define PRINTF_FORMAT_LLU "%llu"
-#endif // __linux__
+#endif // defined(__linux__) || defined(__FreeBSD__)
 
 #ifdef _WIN32
 #define PRINTF_FORMAT_LLU "%I64u"
@@ -106,7 +106,7 @@ class SoftPoint
 {
 private:
     unsigned long long m_start;
-    unsigned long long m_end;
+    //unsigned long long m_end;
     HardPoint *m_hard_point;
 
 public:

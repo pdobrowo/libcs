@@ -29,9 +29,9 @@
 #include <sys/time.h>
 #endif // __linux__
 
-#if defined(__linux__) || defined(__FreeBSD__)
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 #define PRINTF_FORMAT_LLU "%llu"
-#endif // defined(__linux__) || defined(__FreeBSD__)
+#endif // defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 
 #ifdef _WIN32
 #define PRINTF_FORMAT_LLU "%I64u"

@@ -19,9 +19,9 @@
  */
 #include <cs/Benchmark.h>
 #include <cstdio>
-#if defined(__linux__) || defined(__FreeBSD__)
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 #include <sys/time.h>
-#endif // defined(__linux__) || defined(__FreeBSD__)
+#endif // defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 
 namespace CS
 {
@@ -39,11 +39,11 @@ double random_double(double min, double max)
 
 unsigned long long get_tick_count()
 {    
-#if defined(__linux__) || defined(__FreeBSD__)
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
     struct timeval tv;
     gettimeofday(&tv, 0);
     return static_cast<unsigned long long>(tv.tv_sec) * 1000 + static_cast<unsigned long long>(tv.tv_usec) / 1000;
-#endif // defined(__linux__) || defined(__FreeBSD__)
+#endif // defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 
 #ifdef _WIN32
     // GetTickCount declared as extern in header

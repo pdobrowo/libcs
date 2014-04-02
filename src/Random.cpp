@@ -22,10 +22,10 @@
 #ifdef __linux__
 #include <unistd.h>
 #endif // __linux__
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__OpenBSD__)
 #include <sys/types.h>
 #include <unistd.h>
-#endif // __FreeBSD__
+#endif // defined(__FreeBSD__) || defined(__OpenBSD__)
 #ifdef _WIN32
 #include <windows.h>
 int getpid() { return static_cast<int>(GetCurrentProcessId()); }

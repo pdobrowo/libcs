@@ -84,7 +84,7 @@ if(UNIX)
 endif(UNIX)
 
 # output directory
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../bin)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../bin)
 
 # base include directory
 include_directories(

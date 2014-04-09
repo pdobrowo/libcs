@@ -21,6 +21,7 @@
 #define LIBCS_SPIN_INEXACT_KERNEL_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Cartesian.h>
 
 // predicates
 #include "Predicate_h_3.h"
@@ -32,6 +33,7 @@
 
 // spin
 #include "Spin_quadric_3.h"
+#include "Spin_reduced_quadric_3.h"
 
 // meshers
 #include "Spin_quadric_mesh_3.h"
@@ -64,6 +66,7 @@ struct Spin_inexact_kernel_3
 
     // spin types
     typedef CS::Spin_quadric_3<Kernel>              Spin_quadric_3;
+    typedef CS::Spin_reduced_quadric_3<Kernel>      Spin_reduced_quadric_3;
 
     // predicates
     typedef CS::Predicate_h_3<Kernel>               Predicate_h_3;
@@ -131,6 +134,9 @@ inline double to_double(const double &x)
 {
     return x;
 }
+
+// default kernel
+typedef Spin_inexact_kernel_3<CGAL::Cartesian<double> > Default_inexact_kernel;
 } // namespace CS
 
 #include "Spin_inexact_kernel_3.ipp"

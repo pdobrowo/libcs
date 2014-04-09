@@ -17,39 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <cs/Random.h>
-#include <cstdlib>
-#ifdef __linux__
-#include <unistd.h>
-#endif // __linux__
-#if defined(__FreeBSD__) || defined(__OpenBSD__)
-#include <sys/types.h>
-#include <unistd.h>
-#endif // defined(__FreeBSD__) || defined(__OpenBSD__)
-#ifdef _WIN32
-#include <windows.h>
-int getpid() { return static_cast<int>(GetCurrentProcessId()); }
-#endif // _WIN32
-
-int init_srand()
-{
-    srand(static_cast<unsigned int>(getpid()));
-    return 0;
-}
-
-static int init_srand_var = init_srand();
+#ifndef LIBCS_LINEAR_SYSTEM_H
+#define LIBCS_LINEAR_SYSTEM_H
 
 namespace CS
 {
-int random_int(int min, int max)
-{
-    return static_cast<int>(
-                static_cast<long long>(min) +
-                    static_cast<long long>(rand()) * static_cast<long long>(max - min) / static_cast<long long>(RAND_MAX));
-}
+// A x = b
+template<class FT_>
+bool linear_solve(FT_ a00, FT_ a01,
+                  FT_ a10, FT_ a11,
+                  FT_ b0, FT_ b1,
+                  FT_ &x0, FT_ &x1);
 
-double random_double(double min, double max)
-{
-    return min + (max - min) * (static_cast<double>(rand()) / static_cast<double>(RAND_MAX));
-}
+// A x = b
+template<class FT_>
+bool linear_solve(FT_ a00, FT_ a01, FT_ a02,
+                  FT_ a10, FT_ a11, FT_ a12,
+                  FT_ a20, FT_ a21, FT_ a22,
+                  FT_ b0, FT_ b1, FT_ b2,
+                  FT_ &x0, FT_ &x1, FT_ &x2);
+
 } // namespace CS
+
+#include "Linear_system.ipp"
+
+#endif // LIBCS_LINEAR_SYSTEM_H

@@ -183,6 +183,7 @@ set(cs_HEADERS
     include/cs/Spin_quadric_tree_3.ipp
     include/cs/Spin_quadric_mesh_3.ipp
     include/cs/Spin_quadric_3.ipp
+    include/cs/Spin_reduced_quadric_3.ipp
     include/cs/Spin_qsip_point.ipp
     include/cs/Spin_qsip_mesh_3.ipp
     include/cs/Spin_qsip_3.ipp
@@ -205,6 +206,7 @@ set(cs_HEADERS
     include/cs/Polynomial_sign_at.ipp
     include/cs/Polynomial_interval.ipp
     include/cs/Math_utils.ipp
+    include/cs/Linear_system.ipp
     include/cs/Isolate_polynomial_roots.ipp
     include/cs/Hom_root.ipp
     include/cs/Cubic.ipp
@@ -218,11 +220,13 @@ set(cs_HEADERS
     include/cs/Spin_quadric_tree_3.h
     include/cs/Spin_quadric_mesh_3.h
     include/cs/Spin_quadric_3.h
+    include/cs/Spin_reduced_quadric_3.h
     include/cs/Spin_qsip_point.h
     include/cs/Spin_qsip_mesh_3.h
     include/cs/Spin_qsip_3.h
     include/cs/Spin_qsic_mesh_3.h
     include/cs/Spin_qsic_3.h
+    include/cs/Spin_qsic_trim_3.h
     include/cs/Spin_QC_sample_generator_3.h
     include/cs/Spin_kernel_3.h
     include/cs/Spin_inexact_kernel_3.h
@@ -243,6 +247,7 @@ set(cs_HEADERS
     include/cs/Polynomial_sign_at.h
     include/cs/Polynomial_interval.h
     include/cs/Math_utils.h
+    include/cs/Linear_system.h
     include/cs/Isolate_polynomial_roots.h
     include/cs/Hom_root.h
     include/cs/Extended.h
@@ -281,6 +286,7 @@ set(cs_HEADERS
 set(cs_BASE_SOURCES
     ${cs_HEADERS}
     src/Spin_inexact_kernel_3.cpp
+    src/Spin_qsic_trim_3.cpp
     src/Spin_3.cpp
     src/Scene_loader.cpp
     src/Random.cpp

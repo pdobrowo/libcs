@@ -18,19 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cs/Spin_inexact_kernel_3.h>
+#include <cs/Spin_qsic_trim_3.h>
 #include <CGAL/Cartesian.h>
 #include <log4cxx/logger.h>
 
-#define DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
+//#define DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
 #ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
     #include <iostream>
     #include <eigen3/Eigen/Dense>
 #endif // DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
-typedef double                                  RT;
-typedef CGAL::Cartesian<RT>                     Base_kernel;
-typedef CS::Spin_inexact_kernel_3<Base_kernel>  Kernel;
+typedef CS::Default_inexact_kernel              Kernel;
+typedef Kernel::RT                              RT;
 
 typedef Kernel::Predicate_tt_3                  Predicate_tt_3;
 typedef Kernel::Predicate_bb_3                  Predicate_bb_3;
@@ -47,6 +47,10 @@ typedef Kernel::Spin_cell_configuration_space_3<Predicate_tt_3>::Type CS_TT_C;
 typedef Kernel::Spin_cell_configuration_space_3<Predicate_bb_3>::Type CS_BB_C;
 typedef Kernel::Spin_raster_configuration_space_3<Predicate_tt_3>::Type CS_TT_R;
 typedef Kernel::Spin_raster_configuration_space_3<Predicate_bb_3>::Type CS_BB_R;
+
+typedef CS::Spin_qsic_trim_3                    Spin_qsic_trim_3;
+
+typedef Kernel::Spin_reduced_quadric_3          Spin_reduced_quadric_3;
 
 static void test_inexact_perf_single(int number_of_predicates)
 {
@@ -96,10 +100,12 @@ static void test_inexact_perf_single(int number_of_predicates)
 
     std::cout << number_of_predicates << " complex predicate(s) in " << delta << " ms" << std::endl;
 
-#ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-
     typedef ConfigurationSpace::Spin_quadric_const_iterator Spin_quadric_const_iterator;
     typedef Kernel::Matrix Matrix;
+
+    typedef ConfigurationSpace::Generic_predicate_const_iterator Generic_predicate_const_iterator;
+
+#ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
     // print spin-surface associated ellipsoids
     for (Spin_quadric_const_iterator it = cs.spin_quadrics_begin(); it != cs.spin_quadrics_end(); ++it)
@@ -121,7 +127,6 @@ static void test_inexact_perf_single(int number_of_predicates)
             std::cout << "failed to calculate eigenvalues!" << std::endl;
     }
 
-    typedef ConfigurationSpace::Generic_predicate_const_iterator Generic_predicate_const_iterator;
 
     // print predicates
     for (Generic_predicate_const_iterator it = cs.generic_predicates_begin(); it != cs.generic_predicates_end(); ++it)
@@ -150,10 +155,37 @@ static void test_inexact_perf_single(int number_of_predicates)
 
 #endif // DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
+    for (Spin_quadric_const_iterator it = cs.spin_quadrics_begin(); it != cs.spin_quadrics_end(); ++it)
+    {
+        for (Spin_quadric_const_iterator it2 = it; it2 != cs.spin_quadrics_end(); ++it2)
+        {
+            Spin_qsic_trim_3 qsic_trim = Spin_qsic_trim_3(Spin_reduced_quadric_3(*it), Spin_reduced_quadric_3(*it2));
+
+            double s12, s23, s31;
+
+            if (!qsic_trim.begin(s12, s23, s31))
+            {
+                std::cout << "FAILURE!!!" << std::endl;
+                continue;
+            }
+
+            for (int i = 0; i<1; ++i)
+            {
+                std::cout << "s12: " << s12 << ", s23: " << s23 << ", s31: " << s31 << std::endl;
+
+                if (!qsic_trim.next(s12, s23, s31))
+                {
+                    std::cout << "FAILURE!!!" << std::endl;
+                    break;
+                }
+            }
+
+        }
+    }
 }
 
 void test_inexact_perf()
 {
-    for (int p = 1; p <= 10; ++p)
+    for (int p = 1; p <= 1; ++p)
         test_inexact_perf_single(1);
 }

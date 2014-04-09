@@ -20,6 +20,10 @@
 #ifndef LIBCS_RANDOM_H
 #define LIBCS_RANDOM_H
 
-// srand auto-initializer
+namespace CS
+{
+int     random_int(int min, int max);
+double  random_double(double min, double max);
+} // namespace CS
 
 #endif // LIBCS_RANDOM_H

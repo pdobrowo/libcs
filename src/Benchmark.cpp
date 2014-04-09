@@ -25,18 +25,6 @@
 
 namespace CS
 {
-int random_int(int min, int max)
-{
-    return static_cast<int>(
-                static_cast<long long>(min) +
-                    static_cast<long long>(rand()) * static_cast<long long>(max - min) / static_cast<long long>(RAND_MAX));
-}
-
-double random_double(double min, double max)
-{
-    return min + (max - min) * (static_cast<double>(rand()) / static_cast<double>(RAND_MAX));
-}
-
 unsigned long long get_tick_count()
 {    
 #if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)

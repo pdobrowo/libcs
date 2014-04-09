@@ -44,6 +44,9 @@
 
 #include <CGAL/Quotient.h>
 #include <CGAL/Sqrt_extension.h>
+#include <CGAL/Filtered_kernel.h>
+#include <CGAL/Cartesian.h>
+#include "Bigint.h"
 
 // predicates
 #include "Predicate_h_3.h"
@@ -55,6 +58,7 @@
 
 // spin
 #include "Spin_quadric_3.h"
+#include "Spin_reduced_quadric_3.h"
 #include "Spin_qsic_3.h"
 #include "Spin_qsip_3.h"
 #include "Spin_qsip_point.h"
@@ -98,6 +102,7 @@ struct Spin_kernel_3
 
     // spin types
     typedef CS::Spin_quadric_3<Kernel>              Spin_quadric_3;
+    typedef CS::Spin_reduced_quadric_3<Kernel>      Spin_reduced_quadric_3;
     typedef CS::Spin_qsic_3<Kernel>                 Spin_qsic_3;
     typedef CS::Spin_qsip_3<Kernel>                 Spin_qsip_3;
 
@@ -200,6 +205,15 @@ struct Spin_kernel_3
     typedef CS::Matrix_44<RT>   Matrix;
     typedef LiDIA::matrix<RT>   LidiaMatrix;
 };
+
+// default kernel
+typedef Spin_kernel_3<
+            CGAL::Filtered_kernel<
+                CGAL::Cartesian<
+                    CGAL::Bigint>
+                >
+            >
+        Default_kernel;
 } // namespace CS
 
 #include "Spin_kernel_3.ipp"

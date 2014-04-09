@@ -20,6 +20,7 @@
 #ifndef LIBCS_BENCHMARK_H
 #define LIBCS_BENCHMARK_H
 
+#include "Random.h"
 #include <boost/function.hpp>
 #include <sstream>
 #include <vector>
@@ -46,10 +47,6 @@ extern "C" unsigned long __stdcall GetTickCount();
 
 namespace CS
 {
-// randomness
-int random_int(int min, int max);
-double random_double(double min, double max);
-
 // tick counter
 unsigned long long get_tick_count();
 

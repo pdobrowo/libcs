@@ -205,6 +205,17 @@ struct Spin_kernel_3
     // matrix
     typedef CS::Matrix_44<RT>   Matrix;
     typedef LiDIA::matrix<RT>   LidiaMatrix;
+
+    static LidiaMatrix to_lidia_matrix(const Matrix &matrix)
+    {
+        LidiaMatrix result;
+
+        for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; ++j)
+                result.sto(i, j, matrix.get(i, j));
+
+        return result;
+    }
 };
 
 // default kernel

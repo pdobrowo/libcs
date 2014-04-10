@@ -331,12 +331,12 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
     Hom_hom_polynomial fs1, fs2; // implicit f = Qr ^ Qs
     Hom_hom_polynomial gs1, gs2; // implicit g = Qr ^ Qu
 
-    calc_implicit_qsic_equation(qsic.q1().matrix(), s1, s2, d, fs1, fs2);
+    calc_implicit_qsic_equation(R::to_lidia_matrix(qsic.q1().matrix()), s1, s2, d, fs1, fs2);
 
     if (fs1.is_zero() && fs2.is_zero())
     {
         // ops, the Dupont quadric is the first quadric, try with the other one
-        calc_implicit_qsic_equation(qsic.q2().matrix(), s1, s2, d, fs1, fs2);
+        calc_implicit_qsic_equation(R::to_lidia_matrix(qsic.q2().matrix()), s1, s2, d, fs1, fs2);
 
         if (fs1.is_zero() && fs2.is_zero())
         {
@@ -345,7 +345,7 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
         }
     }
 
-    calc_implicit_qsic_equation(quadric.matrix(), s1, s2, d, gs1, gs2);
+    calc_implicit_qsic_equation(R::to_lidia_matrix(quadric.matrix()), s1, s2, d, gs1, gs2);
 
     //std::cerr << "implicit curves are:" << std::endl;
     //std::cerr << "  fs1 = " << fs1 << std::endl;

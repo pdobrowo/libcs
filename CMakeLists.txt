@@ -21,7 +21,14 @@ project(cs)
 cmake_minimum_required(VERSION 2.6)
 
 # configuration: with exact kernel
-set(LIBCS_WITH_EXACT_KERNEL 0)
+set(LIBCS_WITH_EXACT_KERNEL $ENV{EXACT})
+
+if(LIBCS_WITH_EXACT_KERNEL)
+    message("ok")
+else(LIBCS_WITH_EXACT_KERNEL)
+    set(LIBCS_WITH_EXACT_KERNEL 0)
+endif(LIBCS_WITH_EXACT_KERNEL)
+
 message("with exact kernel: " ${LIBCS_WITH_EXACT_KERNEL})
 
 # CGAL
@@ -84,6 +91,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 # base include directory
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/3rdparty
 )
 
 # non-packaged 3rdparty external libraries

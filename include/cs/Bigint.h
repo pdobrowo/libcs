@@ -208,7 +208,7 @@ class Modular_traits< Bigint > {
 
 namespace CS
 {
-inline to_double(const CGAL::Bigint &x)
+inline double to_double(const CGAL::Bigint &x)
 {
     return LiDIA::dbl(x);
 }

@@ -21,6 +21,7 @@
 #define LIBCS_SPIN_QSIC_3_H
 
 #include "Benchmark.h"
+#include <libqi.h>
 
 namespace CS
 {

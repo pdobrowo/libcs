@@ -80,6 +80,7 @@
 #include "Spin_configuration_space_3.h"
 
 // matrix
+#include "Matrix_44.h"
 #include <lidia/matrix.h>
 
 // qsic

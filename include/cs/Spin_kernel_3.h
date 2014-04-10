@@ -208,7 +208,7 @@ struct Spin_kernel_3
 
     static LidiaMatrix to_lidia_matrix(const Matrix &matrix)
     {
-        LidiaMatrix result;
+        LidiaMatrix result(4, 4);
 
         for (int i = 0; i < 4; ++i)
             for (int j = 0; j < 4; ++j)

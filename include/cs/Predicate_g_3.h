@@ -26,6 +26,9 @@
 namespace CS
 {
 // G3: (k x l) * rot(a - b) + (k - l) * rot(a x b) + c
+//
+// general predicate
+//
 template<class Kernel_>
 class Predicate_g_3
 {

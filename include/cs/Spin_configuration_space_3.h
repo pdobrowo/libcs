@@ -62,7 +62,7 @@ class Spin_configuration_space_3
 
     typedef std::vector<Spin_quadric_3>             Spin_quadric_container;
     typedef std::vector<Predicate>                  Predicate_container;
-    typedef std::vector<Predicate_g_3>              Generic_predicate_container;
+    typedef std::vector<Predicate_g_3>              General_predicate_container;
 
 public:
     typedef Representation_                         Representation;
@@ -82,9 +82,9 @@ public:
     typedef typename Predicate_container::const_iterator Predicate_const_iterator;
     typedef typename Predicate_container::size_type      Predicate_size_type;
 
-    // generic predicates
-    typedef typename Generic_predicate_container::const_iterator Generic_predicate_const_iterator;
-    typedef typename Generic_predicate_container::size_type      Generic_predicate_size_type;
+    // general predicates
+    typedef typename General_predicate_container::const_iterator General_predicate_const_iterator;
+    typedef typename General_predicate_container::size_type      General_predicate_size_type;
 
     // ctor
     Spin_configuration_space_3();
@@ -108,11 +108,11 @@ public:
 
     Predicate_size_type                     size_of_predicates() const;
 
-    // generic predicates
-    Generic_predicate_const_iterator        generic_predicates_begin() const;
-    Generic_predicate_const_iterator        generic_predicates_end() const;
+    // general predicates
+    General_predicate_const_iterator        general_predicates_begin() const;
+    General_predicate_const_iterator        general_predicates_end() const;
 
-    Generic_predicate_size_type             size_of_generic_predicates() const;
+    General_predicate_size_type             size_of_general_predicates() const;
 
     // quadrics
     Spin_quadric_const_iterator             spin_quadrics_begin() const;
@@ -123,7 +123,7 @@ public:
 private:
     // predicate level
     Predicate_container                     m_predicates;
-    Generic_predicate_container             m_generic_predicates;
+    General_predicate_container             m_general_predicates;
 
     // quadrics level
     Spin_quadric_container                  m_spin_quadrics;

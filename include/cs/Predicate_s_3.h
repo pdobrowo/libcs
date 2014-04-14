@@ -25,6 +25,9 @@
 namespace CS
 {
 // S3: (k x l) * rot(a - b) + (k - l) * rot(a x b)
+//
+// screw predicate
+//
 template<class Kernel_>
 class Predicate_s_3
 {

@@ -25,6 +25,9 @@
 namespace CS
 {
 // H3: p.n * rot(b) + p.d
+//
+// half-space predicate
+//
 template<class Kernel_>
 class Predicate_h_3
 {

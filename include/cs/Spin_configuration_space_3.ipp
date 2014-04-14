@@ -68,24 +68,24 @@ void Spin_configuration_space_3<K, P, R>::create_from_scene(
 
     LOG4CXX_INFO(m_logger, "Prepared " << m_predicates.size() << "/" << total_number_of_predicates << " predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
 
-    // prepare generic predicate list
-    LOG4CXX_DEBUG(m_logger, "Creating generic predicate list");
+    // prepare general predicate list
+    LOG4CXX_DEBUG(m_logger, "Creating general predicate list");
 
     LOG4CXX_DEBUG(m_logger, "Sub-predicate count is " << SUB_PREDICATE_COUNT);
 
-    m_generic_predicates.reserve(SUB_PREDICATE_COUNT * m_predicates.size());
+    m_general_predicates.reserve(SUB_PREDICATE_COUNT * m_predicates.size());
 
     BOOST_FOREACH(const Predicate &predicate, m_predicates)
         for (size_t j = 0; j < SUB_PREDICATE_COUNT; ++j)
-            m_generic_predicates.push_back(Predicate_g_3(predicate.sub_predicates()[j]));
+            m_general_predicates.push_back(Predicate_g_3(predicate.sub_predicates()[j]));
 
     // create spin quadric list
     LOG4CXX_DEBUG(m_logger, "Creating spin quadric list");
 
-    m_spin_quadrics.reserve(m_generic_predicates.size());
+    m_spin_quadrics.reserve(m_general_predicates.size());
 
-    BOOST_FOREACH(const Predicate_g_3 &generic_predicate, m_generic_predicates)
-        m_spin_quadrics.push_back(Spin_quadric_3(generic_predicate));
+    BOOST_FOREACH(const Predicate_g_3 &general_predicate, m_general_predicates)
+        m_spin_quadrics.push_back(Spin_quadric_3(general_predicate));
 
 #ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
@@ -190,20 +190,20 @@ typename Spin_configuration_space_3<K, P, R>::Predicate_size_type Spin_configura
 }
 
 template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Generic_predicate_const_iterator Spin_configuration_space_3<K, P, R>::generic_predicates_begin() const
+typename Spin_configuration_space_3<K, P, R>::General_predicate_const_iterator Spin_configuration_space_3<K, P, R>::general_predicates_begin() const
 {
-    return m_generic_predicates.begin();
+    return m_general_predicates.begin();
 }
 
 template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Generic_predicate_const_iterator Spin_configuration_space_3<K, P, R>::generic_predicates_end() const
+typename Spin_configuration_space_3<K, P, R>::General_predicate_const_iterator Spin_configuration_space_3<K, P, R>::general_predicates_end() const
 {
-    return m_generic_predicates.end();
+    return m_general_predicates.end();
 }
 
 template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Generic_predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_generic_predicates() const
+typename Spin_configuration_space_3<K, P, R>::General_predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_general_predicates() const
 {
-    return m_generic_predicates.size();
+    return m_general_predicates.size();
 }
 } // namespace CS

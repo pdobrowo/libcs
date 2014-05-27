@@ -103,7 +103,7 @@ static void test_inexact_perf_single(int number_of_predicates)
     typedef ConfigurationSpace::Spin_quadric_const_iterator Spin_quadric_const_iterator;
     typedef Kernel::Matrix Matrix;
 
-    typedef ConfigurationSpace::Generic_predicate_const_iterator Generic_predicate_const_iterator;
+    typedef ConfigurationSpace::General_predicate_const_iterator General_predicate_const_iterator;
 
 #ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
@@ -129,7 +129,7 @@ static void test_inexact_perf_single(int number_of_predicates)
 
 
     // print predicates
-    for (Generic_predicate_const_iterator it = cs.generic_predicates_begin(); it != cs.generic_predicates_end(); ++it)
+    for (General_predicate_const_iterator it = cs.generic_predicates_begin(); it != cs.generic_predicates_end(); ++it)
     {
         Predicate_g_3 gp = *it;
         //std::cout << "generic predicate: " << generic_predicate << std::endl;

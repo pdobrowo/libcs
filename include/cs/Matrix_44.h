@@ -39,6 +39,11 @@ public:
 
     Matrix_44();
 
+    template<class RT2_>
+    Matrix_44(const Matrix_44<RT2_> &other);
+
+    static Matrix_44    diagonal(const RT &s);
+
     void        set_zero();
     void        set_identity();
 
@@ -48,8 +53,8 @@ public:
     int         rank() const;
 
     void        row_swap(int ra, int rb);
-    void        row_mul(int r, RT s);
-    void        row_mad(int rt, int rs, RT s);
+    void        row_mul(int r, const RT &s);
+    void        row_mad(int rt, int rs, const RT &s);
     bool        row_pivot(int rc);
 
     int         kernel(Vector_4<RT> out_base[4]) const;

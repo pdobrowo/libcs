@@ -28,6 +28,26 @@ Matrix_44<RT_>::Matrix_44()
 }
 
 template<class RT_>
+template<class RT2_>
+Matrix_44<RT_>::Matrix_44(const Matrix_44<RT2_> &other)
+{
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            m_e[i][j] = RT(other.get(i, j));
+}
+
+template<class RT_>
+Matrix_44<RT_> Matrix_44<RT_>::diagonal(const RT &s)
+{
+    Matrix_44 result;
+
+    for (int i = 0; i < 4; ++i)
+        result.m_e[i][i] = s;
+
+    return result;
+}
+
+template<class RT_>
 void Matrix_44<RT_>::set_zero()
 {
     for (int i = 0; i < 4; ++i)
@@ -67,14 +87,14 @@ void Matrix_44<RT_>::row_swap(int ra, int rb)
 }
 
 template<class RT_>
-void Matrix_44<RT_>::row_mul(int r, RT s)
+void Matrix_44<RT_>::row_mul(int r, const RT &s)
 {
     for (int i = 0; i < 4; ++i)
         m_e[r][i] *= s;
 }
 
 template<class RT_>
-void Matrix_44<RT_>::row_mad(int rt, int rs, RT s)
+void Matrix_44<RT_>::row_mad(int rt, int rs, const RT &s)
 {
     for (int i = 0; i < 4; ++i)
         m_e[rt][i] += m_e[rs][i] * s;

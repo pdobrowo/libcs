@@ -20,11 +20,18 @@
 #ifndef LIBCS_PREDICATE_G_3_H
 #define LIBCS_PREDICATE_G_3_H
 
+#include "Predicate_g_parametrization_3.h"
 #include <CGAL/Kernel/global_functions.h>
 #include <ostream>
 
 namespace CS
 {
+enum Predicate_g_type
+{
+    Ellipsoidal_general_predicate,
+    Cylindrical_general_predicate
+};
+
 // G3: (k x l) * rot(a - b) + (k - l) * rot(a x b) + c
 //
 // general predicate
@@ -64,6 +71,10 @@ public:
 
     Predicate_g_3 opposite() const;
 
+    Predicate_g_type type() const;
+
+    Predicate_g_parametrization_3<Kernel> parametrization() const;
+
 private:
     Vector_3    m_k;
     Vector_3    m_l;
@@ -71,6 +82,9 @@ private:
     Vector_3    m_b;
     RT          m_c;
 };
+
+template<class Kernel_>
+std::ostream &operator <<(std::ostream &os, const Predicate_g_3<Kernel_> &predicate);
 } // namespace CS
 
 #include "Predicate_g_3.ipp"

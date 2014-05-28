@@ -100,12 +100,18 @@ static void test_inexact_perf_single(int number_of_predicates)
 
     std::cout << number_of_predicates << " complex predicate(s) in " << delta << " ms" << std::endl;
 
+    typedef ConfigurationSpace::General_predicate_const_iterator General_predicate_const_iterator;
+
+    for (General_predicate_const_iterator it = cs.general_predicates_begin(); it != cs.general_predicates_end(); ++it)
+    {
+        Predicate_g_3 gp = *it;
+        gp.parametrization();
+    }
+
     typedef ConfigurationSpace::Spin_quadric_const_iterator Spin_quadric_const_iterator;
 
 #ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-    typedef Kernel::Matrix Matrix;
-
-    typedef ConfigurationSpace::General_predicate_const_iterator General_predicate_const_iterator;
+    typedef Kernel::Matrix Matrix;    
 
     // print spin-surface associated ellipsoids
     for (Spin_quadric_const_iterator it = cs.spin_quadrics_begin(); it != cs.spin_quadrics_end(); ++it)
@@ -127,12 +133,10 @@ static void test_inexact_perf_single(int number_of_predicates)
             std::cout << "failed to calculate eigenvalues!" << std::endl;
     }
 
-
     // print predicates
-    for (General_predicate_const_iterator it = cs.generic_predicates_begin(); it != cs.generic_predicates_end(); ++it)
+    for (General_predicate_const_iterator it = cs.general_predicates_begin(); it != cs.general_predicates_end(); ++it)
     {
         Predicate_g_3 gp = *it;
-        //std::cout << "generic predicate: " << generic_predicate << std::endl;
 
         Vector_3 k = gp.k();
         Vector_3 l = gp.l();

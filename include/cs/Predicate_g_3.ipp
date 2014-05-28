@@ -124,6 +124,19 @@ Predicate_g_3<Kernel_> Predicate_g_3<Kernel_>::opposite() const
 }
 
 template<class Kernel_>
+Predicate_g_type Predicate_g_3<Kernel_>::type() const
+{
+    return (CGAL::cross_product(m_k, m_l).squared_length() == RT(0)
+            || CGAL::cross_product(m_a, m_b).squared_length() == RT(0)) ? Cylindrical_general_predicate : Ellipsoidal_general_predicate;
+}
+
+template<class Kernel_>
+Predicate_g_parametrization_3<Kernel_> Predicate_g_3<Kernel_>::parametrization() const
+{
+    return Predicate_g_parametrization_3<Kernel>(*this);
+}
+
+template<class Kernel_>
 std::ostream &operator <<(std::ostream &os, const Predicate_g_3<Kernel_> &predicate)
 {
     return (os << "[" << predicate.k() << ";" << predicate.l() << ";"
@@ -131,4 +144,3 @@ std::ostream &operator <<(std::ostream &os, const Predicate_g_3<Kernel_> &predic
                       << predicate.c() << "]");
 }
 } // namespace CS
-

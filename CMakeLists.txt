@@ -319,7 +319,7 @@ else(LIBCS_WITH_EXACT_KERNEL)
     )
 endif(LIBCS_WITH_EXACT_KERNEL)
 
-add_library(cs SHARED ${cs_SOURCES})
+add_library(cs STATIC ${cs_SOURCES})
 
 target_link_libraries(cs 
     ${CGAL_LIBRARIES}

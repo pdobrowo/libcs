@@ -17,48 +17,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBCS_MATRIX_44_H
-#define LIBCS_MATRIX_44_H
-
 #include "Vector_4.h"
 
 namespace CS
 {
-// Matrix_44:
-//
-// | a11 a12 a13 a14 |
-// | a12 a22 a23 a24 |
-// | a13 a23 a33 a34 |
-// | a14 a24 a34 a44 |
-//
 template<class RT_>
-class Matrix_44
+Vector_4<RT_>::Vector_4()
 {
-public:    
-    typedef RT_ RT;
+    set_zero();
+}
 
-    Matrix_44();
+template<class RT_>
+Vector_4<RT_>::Vector_4(const RT &x, const RT &y, const RT &z, const RT &w)
+{
+    m_e[0] = x;
+    m_e[1] = y;
+    m_e[2] = z;
+    m_e[3] = w;
+}
 
-    void        set_zero();
-    void        set_identity();
+template<class RT_>
+void Vector_4<RT_>::set_zero()
+{
+    for (int i = 0; i < 4; ++i)
+        m_e[i] = 0;
+}
 
-    const RT &  get(int i, int j) const;
-    void        set(int i, int j, const RT &v);
+template<class RT_>
+const RT_ &Vector_4<RT_>::get(int i) const
+{
+    return m_e[i];
+}
 
-    int         rank() const;
-
-    void        row_swap(int ra, int rb);
-    void        row_mul(int r, RT s);
-    void        row_mad(int rt, int rs, RT s);
-    bool        row_pivot(int rc);
-
-    int         kernel(Vector_4<RT> out_base[4]) const;
-
-private:
-    RT m_e[4][4];
-};
+template<class RT_>
+void Vector_4<RT_>::set(int i, const RT &v)
+{
+    m_e[i] = v;
+}
 } // namespace CS
-
-#include "Matrix_44.ipp"
-
-#endif // LIBCS_MATRIX_44_H

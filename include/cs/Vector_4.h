@@ -17,48 +17,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBCS_MATRIX_44_H
-#define LIBCS_MATRIX_44_H
-
-#include "Vector_4.h"
+#ifndef LIBCS_VECTOR_4_H
+#define LIBCS_VECTOR_4_H
 
 namespace CS
 {
-// Matrix_44:
+// Vector_4:
 //
-// | a11 a12 a13 a14 |
-// | a12 a22 a23 a24 |
-// | a13 a23 a33 a34 |
-// | a14 a24 a34 a44 |
+// | a1 |
+// | a2 |
+// | a3 |
+// | a4 |
 //
 template<class RT_>
-class Matrix_44
+class Vector_4
 {
 public:    
     typedef RT_ RT;
 
-    Matrix_44();
+    Vector_4();
+    Vector_4(const RT &x, const RT &y, const RT &z, const RT &w);
 
     void        set_zero();
-    void        set_identity();
 
-    const RT &  get(int i, int j) const;
-    void        set(int i, int j, const RT &v);
-
-    int         rank() const;
-
-    void        row_swap(int ra, int rb);
-    void        row_mul(int r, RT s);
-    void        row_mad(int rt, int rs, RT s);
-    bool        row_pivot(int rc);
-
-    int         kernel(Vector_4<RT> out_base[4]) const;
+    const RT &  get(int i) const;
+    void        set(int i, const RT &v);
 
 private:
-    RT m_e[4][4];
+    RT m_e[4];
 };
 } // namespace CS
 
-#include "Matrix_44.ipp"
+#include "Vector_4.ipp"
 
-#endif // LIBCS_MATRIX_44_H
+#endif // LIBCS_VECTOR_4_H

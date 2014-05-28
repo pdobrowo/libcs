@@ -40,13 +40,13 @@ private:
     size_t m_vertex[3];
 };
 
-template<class K, typename VertexOutputIterator, typename FaceOutputIterator>
-bool load_scene_object(const char *fileName, VertexOutputIterator vertexIterator, FaceOutputIterator faceIterator,
-                       double scale = 1.0, const CGAL::Vector_3<K> &translation = CGAL::Vector_3<K>(0, 0, 0));
+template<class Kernel_, typename VertexOutputIterator_, typename FaceOutputIterator_>
+bool load_scene_object(const char *fileName, VertexOutputIterator_ vertexIterator, FaceOutputIterator_ faceIterator,
+                       double scale = 1.0, const CGAL::Vector_3<Kernel_> &translation = CGAL::Vector_3<Kernel_>(0, 0, 0));
 
-template<class K, typename TriangleOutputIterator>
-bool load_scene(const char *path, TriangleOutputIterator outRobotFaces, TriangleOutputIterator outObstacleFaces,
-                double scale = 1.0, const CGAL::Vector_3<K> &scaledRobotTranslation = CGAL::Vector_3<K>(0, 0, 0));
+template<class Kernel_, typename TriangleOutputIterator_>
+bool load_scene(const char *path, TriangleOutputIterator_ outRobotFaces, TriangleOutputIterator_ outObstacleFaces,
+                double scale = 1.0, const CGAL::Vector_3<Kernel_> &scaledRobotTranslation = CGAL::Vector_3<Kernel_>(0, 0, 0));
 } // namespace CS
 
 #include "Loader_scene.ipp"

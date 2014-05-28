@@ -28,11 +28,11 @@ namespace CS
 template<class Kernel_>
 struct Predicate_list_generator<Kernel_, Predicate_bb_3<Kernel_> >
 {
-    template<typename RobotInputIterator, typename ObstacleInputIterator, typename OutputIterator>
+    template<typename RobotInputIterator_, typename ObstacleInputIterator_, typename OutputIterator_>
     void create_predicate_list(
-        RobotInputIterator robot_begin, RobotInputIterator robot_end,
-        ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
-        OutputIterator predicates_iterator);
+        RobotInputIterator_ robot_begin, RobotInputIterator_ robot_end,
+        ObstacleInputIterator_ obstacle_begin, ObstacleInputIterator_ obstacle_end,
+        OutputIterator_ predicates_iterator);
 };
 } // namespace CS
 

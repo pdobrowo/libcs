@@ -28,15 +28,15 @@ namespace CS
 {
 struct Empty_node_data {};
 
-template<class Cell, class Node_data>
+template<class Cell_, class Node_data_>
 class Index_tree_node_n
 {
-    typedef typename Cell::Handle Cell_handle;
+    typedef typename Cell_::Handle Cell_handle;
 
 public:
     class Pool
     {
-        typedef Index_tree_node_n<Cell, Node_data> Index_tree_node;
+        typedef Index_tree_node_n<Cell_, Node_data_> Index_tree_node;
 
     public:
         // Note: this may be too few in some extreme cases!
@@ -291,12 +291,12 @@ public:
         m_cell_handle = cell_handle;
     }
 
-    Node_data data() const
+    Node_data_ data() const
     {
         return m_data;
     }
 
-    void set_data(Node_data data)
+    void set_data(Node_data_ data)
     {
         m_data = data;
     }
@@ -309,20 +309,20 @@ private:
         m_child[0] = NULL_OFFSET;
         m_child[1] = NULL_OFFSET;
         m_parent = parent;
-        m_data = Node_data();
+        m_data = Node_data_();
     }
 
     Offset      m_child[2];
     Offset      m_parent;
     Cell_handle m_cell_handle;
-    Node_data   m_data;
+    Node_data_   m_data;
 };
 
-template<class Cell>
+template<class Cell_>
 struct Index_tree_node_visitor_n
 {
-    typedef typename Cell::Handle Cell_handle;
-    typedef Index_tree_node_n<Cell, Index_tree_node_visitor_n *> Index_tree_node;
+    typedef typename Cell_::Handle Cell_handle;
+    typedef Index_tree_node_n<Cell_, Index_tree_node_visitor_n *> Index_tree_node;
 
     Index_tree_node_visitor_n(
             typename Index_tree_node::Offset node_,
@@ -339,21 +339,21 @@ struct Index_tree_node_visitor_n
     Cell_handle handle;
 };
 
-template<class Value>
+template<class Value_>
 class Multi_list_link_n
 {
 public:
-    const Value &       value() const
+    const Value_ &       value() const
     {
         return m_value;
     }
 
-    Value &             value()
+    Value_ &             value()
     {
         return m_value;
     }
 
-    void                set_value(const Value &value)
+    void                set_value(const Value_ &value)
     {
         m_value = value;
     }
@@ -369,7 +369,7 @@ public:
     }
 
 private:
-    Value               m_value;
+    Value_               m_value;
     Multi_list_link_n * m_prev;
     Multi_list_link_n * m_next;
 
@@ -380,10 +380,10 @@ private:
     friend class Multi_list_rope_n;
 };
 
-template<class Value>
+template<class Value_>
 class Multi_list_rope_n
 {
-    typedef Multi_list_link_n<Value> Multi_list_link;
+    typedef Multi_list_link_n<Value_> Multi_list_link;
 
 public:
     void                push_link(Multi_list_link *link)
@@ -426,11 +426,11 @@ private:
     friend class Multi_list_n;
 };
 
-template<class Value>
+template<class Value_>
 class Multi_list_n
 {
-    typedef Multi_list_link_n<Value> Multi_list_link;
-    typedef Multi_list_rope_n<Value> Multi_list_rope;
+    typedef Multi_list_link_n<Value_> Multi_list_link;
+    typedef Multi_list_rope_n<Value_> Multi_list_rope;
 
 public:
     Multi_list_n(size_t size)

@@ -21,8 +21,8 @@
 
 namespace CS
 {
-template<class R>
-Spin_qsic_3<R>::Spin_qsic_3(const Spin_quadric_3 &q1, const Spin_quadric_3 &q2)
+template<class Kernel_>
+Spin_qsic_3<Kernel_>::Spin_qsic_3(const Spin_quadric_3 &q1, const Spin_quadric_3 &q2)
     : m_q1(q1),
       m_q2(q2)
 {
@@ -32,49 +32,49 @@ Spin_qsic_3<R>::Spin_qsic_3(const Spin_quadric_3 &q1, const Spin_quadric_3 &q2)
     std::ostringstream logger;
     int opt_level = 0;
 
-    m_qsic = QI::intersection(R::to_lidia_matrix(m_q1.matrix()), R::to_lidia_matrix(m_q2.matrix()), opt_level, logger);
+    m_qsic = QI::intersection(Kernel::to_lidia_matrix(m_q1.matrix()), Kernel::to_lidia_matrix(m_q2.matrix()), opt_level, logger);
 
     // spin qsic quadric is: N[m_qsic]
 }
 
-template<class R>
-const typename Spin_qsic_3<R>::Qsic &Spin_qsic_3<R>::qsic() const
+template<class Kernel_>
+const typename Spin_qsic_3<Kernel_>::Qsic &Spin_qsic_3<Kernel_>::qsic() const
 {
     return m_qsic;
 }
 
-template<class R>
-const typename Spin_qsic_3<R>::Spin_quadric_3 &Spin_qsic_3<R>::q1() const
+template<class Kernel_>
+const typename Spin_qsic_3<Kernel_>::Spin_quadric_3 &Spin_qsic_3<Kernel_>::q1() const
 {
     return m_q1;
 }
 
-template<class R>
-const typename Spin_qsic_3<R>::Spin_quadric_3 &Spin_qsic_3<R>::q2() const
+template<class Kernel_>
+const typename Spin_qsic_3<Kernel_>::Spin_quadric_3 &Spin_qsic_3<Kernel_>::q2() const
 {
     return m_q2;
 }
 
-template<class R>
-const typename Spin_qsic_3<R>::Qsic_component &Spin_qsic_3<R>::component(size_t index) const
+template<class Kernel_>
+const typename Spin_qsic_3<Kernel_>::Qsic_component &Spin_qsic_3<Kernel_>::component(size_t index) const
 {
     return m_qsic.cc[index];
 }
 
-template<class R>
-size_t Spin_qsic_3<R>::num_components() const
+template<class Kernel_>
+size_t Spin_qsic_3<Kernel_>::num_components() const
 {
     return static_cast<size_t>(m_qsic.nb_cc);
 }
 
-template<class R>
-bool Spin_qsic_3<R>::is_component_visible(size_t index) const
+template<class Kernel_>
+bool Spin_qsic_3<Kernel_>::is_component_visible(size_t index) const
 {
     return m_qsic.cc[index].isInRealAffineSpace();
 }
 
-template<class R>
-std::string Spin_qsic_3<R>::component_to_string(size_t index) const
+template<class Kernel_>
+std::string Spin_qsic_3<Kernel_>::component_to_string(size_t index) const
 {
     // output components
     // FIXME: Should we cache it ?
@@ -105,20 +105,20 @@ std::string Spin_qsic_3<R>::component_to_string(size_t index) const
     return msg;
 }
 
-template<class R>
-bool Spin_qsic_3<R>::is_smooth() const
+template<class Kernel_>
+bool Spin_qsic_3<Kernel_>::is_smooth() const
 {
     return m_qsic.ctype == 1 && (m_qsic.rtype == 2 || m_qsic.rtype == 3 || m_qsic.rtype == 4);
 }
 
-template<class R>
-bool Spin_qsic_3<R>::is_rational() const
+template<class Kernel_>
+bool Spin_qsic_3<Kernel_>::is_rational() const
 {
     return !is_smooth();
 }
 
-template<class R>
-int Spin_qsic_3<R>::component_dimension(size_t index) const
+template<class Kernel_>
+int Spin_qsic_3<Kernel_>::component_dimension(size_t index) const
 {
     switch (m_qsic.cc[index].type)
     {

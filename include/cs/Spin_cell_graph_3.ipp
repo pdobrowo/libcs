@@ -24,27 +24,27 @@
 
 namespace CS
 {
-template<class K, class P, class G>
-Spin_cell_graph_3<K, P, G>::Parameters::Parameters()
+template<class Kernel_, class Predicate_, class Representation_>
+Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Parameters::Parameters()
     : m_sample_point_count(10000)
 {
 }
 
-template<class K, class P, class G>
-Spin_cell_graph_3<K, P, G>::Parameters::Parameters(size_t sample_point_count)
+template<class Kernel_, class Predicate_, class Representation_>
+Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Parameters::Parameters(size_t sample_point_count)
     : m_sample_point_count(sample_point_count)
 {
 }
 
-template<class K, class P, class G>
-size_t Spin_cell_graph_3<K, P, G>::Parameters::sample_point_count() const
+template<class Kernel_, class Predicate_, class Representation_>
+size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Parameters::sample_point_count() const
 {
     return m_sample_point_count;
 }
 
-template<class K, class P, class G>
+template<class Kernel_, class Predicate_, class Representation_>
 template<class Cell, typename Cell_iterator>
-void Spin_cell_graph_3<K, P, G>::mark_connected_components_dfs(Cell_iterator iterator, int component, bool value)
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::mark_connected_components_dfs(Cell_iterator iterator, int component, bool value)
 {
     std::stack<Cell_iterator> stack;
 
@@ -77,9 +77,9 @@ void Spin_cell_graph_3<K, P, G>::mark_connected_components_dfs(Cell_iterator ite
     }
 }
 
-template<class K, class P, class G>
+template<class Kernel_, class Predicate_, class Representation_>
 template<typename Cell_iterator>
-std::pair<size_t, size_t> Spin_cell_graph_3<K, P, G>::mark_connected_components(Cell_iterator begin, Cell_iterator end)
+std::pair<size_t, size_t> Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::mark_connected_components(Cell_iterator begin, Cell_iterator end)
 {
     typedef typename Cell_iterator::value_type Cell;
 
@@ -119,8 +119,8 @@ std::pair<size_t, size_t> Spin_cell_graph_3<K, P, G>::mark_connected_components(
     return num_connected_components;
 }
 
-template<class K, class P, class G>
-Spin_cell_graph_3<K, P, G>::Spin_cell_graph_3(const std::vector<Predicate> &predicates,
+template<class Kernel_, class Predicate_, class Representation_>
+Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Spin_cell_graph_3(const std::vector<Predicate> &predicates,
                                               const std::vector<Spin_quadric_3> &quadrics,
                                               const Parameters &parameters)
     : m_predicates(predicates),
@@ -223,26 +223,26 @@ Spin_cell_graph_3<K, P, G>::Spin_cell_graph_3(const std::vector<Predicate> &pred
     LOG4CXX_INFO(m_logger, "Total number of connected components: " << (num_connected_components.first + num_connected_components.second));
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::size_type Spin_cell_graph_3<K, P, G>::size_of_cells() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::size_type Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::size_of_cells() const
 {
     return m_cells.size();
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Cell_const_iterator Spin_cell_graph_3<K, P, G>::cells_begin() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_iterator Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::cells_begin() const
 {
     return m_cells.begin();
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Cell_const_iterator Spin_cell_graph_3<K, P, G>::cells_end() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_iterator Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::cells_end() const
 {
     return m_cells.end();
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Cell_const_iterator Spin_cell_graph_3<K, P, G>::add_sample_point(const Sample &sample)
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_iterator Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::add_sample_point(const Sample &sample)
 {
     LOG4CXX_DEBUG(m_logger, "Adding a custom sample point: " << sample);
 
@@ -310,8 +310,8 @@ typename Spin_cell_graph_3<K, P, G>::Cell_const_iterator Spin_cell_graph_3<K, P,
     return iterator;
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_route(const Sample &begin, const Sample &end)
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::find_route(const Sample &begin, const Sample &end)
 {
     // ensure that begin and end points are sampled in cell graph
     Cell_const_iterator begin_cell = add_sample_point(begin);
@@ -342,9 +342,9 @@ typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_rout
     return find_route_general(begin_cell, end_cell, begin, end);
 }
 
-template<class K, class P, class G>
+template<class Kernel_, class Predicate_, class Representation_>
 template<typename OutputCellIterator>
-bool Spin_cell_graph_3<K, P, G>::find_cell_route(Cell_const_iterator begin, Cell_const_iterator end, OutputCellIterator outputCellIterator)
+bool Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::find_cell_route(Cell_const_iterator begin, Cell_const_iterator end, OutputCellIterator outputCellIterator)
 {
     // TODO: implement with Dijkstra
     (void)begin;
@@ -353,8 +353,8 @@ bool Spin_cell_graph_3<K, P, G>::find_cell_route(Cell_const_iterator begin, Cell
     return false;
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_route_same_cell(
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::find_route_same_cell(
         typename Spin_cell_graph_3::Cell_const_iterator cell,
         const Sample &begin, const Sample &end) const
 {
@@ -367,8 +367,8 @@ typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_rout
     return Route();
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_route_same_component(
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::find_route_same_component(
         typename Spin_cell_graph_3::Cell_const_iterator begin_cell,
         typename Spin_cell_graph_3::Cell_const_iterator end_cell,
         const Sample &begin, const Sample &end) const
@@ -383,8 +383,8 @@ typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_rout
     return Route();
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_route_general(
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::find_route_general(
         typename Spin_cell_graph_3::Cell_const_iterator begin_cell, typename Spin_cell_graph_3::Cell_const_iterator end_cell,
         const Sample &begin, const Sample &end) const
 {
@@ -398,8 +398,8 @@ typename Spin_cell_graph_3<K, P, G>::Route Spin_cell_graph_3<K, P, G>::find_rout
     return Route();
 }
 
-template<class K, class P, class G>
-size_t Spin_cell_graph_3<K, P, G>::compress_duplicated_quadrics(const std::vector<Spin_quadric_3> &quadrics)
+template<class Kernel_, class Predicate_, class Representation_>
+size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::compress_duplicated_quadrics(const std::vector<Spin_quadric_3> &quadrics)
 {
     // take a copy of quadrics in order to normalize them
     std::vector<Spin_quadric_3> normalized_quadrics = quadrics;
@@ -481,8 +481,8 @@ size_t Spin_cell_graph_3<K, P, G>::compress_duplicated_quadrics(const std::vecto
     return duplicated_quadrics;
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::collect_sample_cell_list(
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_sample_cell_list(
         size_t sample_point_count,
         size_t &out_raw_empty_cell_count,
         size_t &out_raw_full_cell_count,
@@ -577,8 +577,8 @@ void Spin_cell_graph_3<K, P, G>::collect_sample_cell_list(
 #endif // USE_PARALLEL
 }
 
-template<class K, class P, class G>
-size_t Spin_cell_graph_3<K, P, G>::collect_cell_neighbour_information()
+template<class Kernel_, class Predicate_, class Representation_>
+size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_neighbour_information()
 {
     // Collect algorithm:
     //
@@ -897,8 +897,8 @@ size_t Spin_cell_graph_3<K, P, G>::collect_cell_neighbour_information()
     return 0;
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::collapse_cell_list(
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collapse_cell_list(
         Cell_list &raw_cell_list)
 {
 #if 1
@@ -1012,8 +1012,8 @@ void Spin_cell_graph_3<K, P, G>::collapse_cell_list(
 #endif
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::calculate_cell_coordinate(
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::calculate_cell_coordinate(
         const Sample &sample, Coordinate &out) const
 {
     assert(out.size() == m_quadrics.size());
@@ -1041,8 +1041,8 @@ void Spin_cell_graph_3<K, P, G>::calculate_cell_coordinate(
     }
 }
 
-template<class K, class P, class G>
-bool Spin_cell_graph_3<K, P, G>::evaluate_predicate_list_at_cell_coordinate(
+template<class Kernel_, class Predicate_, class Representation_>
+bool Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::evaluate_predicate_list_at_cell_coordinate(
         const Coordinate &coordinate) const
 {
     // assert number of links to compressed quadric list
@@ -1072,8 +1072,8 @@ bool Spin_cell_graph_3<K, P, G>::evaluate_predicate_list_at_cell_coordinate(
     return false;
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::display_coordinate_pops_histogram(bool verbose)
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate_pops_histogram(bool verbose)
 {
     LOG4CXX_DEBUG(m_logger, "Pops histogram:");
 
@@ -1137,8 +1137,8 @@ void Spin_cell_graph_3<K, P, G>::display_coordinate_pops_histogram(bool verbose)
     LOG4CXX_DEBUG(m_logger, "Coordinate description may be reduced by " << reduce << " bits");
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::display_neighbour_histogram()
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_neighbour_histogram()
 {
 #if 0
 
@@ -1241,8 +1241,8 @@ void Spin_cell_graph_3<K, P, G>::display_neighbour_histogram()
 #endif
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::display_best_sampled_cells(size_t sample_point_count, size_t top_count)
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_best_sampled_cells(size_t sample_point_count, size_t top_count)
 {
     std::vector<typename Cell::Sample_size_type> sizes;
     sizes.reserve(m_cells.size());
@@ -1283,8 +1283,8 @@ void Spin_cell_graph_3<K, P, G>::display_best_sampled_cells(size_t sample_point_
     }
 }
 
-template<class K, class P, class G>
-void Spin_cell_graph_3<K, P, G>::sort_cell_list(Cell_list &cells)
+template<class Kernel_, class Predicate_, class Representation_>
+void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cell_list &cells)
 {
     // Sorting algorithm:
     //
@@ -1385,27 +1385,27 @@ void Spin_cell_graph_3<K, P, G>::sort_cell_list(Cell_list &cells)
     }
 }
 
-template<class K, class P, class G>
-Spin_cell_graph_3<K, P, G>::Route::Route()
+template<class Kernel_, class Predicate_, class Representation_>
+Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route::Route()
     : m_valid(false)
 {
 }
 
-//template<class K, class P, class G>
-//Spin_cell_graph_3<K, P, G>::Route::Route(const std::vector<Voxel_link> &nodes)
+//template<class Kernel_, class Predicate_, class Representation_>
+//Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route::Route(const std::vector<Voxel_link> &nodes)
 //    : m_valid(true),
 //      m_nodes(nodes)
 //{
 //}
 
-template<class K, class P, class G>
-bool Spin_cell_graph_3<K, P, G>::Route::is_valid() const
+template<class Kernel_, class Predicate_, class Representation_>
+bool Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route::is_valid() const
 {
     return m_valid;
 }
 
-template<class K, class P, class G>
-typename Spin_cell_graph_3<K, P, G>::Sample Spin_cell_graph_3<K, P, G>::Route::evaluate(double t) const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Sample Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route::evaluate(double t) const
 {
     (void)t;
 

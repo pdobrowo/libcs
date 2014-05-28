@@ -46,10 +46,10 @@ const typename Hom_root<Kernel_>::Algebraic_real_1 &Hom_root<Kernel_>::root() co
     return m_root;
 }
 
-template<class Kernel_, typename OutputIterator>
+template<class Kernel_, typename OutputIterator_>
 void extract_isolated_hom_roots(
         const typename Kernel_::Hom_polynomial_with_sqrt &hom_polynomial_,
-        OutputIterator output)
+        OutputIterator_ output)
 {
     CS_BENCHMARK_POINT();
 

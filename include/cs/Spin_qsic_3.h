@@ -54,7 +54,7 @@ class Spin_qsic_3
     typedef typename Kernel_::Spin_qsip_point    Spin_qsip_point;
 
 public:
-    typedef Kernel_                              R;
+    typedef Kernel_                              Kernel;
 
     Spin_qsic_3(const Spin_quadric_3 &q1, const Spin_quadric_3 &q2);
 

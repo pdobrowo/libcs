@@ -64,9 +64,9 @@ namespace CS
 //
 // alpha = 2 * atan(t)
 //
-template<class FT>
-int solve_general_quartic(const FT &a, const FT &b, const FT &c, const FT &d, const FT &e,
-                                 FT *x0, FT *x1, FT *x2, FT *x3);
+template<class FT_>
+int solve_general_quartic(const FT_ &a, const FT_ &b, const FT_ &c, const FT_ &d, const FT_ &e,
+                          FT_ *x0, FT_ *x1, FT_ *x2, FT_ *x3);
 
 template<class Kernel_>
 class Random_spin_circle_3

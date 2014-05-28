@@ -34,20 +34,20 @@
 
 namespace CS
 {
-template<class Kernel_, typename OutputIterator>
+template<class Kernel_, typename OutputIterator_>
 void isolate_polynomial_roots_cgal(
         const typename Kernel_::Algebraic_kernel_with_sqrt::Polynomial_1 &polynomial,
-        OutputIterator output);
+        OutputIterator_ output);
 
 template<class Kernel_>
 typename Kernel_::Algebraic_kernel_with_sqrt::Algebraic_real_1 interval_to_algebraic_real(
         const typename Kernel_::Algebraic_kernel_with_sqrt::Polynomial_1 &polynomial,
         const interval &z);
 
-template<class Kernel_, typename OutputIterator>
+template<class Kernel_, typename OutputIterator_>
 void isolate_polynomial_roots_contfrac(
         const typename Kernel_::Algebraic_kernel_with_sqrt::Polynomial_1 &polynomial,
-        OutputIterator output);
+        OutputIterator_ output);
 } // namespace CS
 
 #include "Isolate_polynomial_roots.ipp"

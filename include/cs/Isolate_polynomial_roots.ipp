@@ -21,10 +21,10 @@
 
 namespace CS
 {
-template<class Kernel_, typename OutputIterator>
+template<class Kernel_, typename OutputIterator_>
 void isolate_polynomial_roots_cgal(
         const typename Kernel_::Algebraic_kernel_with_sqrt::Polynomial_1 &polynomial,
-        OutputIterator output)
+        OutputIterator_ output)
 {
     //CS_BENCHMARK_POINT();
 

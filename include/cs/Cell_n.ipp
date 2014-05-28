@@ -21,13 +21,13 @@
 
 namespace CS
 {
-template<class S, class D>
-Cell_n<S, D>::Cell_n()
+template<class Sample_, class Data_>
+Cell_n<Sample_, Data_>::Cell_n()
 {
 }
 
-template<class S, class D>
-Cell_n<S, D>::Cell_n(const Sample &sample, const Coordinate &coordinate, bool value)
+template<class Sample_, class Data_>
+Cell_n<Sample_, Data_>::Cell_n(const Sample &sample, const Coordinate &coordinate, bool value)
     : m_coordinate(coordinate),
       m_value(value)
 {
@@ -37,122 +37,122 @@ Cell_n<S, D>::Cell_n(const Sample &sample, const Coordinate &coordinate, bool va
     m_pops = std::count(m_coordinate.begin(), m_coordinate.end(), true);
 }
 
-template<class S, class D>
-const Coordinate &Cell_n<S, D>::coordinate() const
+template<class Sample_, class Data_>
+const Coordinate &Cell_n<Sample_, Data_>::coordinate() const
 {
     return m_coordinate;
 }
 
-template<class S, class D>
-size_t Cell_n<S, D>::pops_coordinate() const
+template<class Sample_, class Data_>
+size_t Cell_n<Sample_, Data_>::pops_coordinate() const
 {
     return m_pops;
 }
 
-template<class S, class D>
-bool Cell_n<S, D>::value() const
+template<class Sample_, class Data_>
+bool Cell_n<Sample_, Data_>::value() const
 {
     return m_value;
 }
 
-template<class S, class D>
-bool Cell_n<S, D>::is_empty() const
+template<class Sample_, class Data_>
+bool Cell_n<Sample_, Data_>::is_empty() const
 {
     return m_value == false;
 }
 
-template<class S, class D>
-bool Cell_n<S, D>::is_full() const
+template<class Sample_, class Data_>
+bool Cell_n<Sample_, Data_>::is_full() const
 {
     return m_value == true;
 }
 
-template<class S, class D>
-const typename Cell_n<S, D>::Data &Cell_n<S, D>::data() const
+template<class Sample_, class Data_>
+const typename Cell_n<Sample_, Data_>::Data &Cell_n<Sample_, Data_>::data() const
 {
     return m_data;
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Data &Cell_n<S, D>::data()
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Data &Cell_n<Sample_, Data_>::data()
 {
     return m_data;
 }
 
-template<class S, class D>
-void Cell_n<S, D>::add_sample(const Sample &sample)
+template<class Sample_, class Data_>
+void Cell_n<Sample_, Data_>::add_sample(const Sample &sample)
 {
     m_samples.push_back(sample);
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Sample_const_iterator Cell_n<S, D>::samples_begin() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Sample_const_iterator Cell_n<Sample_, Data_>::samples_begin() const
 {
     return m_samples.begin();
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Sample_const_iterator Cell_n<S, D>::samples_end() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Sample_const_iterator Cell_n<Sample_, Data_>::samples_end() const
 {
     return m_samples.end();
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Sample_size_type Cell_n<S, D>::samples_size() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Sample_size_type Cell_n<Sample_, Data_>::samples_size() const
 {
     return m_samples.size();
 }
 
-template<class S, class D>
-void Cell_n<S, D>::add_edge(Handle other)
+template<class Sample_, class Data_>
+void Cell_n<Sample_, Data_>::add_edge(Handle other)
 {
     m_edges.push_back(other);
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Edge_const_iterator Cell_n<S, D>::edges_begin() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Edge_const_iterator Cell_n<Sample_, Data_>::edges_begin() const
 {
     return m_edges.begin();
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Edge_const_iterator Cell_n<S, D>::edges_end() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Edge_const_iterator Cell_n<Sample_, Data_>::edges_end() const
 {
     return m_edges.end();
 }
 
-template<class S, class D>
-typename Cell_n<S, D>::Edge_size_type Cell_n<S, D>::edges_size() const
+template<class Sample_, class Data_>
+typename Cell_n<Sample_, Data_>::Edge_size_type Cell_n<Sample_, Data_>::edges_size() const
 {
     return m_edges.size();
 }
 
-template<class S, class D>
-bool operator <(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator <(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     return lhs.coordinate() < rhs.coordinate();
 }
 
-template<class S, class D>
-bool operator >(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator >(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     return lhs.coordinate() > rhs.coordinate();
 }
 
-template<class S, class D>
-bool operator <=(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator <=(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     return lhs.coordinate() <= rhs.coordinate();
 }
 
-template<class S, class D>
-bool operator >=(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator >=(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     return lhs.coordinate() >= rhs.coordinate();
 }
 
-template<class S, class D>
-bool operator ==(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator ==(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     // heuristic based on pops
     if (lhs.pops_coordinate() != rhs.pops_coordinate())
@@ -162,15 +162,15 @@ bool operator ==(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
     return lhs.coordinate() == rhs.coordinate();
 }
 
-template<class S, class D>
-bool operator !=(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool operator !=(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     // use equality implementation
     return !(lhs.coordinate() == rhs.coordinate());
 }
 
-template<class S, class D>
-bool neighbour(const Cell_n<S, D> &lhs, const Cell_n<S, D> &rhs)
+template<class Sample_, class Data_>
+bool neighbour(const Cell_n<Sample_, Data_> &lhs, const Cell_n<Sample_, Data_> &rhs)
 {
     assert(lhs.coordinate().size() == rhs.coordinate().size());
 

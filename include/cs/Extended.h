@@ -24,10 +24,10 @@
 
 namespace CS
 {
-template<class FT>
+template<class FT_>
 struct Extended_generator
 {
-    typedef CGAL::Sqrt_extension<FT, FT> Type;
+    typedef CGAL::Sqrt_extension<FT_, FT_> Type;
 };
 } // namespace CS
 

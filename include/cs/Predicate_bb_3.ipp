@@ -21,8 +21,8 @@
 
 namespace CS
 {
-template<class Kernel>
-Predicate_bb_3<Kernel>::Predicate_bb_3()
+template<class Kernel_>
+Predicate_bb_3<Kernel_>::Predicate_bb_3()
     : m_b(Vector_3(RT(0), RT(0), RT(0))),
       m_l(RT(0)),
       m_a(Vector_3(RT(0), RT(0), RT(0))),
@@ -30,8 +30,8 @@ Predicate_bb_3<Kernel>::Predicate_bb_3()
 {
 }
 
-template<class Kernel>
-Predicate_bb_3<Kernel>::Predicate_bb_3(
+template<class Kernel_>
+Predicate_bb_3<Kernel_>::Predicate_bb_3(
         const Vector_3 &b,
         const RT &l,
         const Vector_3 &a,
@@ -45,8 +45,8 @@ Predicate_bb_3<Kernel>::Predicate_bb_3(
     construct(b, l, a, r);
 }
 
-template<class Kernel>
-Predicate_bb_3<Kernel>::Predicate_bb_3(
+template<class Kernel_>
+Predicate_bb_3<Kernel_>::Predicate_bb_3(
         const Ball_3 &b,
         const Ball_3 &a)
 {
@@ -54,8 +54,8 @@ Predicate_bb_3<Kernel>::Predicate_bb_3(
     construct(b.center(), b.radius(), a.center(), a.radius());
 }
 
-template<class Kernel>
-void Predicate_bb_3<Kernel>::construct(
+template<class Kernel_>
+void Predicate_bb_3<Kernel_>::construct(
         const Vector_3 &b,
         const RT &l,
         const Vector_3 &a,
@@ -76,38 +76,38 @@ void Predicate_bb_3<Kernel>::construct(
                                         (m_r + m_l) * (m_r + m_l) - aa - bb));
 }
 
-template<class Kernel>
-const typename Predicate_bb_3<Kernel>::Vector_3 &Predicate_bb_3<Kernel>::b() const
+template<class Kernel_>
+const typename Predicate_bb_3<Kernel_>::Vector_3 &Predicate_bb_3<Kernel_>::b() const
 {
     return m_b;
 }
 
-template<class Kernel>
-const typename Predicate_bb_3<Kernel>::RT &Predicate_bb_3<Kernel>::l() const
+template<class Kernel_>
+const typename Predicate_bb_3<Kernel_>::RT &Predicate_bb_3<Kernel_>::l() const
 {
     return m_l;
 }
 
-template<class Kernel>
-const typename Predicate_bb_3<Kernel>::Vector_3 &Predicate_bb_3<Kernel>::a() const
+template<class Kernel_>
+const typename Predicate_bb_3<Kernel_>::Vector_3 &Predicate_bb_3<Kernel_>::a() const
 {
     return m_a;
 }
 
-template<class Kernel>
-const typename Predicate_bb_3<Kernel>::RT &Predicate_bb_3<Kernel>::r() const
+template<class Kernel_>
+const typename Predicate_bb_3<Kernel_>::RT &Predicate_bb_3<Kernel_>::r() const
 {
     return m_r;
 }
 
-template<class Kernel>
-const typename Predicate_bb_3<Kernel>::Predicate_h_3 *Predicate_bb_3<Kernel>::sub_predicates() const
+template<class Kernel_>
+const typename Predicate_bb_3<Kernel_>::Predicate_h_3 *Predicate_bb_3<Kernel_>::sub_predicates() const
 {
     return &m_predicate;
 }
 
-template<class Kernel>
-bool Predicate_bb_3<Kernel>::evaluate(const bool *signs) const
+template<class Kernel_>
+bool Predicate_bb_3<Kernel_>::evaluate(const bool *signs) const
 {
     // evaluate collision predicate
     return signs[0];

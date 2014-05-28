@@ -22,11 +22,11 @@
 namespace CS
 {
 template<class Kernel_>
-template<typename RobotInputIterator, typename ObstacleInputIterator, typename OutputIterator>
+template<typename RobotInputIterator_, typename ObstacleInputIterator_, typename OutputIterator_>
 void Predicate_list_generator<Kernel_, Predicate_tt_3<Kernel_> >::create_predicate_list(
-        RobotInputIterator robot_begin, RobotInputIterator robot_end,
-        ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
-        OutputIterator predicates_iterator)
+        RobotInputIterator_ robot_begin, RobotInputIterator_ robot_end,
+        ObstacleInputIterator_ obstacle_begin, ObstacleInputIterator_ obstacle_end,
+        OutputIterator_ predicates_iterator)
 {
     typedef typename Kernel_::Point_3   Point_3;
     typedef typename Kernel_::Vector_3  Vector_3;
@@ -35,9 +35,9 @@ void Predicate_list_generator<Kernel_, Predicate_tt_3<Kernel_> >::create_predica
     // create TT predicate list
     Point_3 ZERO(RT(0), RT(0), RT(0));
 
-    for (ObstacleInputIterator i = obstacle_begin; i != obstacle_end; ++i)
+    for (ObstacleInputIterator_ i = obstacle_begin; i != obstacle_end; ++i)
     {
-        for (RobotInputIterator j = robot_begin; j != robot_end; ++j)
+        for (RobotInputIterator_ j = robot_begin; j != robot_end; ++j)
         {
             // obstacle
             Vector_3 vk = i->vertex(0) - ZERO;

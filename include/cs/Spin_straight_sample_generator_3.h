@@ -28,9 +28,12 @@
 namespace CS
 {
 // straight sample generator: choose spin sample uniformly in SO(3)
-template<class Kernel, class FT = typename Kernel::FT>
+template<class Kernel_, class FT_ = typename Kernel_::FT>
 struct Spin_straight_sample_generator_3
 {
+    typedef Kernel_ Kernel;
+    typedef FT_ FT;
+
     typedef typename Extended_generator<FT>::Type   ExtendedFT;
     typedef Spin_3<ExtendedFT>                      Sample;
 
@@ -41,8 +44,8 @@ struct Spin_straight_sample_generator_3
 // TODO: the same implementation is for all inexact types
 //       create inexact template implementation, and derive this implementation in all inexact types
 //       see QC sample generator for reference
-template<class Kernel>
-struct Spin_straight_sample_generator_3<Kernel, double>
+template<class Kernel_>
+struct Spin_straight_sample_generator_3<Kernel_, double>
 {
     typedef Spin_3<double>          Sample;
 
@@ -50,8 +53,8 @@ struct Spin_straight_sample_generator_3<Kernel, double>
     void operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample);
 };
 
-template<class Kernel>
-struct Spin_straight_sample_generator_3<Kernel, CGAL::Gmpfr>
+template<class Kernel_>
+struct Spin_straight_sample_generator_3<Kernel_, CGAL::Gmpfr>
 {
     typedef Spin_3<CGAL::Gmpfr>     Sample;
 

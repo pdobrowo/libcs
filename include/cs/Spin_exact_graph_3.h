@@ -32,12 +32,12 @@ namespace CS
 // Exact arrangement of quadrics
 //
 // Predicate_type is Predicate_tt_3 or Predicate_bb_3
-template<class K,
+template<class Kernel_,
          class Predicate_>
 class Spin_exact_graph_3
 {
-    typedef typename K::FT                          FT;
-    typedef typename K::Spin_quadric_3              Spin_quadric_3;
+    typedef typename Kernel_::FT                          FT;
+    typedef typename Kernel_::Spin_quadric_3              Spin_quadric_3;
 
     // sub-predicates
     typedef Predicate_                              Predicate;
@@ -51,8 +51,8 @@ public:
     typedef Spin_3<double>                          Sample;
 
     // primitives
-    typedef typename K::Spin_qsic_3                 Spin_qsic_3;
-    typedef typename K::Spin_qsip_3                 Spin_qsip_3;
+    typedef typename Kernel_::Spin_qsic_3                 Spin_qsic_3;
+    typedef typename Kernel_::Spin_qsip_3                 Spin_qsip_3;
 
     typedef Spin_qsic_3 *                           Qsic_handle;
     typedef Spin_qsip_3 *                           Qsip_handle;

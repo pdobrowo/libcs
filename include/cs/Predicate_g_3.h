@@ -38,17 +38,7 @@ class Predicate_g_3
     typedef typename Kernel_::Predicate_h_3  Predicate_h_3;
     typedef typename Kernel_::Predicate_s_3  Predicate_s_3;
 
-    Vector_3 choose_r_vector(const Vector_3 &v)
-    {
-        // choose a vector that is not parallel to v
-        // project the vector on a plane and take one orthogonal to it
-        if (v.x() != RT(0))
-            return Vector_3(-v.y(), v.x(), v.z()); // take x-y plane
-        else if (v.y() != RT(0))
-            return Vector_3(v.x(), -v.z(), v.y()); // take y-z plane
-        else
-            return Vector_3(v.z(), v.y(), -v.x()); // take z-x plane
-    }
+    Vector_3 choose_r_vector(const Vector_3 &v);
 
 public:
     typedef Kernel_                             Kernel;

@@ -23,16 +23,16 @@ namespace CS
 {
 namespace Math
 {
-template<class FT>
-int solve_quadratic(const FT &a, const FT &b, const FT &c,
-                           FT *x0, FT *x1)
+template<class FT_>
+int solve_quadratic(const FT_ &a, const FT_ &b, const FT_ &c,
+                    FT_ *x0, FT_ *x1)
 {
-    const FT ZERO = 0.0;
-    const FT ONE  = 1.0;
-    const FT FOUR = 4.0;
-    const FT HALF = 0.5;
+    const FT_ ZERO = 0.0;
+    const FT_ ONE  = 1.0;
+    const FT_ FOUR = 4.0;
+    const FT_ HALF = 0.5;
 
-    FT disc = b * b - FOUR * a * c;
+    FT_ disc = b * b - FOUR * a * c;
 
     if (a == ZERO) /* Handle linear case */
     {
@@ -51,16 +51,16 @@ int solve_quadratic(const FT &a, const FT &b, const FT &c,
     {
         if (b == ZERO)
         {
-            FT r = fabs (HALF * sqrt (disc) / a);
+            FT_ r = fabs (HALF * sqrt (disc) / a);
             *x0 = -r;
             *x1 =  r;
         }
         else
         {
-            FT sgnb = (b > ZERO ? ONE : -ONE);
-            FT temp = -HALF * (b + sgnb * sqrt (disc));
-            FT r1 = temp / a;
-            FT r2 = c / temp;
+            FT_ sgnb = (b > ZERO ? ONE : -ONE);
+            FT_ temp = -HALF * (b + sgnb * sqrt (disc));
+            FT_ r1 = temp / a;
+            FT_ r2 = c / temp;
 
             if (r1 < r2)
             {

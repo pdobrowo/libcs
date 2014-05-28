@@ -21,8 +21,8 @@
 
 namespace CS
 {
-template<class R>
-Predicate_s_3<R>::Predicate_s_3()
+template<class Kernel_>
+Predicate_s_3<Kernel_>::Predicate_s_3()
     : m_k(Vector_3(RT(0), RT(0), RT(0))),
       m_l(Vector_3(RT(0), RT(0), RT(0))),
       m_a(Vector_3(RT(0), RT(0), RT(0))),
@@ -30,8 +30,8 @@ Predicate_s_3<R>::Predicate_s_3()
 {
 }
 
-template<class R>
-Predicate_s_3<R>::Predicate_s_3(const Vector_3  &k,
+template<class Kernel_>
+Predicate_s_3<Kernel_>::Predicate_s_3(const Vector_3  &k,
         const Vector_3  &l,
         const Vector_3  &a,
         const Vector_3  &b)
@@ -42,39 +42,39 @@ Predicate_s_3<R>::Predicate_s_3(const Vector_3  &k,
 {
 }
 
-template<class R>
-const typename Predicate_s_3<R>::Vector_3 &Predicate_s_3<R>::k() const
+template<class Kernel_>
+const typename Predicate_s_3<Kernel_>::Vector_3 &Predicate_s_3<Kernel_>::k() const
 {
     return m_k;
 }
 
-template<class R>
-const typename Predicate_s_3<R>::Vector_3 &Predicate_s_3<R>::l() const
+template<class Kernel_>
+const typename Predicate_s_3<Kernel_>::Vector_3 &Predicate_s_3<Kernel_>::l() const
 {
     return m_l;
 }
 
-template<class R>
-const typename Predicate_s_3<R>::Vector_3 &Predicate_s_3<R>::a() const
+template<class Kernel_>
+const typename Predicate_s_3<Kernel_>::Vector_3 &Predicate_s_3<Kernel_>::a() const
 {
     return m_a;
 }
 
-template<class R>
-const typename Predicate_s_3<R>::Vector_3 &Predicate_s_3<R>::b() const
+template<class Kernel_>
+const typename Predicate_s_3<Kernel_>::Vector_3 &Predicate_s_3<Kernel_>::b() const
 {
     return m_b;
 }
 
-template<class R>
-Predicate_s_3<R> Predicate_s_3<R>::opposite() const
+template<class Kernel_>
+Predicate_s_3<Kernel_> Predicate_s_3<Kernel_>::opposite() const
 {
     // Swap k & l components or a & b components
-    return Predicate_s_3<R>(l(), k(), a(), b());
+    return Predicate_s_3<Kernel_>(l(), k(), a(), b());
 }
 
-template<class R>
-std::ostream &operator <<(std::ostream &os, const Predicate_s_3<R> &predicate)
+template<class Kernel_>
+std::ostream &operator <<(std::ostream &os, const Predicate_s_3<Kernel_> &predicate)
 {
     return (os << "[" << predicate.k() << ";" << predicate.l() << ";"
                       << predicate.a() << ";" << predicate.b() << "]");

@@ -23,30 +23,30 @@ namespace CS
 {
 namespace Math
 {
-template<class FT>
-int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
-                         FT *x0, FT *x1, FT *x2, FT *x3)
+template<class FT_>
+int solve_quartic(const FT_ &a, const FT_ &b, const FT_ &c, const FT_ &d,
+                  FT_ *x0, FT_ *x1, FT_ *x2, FT_ *x3)
 {
-    const FT ZERO  = 0.0;
-    const FT HALF  = 0.5;
-    const FT ONE   = 1.0;
-    const FT TWO   = 2.0;
-    const FT THREE = 3.0;
-    const FT FOUR  = 4.0;
-    const FT EIGHT = 8.0;
-    const FT NINE  = 9.0;
+    const FT_ ZERO  = 0.0;
+    const FT_ HALF  = 0.5;
+    const FT_ ONE   = 1.0;
+    const FT_ TWO   = 2.0;
+    const FT_ THREE = 3.0;
+    const FT_ FOUR  = 4.0;
+    const FT_ EIGHT = 8.0;
+    const FT_ NINE  = 9.0;
 
     /*
      * This code is based on a simplification of
      * the algorithm from zsolve_quartic.c for real roots
      */
-    FT u[3];
-    FT aa, pp, qq, rr, rc, sc, tc;
-    FT w1r, w1i, w2r, w2i, w3r;
-    FT v[3], v1, v2, arg, theta;
-    FT disc, h;
+    FT_ u[3];
+    FT_ aa, pp, qq, rr, rc, sc, tc;
+    FT_ w1r, w1i, w2r, w2i, w3r;
+    FT_ v[3], v1, v2, arg, theta;
+    FT_ disc, h;
     int k1 = 0, k2 = 0, mt;
-    FT zarr[4];
+    FT_ zarr[4];
 
     /* Deal easily with the cases where the quartic is degenerate. The
      * ordering of solutions is done explicitly. */
@@ -106,7 +106,7 @@ int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
         aa = a * a;
         pp = b - (THREE/EIGHT) * aa;
         qq = c - (ONE/TWO) * a * (b - (ONE/FOUR) * aa);
-        rr = d - (ONE/FOUR) * (a * c - (ONE/FOUR) * aa * (b - (THREE/FT(16)) * aa));
+        rr = d - (ONE/FOUR) * (a * c - (ONE/FOUR) * aa * (b - (THREE/FT_(16)) * aa));
         rc = (ONE/TWO) * pp;
         sc = (ONE/FOUR) * ((ONE/FOUR) * pp * pp - rr);
         tc = -((ONE/EIGHT) * qq * (ONE/EIGHT) * qq);
@@ -120,19 +120,19 @@ int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
          * calculates the discriminant of the cubic and puts it into the
          * variable disc. */
         {
-            FT qcub = (rc * rc - THREE * sc);
-            FT rcub = (TWO * rc * rc * rc - NINE * rc * sc + FT(27.0) * tc);
+            FT_ qcub = (rc * rc - THREE * sc);
+            FT_ rcub = (TWO * rc * rc * rc - NINE * rc * sc + FT_(27.0) * tc);
 
-            FT Q = qcub / NINE;
-            FT R = rcub / FT(54.0);
+            FT_ Q = qcub / NINE;
+            FT_ R = rcub / FT_(54.0);
 
-            FT Q3 = Q * Q * Q;
-            FT R2 = R * R;
+            FT_ Q3 = Q * Q * Q;
+            FT_ R2 = R * R;
 
-            FT CR2 = FT(729.0) * rcub * rcub;
-            FT CQ3 = FT(2916.0) * qcub * qcub * qcub;
+            FT_ CR2 = FT_(729.0) * rcub * rcub;
+            FT_ CQ3 = FT_(2916.0) * qcub * qcub * qcub;
 
-            disc = (CR2 - CQ3) / FT(2125764.0);
+            disc = (CR2 - CQ3) / FT_(2125764.0);
 
             if (ZERO == R && ZERO == Q)
             {
@@ -142,7 +142,7 @@ int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
             }
             else if (CR2 == CQ3)
             {
-                FT sqrtQ = sqrt (Q);
+                FT_ sqrtQ = sqrt (Q);
                 if (R > ZERO)
                 {
                     u[0] = -TWO * sqrtQ - rc / THREE;
@@ -158,26 +158,26 @@ int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
             }
             else if (CR2 < CQ3)
             {
-                FT sqrtQ = sqrt (Q);
-                FT sqrtQ3 = sqrtQ * sqrtQ * sqrtQ;
-                FT theta = acos (R / sqrtQ3);
+                FT_ sqrtQ = sqrt (Q);
+                FT_ sqrtQ3 = sqrtQ * sqrtQ * sqrtQ;
+                FT_ theta = acos (R / sqrtQ3);
                 if (R / sqrtQ3 >= ONE) theta = ZERO;
                 {
-                    FT norm = -TWO * sqrtQ;
+                    FT_ norm = -TWO * sqrtQ;
 
                     u[0] = norm * cos (theta / THREE) - rc / THREE;
-                    u[1] = norm * cos ((theta + TWO * pi<FT>()) / THREE) - rc / THREE;
-                    u[2] = norm * cos ((theta - TWO * pi<FT>()) / THREE) - rc / THREE;
+                    u[1] = norm * cos ((theta + TWO * pi<FT_>()) / THREE) - rc / THREE;
+                    u[2] = norm * cos ((theta - TWO * pi<FT_>()) / THREE) - rc / THREE;
                 }
             }
             else
             {
-                FT sgnR = (R >= ZERO ? ONE : -ONE);
-                FT modR = fabs (R);
-                FT sqrt_disc = sqrt (R2 - Q3);
-                FT A = -sgnR * pow (modR + sqrt_disc, ONE / THREE);
-                FT B = Q / A;
-                FT mod_diffAB = fabs (A - B);
+                FT_ sgnR = (R >= ZERO ? ONE : -ONE);
+                FT_ modR = fabs (R);
+                FT_ sqrt_disc = sqrt (R2 - Q3);
+                FT_ A = -sgnR * pow (modR + sqrt_disc, ONE / THREE);
+                FT_ B = Q / A;
+                FT_ mod_diffAB = fabs (A - B);
 
                 u[0] = A + B - rc / THREE;
                 u[1] = -HALF * (A + B) - rc / THREE;

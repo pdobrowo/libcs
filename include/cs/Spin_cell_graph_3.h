@@ -46,18 +46,18 @@ namespace CS
 // * zero quadrics are forbidden
 //
 // Predicate_type is Predicate_tt_3 or Predicate_bb_3
-template<class K,
+template<class Kernel_,
          class Predicate_,
 #if 1
-         class Spin_sample_generator_ = Spin_QC_sample_generator_3<K>
+         class Spin_sample_generator_ = Spin_QC_sample_generator_3<Kernel_>
 #else
          class Spin_sample_generator_ = Spin_straight_sample_generator_3<K>
 #endif
          >
 class Spin_cell_graph_3
 {
-    typedef typename K::FT                          FT;
-    typedef typename K::Spin_quadric_3              Spin_quadric_3;
+    typedef typename Kernel_::FT                          FT;
+    typedef typename Kernel_::Spin_quadric_3              Spin_quadric_3;
     typedef Spin_sample_generator_                  Spin_sample_generator;
 
     // sub-predicates

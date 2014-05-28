@@ -21,15 +21,15 @@
 
 namespace CS
 {
-template<typename FT>
-FT uniform_rand()
+template<typename FT_>
+FT_ uniform_rand()
 {
     // generate uniform random on [0; 1]
-    return FT(rand()) / FT(RAND_MAX);
+    return FT_(rand()) / FT_(RAND_MAX);
 }
 
-template<class FT>
-void uniform_random_spin_3(Spin_3<FT> &out)
+template<class FT_>
+void uniform_random_spin_3(Spin_3<FT_> &out)
 {
     using Math::pi;
 
@@ -38,15 +38,15 @@ void uniform_random_spin_3(Spin_3<FT> &out)
     // K. Shoemake.
     // Uniform random rotations.
     // In D. Kirk, editor, Graphics Gems III, pages 124-132. Academic, New York, 1992.
-    FT u1, u2, u3;
+    FT_ u1, u2, u3;
 
-    u1 = uniform_rand<FT>();
-    u2 = uniform_rand<FT>();
-    u3 = uniform_rand<FT>();
+    u1 = uniform_rand<FT_>();
+    u2 = uniform_rand<FT_>();
+    u3 = uniform_rand<FT_>();
 
-    const FT ONE    = 1.0;
-    const FT TWO    = 2.0;
-    const FT TWO_PI = TWO * pi<FT>();
+    const FT_ ONE    = 1.0;
+    const FT_ TWO    = 2.0;
+    const FT_ TWO_PI = TWO * pi<FT_>();
 
     // take math functions from std
     using std::sqrt;
@@ -59,7 +59,7 @@ void uniform_random_spin_3(Spin_3<FT> &out)
     using Math::cos;
 
     // calculate
-    out = Spin_3<FT>(sqrt(ONE - u1) * sin(TWO_PI * u2),
+    out = Spin_3<FT_>(sqrt(ONE - u1) * sin(TWO_PI * u2),
                      sqrt(ONE - u1) * cos(TWO_PI * u2),
                      sqrt(u1) * sin(TWO_PI * u3),
                      sqrt(u1) * cos(TWO_PI * u3));

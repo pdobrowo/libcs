@@ -46,8 +46,8 @@ CGAL::Gmpfr atan2(const CGAL::Gmpfr &y, const CGAL::Gmpfr &x);
 CGAL::Gmpfr sqrt(const CGAL::Gmpfr &x);
 CGAL::Gmpfr fabs(const CGAL::Gmpfr &x);
 
-template<class FT>
-FT pi();
+template<class FT_>
+FT_ pi();
 
 template<>
 float pi<float>();

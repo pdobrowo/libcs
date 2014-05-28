@@ -21,23 +21,25 @@
 
 namespace CS
 {
-
-template<class K, class FT>
-Spin_QC_inexact_sample_generator_3<K, FT>::Spin_QC_inexact_sample_generator_3()
+template<class Kernel_, class FT_>
+Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::Spin_QC_inexact_sample_generator_3()
     : m_logger(log4cxx::Logger::getLogger("CS.Spin_QC_inexact_sample_generator_3"))
 {
 }
 
-template<class K, class FT>
-template<typename Spin_quadric_iterator>
-void Spin_QC_inexact_sample_generator_3<K, FT>::fetch(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end)
+template<class Kernel_, class FT_>
+template<typename Spin_quadric_iterator_>
+void Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::fetch(Spin_quadric_iterator_ quadrics_begin, Spin_quadric_iterator_ quadrics_end)
 {
+    typedef Kernel_ Kernel;
+    typedef FT_ FT;
+
     // random rotation spin
     Spin_3<FT> random_rotation;
     uniform_random_spin_3(random_rotation);
 
     // random spin circle
-    Random_spin_circle_3<K> random_circle(random_rotation);
+    Random_spin_circle_3<Kernel> random_circle(random_rotation);
 
     // circle domain cuts
     std::vector<FT> circle_cuts;
@@ -46,7 +48,7 @@ void Spin_QC_inexact_sample_generator_3<K, FT>::fetch(Spin_quadric_iterator quad
     size_t number_of_solutions, index;
 
     // generate QC intersections
-    for (Spin_quadric_iterator iterator = quadrics_begin; iterator != quadrics_end; ++iterator)
+    for (Spin_quadric_iterator_ iterator = quadrics_begin; iterator != quadrics_end; ++iterator)
     {
         number_of_solutions = random_circle.intersect_quadric(*iterator, solutions);
 
@@ -104,9 +106,9 @@ void Spin_QC_inexact_sample_generator_3<K, FT>::fetch(Spin_quadric_iterator quad
 //  LOG4CXX_DEBUG(m_logger, "Fetched " << m_cached_samples.size() << " samples");
 }
 
-template<class K, class FT>
+template<class Kernel_, class FT_>
 template<typename Spin_quadric_iterator>
-void Spin_QC_inexact_sample_generator_3<K, FT>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
+void Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
 {
     Spin_quadric_iterator next;
 
@@ -133,7 +135,7 @@ void Spin_QC_inexact_sample_generator_3<K, FT>::operator()(Spin_quadric_iterator
 
 qc_failed:
     // return whatever - better luck next time
-    Spin_straight_sample_generator_3<K, FT> straight_generator;
+    Spin_straight_sample_generator_3<Kernel_, FT_> straight_generator;
     straight_generator(quadrics_begin, quadrics_end, sample);
 }
 } // namespace CS

@@ -27,11 +27,11 @@
 
 namespace CS
 {
-template<class FT>
-void check_spin_3_norm(const FT &s12, const FT &s23, const FT &s31, const FT &s0);
+template<class FT_>
+void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0);
 
-template<class FT>
-void check_spin_3_norm(const FT &s12, const FT &s23, const FT &s31, const FT &s0);
+template<class FT_>
+void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0);
 
 template<>
 void check_spin_3_norm<float>(const float &s12, const float &s23, const float &s31, const float &s0);
@@ -42,14 +42,14 @@ void check_spin_3_norm<double>(const double &s12, const double &s23, const doubl
 template<>
 void check_spin_3_norm<CGAL::Gmpfr>(const CGAL::Gmpfr &s12, const CGAL::Gmpfr &s23, const CGAL::Gmpfr &s31, const CGAL::Gmpfr &s0);
 
-template<class FT>
+template<class FT_>
 class Spin_3;
 
-template<class FT>
-bool operator ==(const Spin_3<FT> &lhs, const Spin_3<FT> &rhs);
+template<class FT_>
+bool operator ==(const Spin_3<FT_> &lhs, const Spin_3<FT_> &rhs);
 
-template<class FT>
-std::ostream &operator <<(std::ostream &stream, const Spin_3<FT> &spin);
+template<class FT_>
+std::ostream &operator <<(std::ostream &stream, const Spin_3<FT_> &spin);
 
 template<class FT_>
 class Spin_3

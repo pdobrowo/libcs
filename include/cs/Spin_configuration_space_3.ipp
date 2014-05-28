@@ -28,15 +28,15 @@
 
 namespace CS
 {
-template<class K, class P, class R>
-Spin_configuration_space_3<K, P, R>::Spin_configuration_space_3()
+template<class Kernel_, class Predicate_, class Representation_>
+Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Spin_configuration_space_3()
     : m_logger(log4cxx::Logger::getLogger("CS.Spin_configuration_space_3"))
 {
 }
 
-template<class K, class P, class R>
+template<class Kernel_, class Predicate_, class Representation_>
 template<typename RobotInputIterator, typename ObstacleInputIterator>
-void Spin_configuration_space_3<K, P, R>::create_from_scene(
+void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_from_scene(
         RobotInputIterator robot_begin, RobotInputIterator robot_end,
         ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
         const Parameters &parameters)
@@ -123,8 +123,8 @@ void Spin_configuration_space_3<K, P, R>::create_from_scene(
     LOG4CXX_INFO(m_logger, "Configuration space created [" << (timer_all_end - timer_all_start) << " ms]");
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Route Spin_configuration_space_3<K, P, R>::find_route(const Sample &begin, const Sample &end)
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Route Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::find_route(const Sample &begin, const Sample &end)
 {
     LOG4CXX_INFO(m_logger, "Find route: " << begin << " -> " << end);
 
@@ -139,70 +139,70 @@ typename Spin_configuration_space_3<K, P, R>::Route Spin_configuration_space_3<K
     return rep().find_route(normalized_begin, normalized_end);
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Representation &Spin_configuration_space_3<K, P, R>::rep()
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Representation &Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::rep()
 {
     assert(!!m_representation);
     return *m_representation;
 }
 
-template<class K, class P, class R>
-const typename Spin_configuration_space_3<K, P, R>::Representation &Spin_configuration_space_3<K, P, R>::rep() const
+template<class Kernel_, class Predicate_, class Representation_>
+const typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Representation &Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::rep() const
 {
     assert(!!m_representation);
     return *m_representation;
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Spin_quadric_const_iterator Spin_configuration_space_3<K, P, R>::spin_quadrics_begin() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Spin_quadric_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::spin_quadrics_begin() const
 {
     return m_spin_quadrics.begin();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Spin_quadric_const_iterator Spin_configuration_space_3<K, P, R>::spin_quadrics_end() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Spin_quadric_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::spin_quadrics_end() const
 {
     return m_spin_quadrics.end();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Spin_quadric_size_type Spin_configuration_space_3<K, P, R>::size_of_spin_quadrics() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Spin_quadric_size_type Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::size_of_spin_quadrics() const
 {
     return m_spin_quadrics.size();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Predicate_const_iterator Spin_configuration_space_3<K, P, R>::predicates_begin() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Predicate_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::predicates_begin() const
 {
     return m_predicates.begin();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Predicate_const_iterator Spin_configuration_space_3<K, P, R>::predicates_end() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Predicate_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::predicates_end() const
 {
     return m_predicates.end();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::Predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_predicates() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Predicate_size_type Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::size_of_predicates() const
 {
     return m_predicates.size();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::General_predicate_const_iterator Spin_configuration_space_3<K, P, R>::general_predicates_begin() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::General_predicate_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::general_predicates_begin() const
 {
     return m_general_predicates.begin();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::General_predicate_const_iterator Spin_configuration_space_3<K, P, R>::general_predicates_end() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::General_predicate_const_iterator Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::general_predicates_end() const
 {
     return m_general_predicates.end();
 }
 
-template<class K, class P, class R>
-typename Spin_configuration_space_3<K, P, R>::General_predicate_size_type Spin_configuration_space_3<K, P, R>::size_of_general_predicates() const
+template<class Kernel_, class Predicate_, class Representation_>
+typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::General_predicate_size_type Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::size_of_general_predicates() const
 {
     return m_general_predicates.size();
 }

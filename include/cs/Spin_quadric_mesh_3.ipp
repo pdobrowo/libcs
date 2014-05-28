@@ -85,8 +85,8 @@ int main (int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 */
-template<class R>
-typename Spin_quadric_mesh_3<R>::FT Spin_quadric_mesh_3<R>::evaluate_with_sign(Point_3 p, FT sign)
+template<class Kernel_>
+typename Spin_quadric_mesh_3<Kernel_>::FT Spin_quadric_mesh_3<Kernel_>::evaluate_with_sign(Point_3 p, FT sign)
 {
     FT squared_length = p.x() * p.x() + p.y() * p.y() + p.z() * p.z();
 
@@ -109,20 +109,20 @@ typename Spin_quadric_mesh_3<R>::FT Spin_quadric_mesh_3<R>::evaluate_with_sign(P
                       m_a34 * p.z() * pw));
 }
 
-template<class R>
-typename Spin_quadric_mesh_3<R>::FT Spin_quadric_mesh_3<R>::evaluate_left(Point_3 p)
+template<class Kernel_>
+typename Spin_quadric_mesh_3<Kernel_>::FT Spin_quadric_mesh_3<Kernel_>::evaluate_left(Point_3 p)
 {
     return evaluate_with_sign(p, FT(-1));
 }
 
-template<class R>
-typename Spin_quadric_mesh_3<R>::FT Spin_quadric_mesh_3<R>::evaluate_right(Point_3 p)
+template<class Kernel_>
+typename Spin_quadric_mesh_3<Kernel_>::FT Spin_quadric_mesh_3<Kernel_>::evaluate_right(Point_3 p)
 {
     return evaluate_with_sign(p, FT(1));
 }
 
-template<class R>
-typename Spin_quadric_mesh_3<R>::Vector_3 Spin_quadric_mesh_3<R>::evaluate_gradient(Point_3 p, FT sign)
+template<class Kernel_>
+typename Spin_quadric_mesh_3<Kernel_>::Vector_3 Spin_quadric_mesh_3<Kernel_>::evaluate_gradient(Point_3 p, FT sign)
 {
     FT x = p.x();
     FT y = p.y();
@@ -150,9 +150,9 @@ typename Spin_quadric_mesh_3<R>::Vector_3 Spin_quadric_mesh_3<R>::evaluate_gradi
     }
 }
 
-template<class R>
+template<class Kernel_>
 template<typename OutputIterator>
-void Spin_quadric_mesh_3<R>::mesh_triangle_soup(
+void Spin_quadric_mesh_3<Kernel_>::mesh_triangle_soup(
         OutputIterator output_iterator_left,
         OutputIterator output_iterator_right,
         double angular_bound,
@@ -171,9 +171,9 @@ void Spin_quadric_mesh_3<R>::mesh_triangle_soup(
     mesh_internal_triangle_soup(output_iterator_right, triangulation_right, c2t3_right, FT(1));
 }
 
-template<class R>
+template<class Kernel_>
 template<typename OutputIterator>
-void Spin_quadric_mesh_3<R>::mesh_internal_triangle_soup(
+void Spin_quadric_mesh_3<Kernel_>::mesh_internal_triangle_soup(
         OutputIterator output_iterator,
         Surface_mesh_triangulation_3 &triangulation,
         Complex_2_in_triangulation_3 &c2t3,
@@ -302,8 +302,8 @@ void Spin_quadric_mesh_3<R>::mesh_internal_triangle_soup(
     CGAL_assertion(nb_facets == number_of_facets);
 }
 
-template<class R>
-Spin_quadric_mesh_3<R>::Spin_quadric_mesh_3(const Spin_quadric_3<R> &spin_quadric)
+template<class Kernel_>
+Spin_quadric_mesh_3<Kernel_>::Spin_quadric_mesh_3(const Spin_quadric_3<Kernel_> &spin_quadric)
     : m_spin_quadric(spin_quadric)
 {
     // doublify quadric coefficients
@@ -319,8 +319,8 @@ Spin_quadric_mesh_3<R>::Spin_quadric_mesh_3(const Spin_quadric_3<R> &spin_quadri
     m_a44 = to_double(m_spin_quadric.a44());
 }
 
-template<class R>
-void Spin_quadric_mesh_3<R>::mesh_polyhedron(
+template<class Kernel_>
+void Spin_quadric_mesh_3<Kernel_>::mesh_polyhedron(
         Polyhedron_3 &polyhedron_left,
         Polyhedron_3 &polyhedron_right,
         double angular_bound,
@@ -339,8 +339,8 @@ void Spin_quadric_mesh_3<R>::mesh_polyhedron(
     CGAL::output_surface_facets_to_polyhedron(c2t3_right, polyhedron_right);
 }
 
-template<class R>
-void Spin_quadric_mesh_3<R>::mesh_surface_triangulation(
+template<class Kernel_>
+void Spin_quadric_mesh_3<Kernel_>::mesh_surface_triangulation(
         Surface_mesh_triangulation_3 &triangulation_left,
         Surface_mesh_triangulation_3 &triangulation_right,
         double angular_bound,
@@ -353,8 +353,8 @@ void Spin_quadric_mesh_3<R>::mesh_surface_triangulation(
     mesh_internal_complex_in_triangulation(c2t3_left, c2t3_right, angular_bound, radius_bound, distance_bound);
 }
 
-template<class R>
-void Spin_quadric_mesh_3<R>::mesh_internal_complex_in_triangulation(
+template<class Kernel_>
+void Spin_quadric_mesh_3<Kernel_>::mesh_internal_complex_in_triangulation(
         Complex_2_in_triangulation_3 &c2t3_left,
         Complex_2_in_triangulation_3 &c2t3_right,
         double angular_bound,
@@ -366,11 +366,11 @@ void Spin_quadric_mesh_3<R>::mesh_internal_complex_in_triangulation(
 
     // Implicit surface
     Implicit_surface_3 surface_left(
-        boost::bind(&Spin_quadric_mesh_3<R>::evaluate_left, this, _1),
+        boost::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_left, this, _1),
         Sphere_3(leftOrigin, 4.)); // 4 - square of maximum sphere radius for correct evaluation
 
     Implicit_surface_3 surface_right(
-        boost::bind(&Spin_quadric_mesh_3<R>::evaluate_right, this, _1),
+        boost::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_right, this, _1),
         Sphere_3(rightOrigin, 4.));
 
     // meshing criteria

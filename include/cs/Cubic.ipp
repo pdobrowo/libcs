@@ -23,27 +23,27 @@ namespace CS
 {
 namespace Math
 {
-template<class FT>
-int solve_cubic(const FT &a, const FT &b, const FT &c,
-                       FT *x0, FT *x1, FT *x2)
+template<class FT_>
+int solve_cubic(const FT_ &a, const FT_ &b, const FT_ &c,
+                FT_ *x0, FT_ *x1, FT_ *x2)
 {
-    const FT ZERO  = 0.0;
-    const FT ONE   = 1.0;
-    const FT TWO   = 2.0;
-    const FT THREE = 3.0;
-    const FT NINE  = 9.0;
+    const FT_ ZERO  = 0.0;
+    const FT_ ONE   = 1.0;
+    const FT_ TWO   = 2.0;
+    const FT_ THREE = 3.0;
+    const FT_ NINE  = 9.0;
 
-    FT q = (a * a - THREE * b);
-    FT r = (TWO * a * a * a - NINE * a * b + FT(27) * c);
+    FT_ q = (a * a - THREE * b);
+    FT_ r = (TWO * a * a * a - NINE * a * b + FT_(27) * c);
 
-    FT Q = q / NINE;
-    FT R = r / FT(54);
+    FT_ Q = q / NINE;
+    FT_ R = r / FT_(54);
 
-    FT Q3 = Q * Q * Q;
-    FT R2 = R * R;
+    FT_ Q3 = Q * Q * Q;
+    FT_ R2 = R * R;
 
-    FT CR2 = FT(729) * r * r;
-    FT CQ3 = FT(2916) * q * q * q;
+    FT_ CR2 = FT_(729) * r * r;
+    FT_ CQ3 = FT_(2916) * q * q * q;
 
     if (R == ZERO && Q == ZERO)
     {
@@ -61,7 +61,7 @@ int solve_cubic(const FT &a, const FT &b, const FT &c,
          considered to be a pair of complex roots z = x +/- epsilon i
          close to the real axis. */
 
-        FT sqrtQ = sqrt (Q);
+        FT_ sqrtQ = sqrt (Q);
 
         if (R > ZERO)
         {
@@ -79,13 +79,13 @@ int solve_cubic(const FT &a, const FT &b, const FT &c,
     }
     else if (R2 < Q3)
     {
-        FT sgnR = (R >= ZERO ? ONE : -ONE);
-        FT ratio = sgnR * sqrt (R2 / Q3);
-        FT theta = acos (ratio);
-        FT norm = -TWO * sqrt (Q);
+        FT_ sgnR = (R >= ZERO ? ONE : -ONE);
+        FT_ ratio = sgnR * sqrt (R2 / Q3);
+        FT_ theta = acos (ratio);
+        FT_ norm = -TWO * sqrt (Q);
         *x0 = norm * cos (theta / THREE) - a / THREE;
-        *x1 = norm * cos ((theta + TWO * pi<FT>()) / THREE) - a / THREE;
-        *x2 = norm * cos ((theta - TWO * pi<FT>()) / THREE) - a / THREE;
+        *x1 = norm * cos ((theta + TWO * pi<FT_>()) / THREE) - a / THREE;
+        *x2 = norm * cos ((theta - TWO * pi<FT_>()) / THREE) - a / THREE;
 
         /* Sort *x0, *x1, *x2 into increasing order */
 
@@ -104,9 +104,9 @@ int solve_cubic(const FT &a, const FT &b, const FT &c,
     }
     else
     {
-        FT sgnR = (R >= ZERO ? ONE : -ONE);
-        FT A = -sgnR * pow (fabs (R) + sqrt (R2 - Q3), ONE/THREE);
-        FT B = Q / A;
+        FT_ sgnR = (R >= ZERO ? ONE : -ONE);
+        FT_ A = -sgnR * pow (fabs (R) + sqrt (R2 - Q3), ONE/THREE);
+        FT_ B = Q / A;
         *x0 = A + B - a / THREE;
         return 1;
     }

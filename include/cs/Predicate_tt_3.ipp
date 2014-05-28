@@ -21,8 +21,8 @@
 
 namespace CS
 {
-template<class Kernel>
-Predicate_tt_3<Kernel>::Predicate_tt_3()
+template<class Kernel_>
+Predicate_tt_3<Kernel_>::Predicate_tt_3()
     : m_k(Vector_3(RT(0), RT(0), RT(0))),
       m_l(Vector_3(RT(0), RT(0), RT(0))),
       m_m(Vector_3(RT(0), RT(0), RT(0))),
@@ -32,8 +32,8 @@ Predicate_tt_3<Kernel>::Predicate_tt_3()
 {
 }
 
-template<class Kernel>
-Predicate_tt_3<Kernel>::Predicate_tt_3(
+template<class Kernel_>
+Predicate_tt_3<Kernel_>::Predicate_tt_3(
         const Vector_3  &k,
         const Vector_3  &l,
         const Vector_3  &m,
@@ -59,50 +59,50 @@ Predicate_tt_3<Kernel>::Predicate_tt_3(
     m_predicates[8] = Predicate_s_3(m_m, m_k, m_c, m_a);
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::k() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::k() const
 {
     return m_k;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::l() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::l() const
 {
     return m_l;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::m() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::m() const
 {
     return m_m;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::a() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::a() const
 {
     return m_a;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::b() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::b() const
 {
     return m_b;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Vector_3 &Predicate_tt_3<Kernel>::c() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Vector_3 &Predicate_tt_3<Kernel_>::c() const
 {
     return m_c;
 }
 
-template<class Kernel>
-const typename Predicate_tt_3<Kernel>::Predicate_s_3 *Predicate_tt_3<Kernel>::sub_predicates() const
+template<class Kernel_>
+const typename Predicate_tt_3<Kernel_>::Predicate_s_3 *Predicate_tt_3<Kernel_>::sub_predicates() const
 {
     return m_predicates;
 }
 
-template<class Kernel>
-bool Predicate_tt_3<Kernel>::evaluate(const bool *signs) const
+template<class Kernel_>
+bool Predicate_tt_3<Kernel_>::evaluate(const bool *signs) const
 {
 #if 1
     // note: sign is boolean

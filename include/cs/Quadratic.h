@@ -60,9 +60,9 @@ using Math::fabs;
 
 /* solve_quadratic.c - finds the real roots of a x^2 + b x + c = 0 */
 
-template<class FT>
-int solve_quadratic(const FT &a, const FT &b, const FT &c,
-                           FT *x0, FT *x1);
+template<class FT_>
+int solve_quadratic(const FT_ &a, const FT_ &b, const FT_ &c,
+                    FT_ *x0, FT_ *x1);
 
 } // namespace Math
 } // namespace CS

@@ -21,14 +21,14 @@
 
 namespace CS
 {
-template<class Polynomial_1, class RT>
+template<class Polynomial_1_, class RT_>
 CGAL::Uncertain<CGAL::Sign> polynomial_interval_sign_at(
-        const std::vector<Polynomial_1> &polynomials,
+        const std::vector<Polynomial_1_> &polynomials,
         const size_t &level,
-        const RT &low, const RT &high)
+        const RT_ &low, const RT_ &high)
 {
     // current polynomial
-    const Polynomial_1 &polynomial = polynomials[level];
+    const Polynomial_1_ &polynomial = polynomials[level];
 
     // if the polynomial degree is zero, there is a certain answer
     if (polynomial.degree() == 0)
@@ -75,20 +75,20 @@ CGAL::Uncertain<CGAL::Sign> polynomial_interval_sign_at(
     return CGAL::make_uncertain(CGAL::ZERO);
 }
 
-template<class Polynomial_1, class Algebraic_real_1>
+template<class Polynomial_1_, class Algebraic_real_1_>
 CGAL::Uncertain<CGAL::Sign> polynomial_sign_at(
-        const std::vector<Polynomial_1> &polynomials,
-        const Algebraic_real_1 &r)
+        const std::vector<Polynomial_1_> &polynomials,
+        const Algebraic_real_1_ &r)
 {
     CS_BENCHMARK_POINT();
 
     return polynomial_interval_sign_at(polynomials, 0, r.low(), r.high());
 }
 
-template<class Polynomial_1>
+template<class Polynomial_1_>
 void polynomial_sign_at_prepare(
-        const Polynomial_1 &polynomial,
-        std::vector<Polynomial_1> &polynomials)
+        const Polynomial_1_ &polynomial,
+        std::vector<Polynomial_1_> &polynomials)
 {
     CS_BENCHMARK_POINT();
 
@@ -99,7 +99,7 @@ void polynomial_sign_at_prepare(
     // always push initial polynomial
     polynomials.push_back(polynomial);
 
-    Polynomial_1 current_polynomial = polynomial;
+    Polynomial_1_ current_polynomial = polynomial;
 
     do
     {

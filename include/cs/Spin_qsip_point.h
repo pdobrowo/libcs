@@ -26,11 +26,11 @@ template<class Kernel_>
 class Spin_qsip_point
 {
 public:
-    typedef Kernel_                              R;
-    typedef typename Kernel_::Spin_qsic_3        Spin_qsic_3;
-    typedef typename Kernel_::Qsic_component     Qsic_component;
+    typedef Kernel_                             Kernel;
+    typedef typename Kernel::Spin_qsic_3        Spin_qsic_3;
+    typedef typename Kernel::Qsic_component     Qsic_component;
 
-    typedef typename Kernel_::Hom_root           Hom_root;
+    typedef typename Kernel::Hom_root           Hom_root;
 
     Spin_qsip_point(const Hom_root &root, const Qsic_component &component);
 

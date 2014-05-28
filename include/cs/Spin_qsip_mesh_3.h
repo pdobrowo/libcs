@@ -38,14 +38,14 @@ public:
     typedef typename Kernel_::Spin_qsip_3                                Spin_qsip_3;
     typedef typename Kernel_::Spin_qsic_mesh_3                           Spin_qsic_mesh_3;
     typedef typename Kernel_::Algebraic_kernel_with_sqrt                 Algebraic_kernel_with_sqrt;
-    typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1   Algebraic_real_1;
+    typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1       Algebraic_real_1;
 
-    typedef typename Spin_qsic_mesh_3::Spin_3                       Spin_3;
+    typedef typename Spin_qsic_mesh_3::Spin_3                           Spin_3;
 
     typedef typename Kernel_::Spin_qsip_point                            Spin_qsip_point;
     typedef typename Kernel_::Hom_root                                   Hom_root;
 
-    typedef Kernel_                                                      R;
+    typedef Kernel_                                                      Kernel;
 
 public:
     Spin_qsip_mesh_3(const Spin_qsip_3 &spin_qsip);

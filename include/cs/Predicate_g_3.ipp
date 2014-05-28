@@ -21,8 +21,8 @@
 
 namespace CS
 {
-template<class R>
-Predicate_g_3<R>::Predicate_g_3()
+template<class Kernel_>
+Predicate_g_3<Kernel_>::Predicate_g_3()
     : m_k(Vector_3(RT(0), RT(0), RT(0))),
       m_l(Vector_3(RT(0), RT(0), RT(0))),
       m_a(Vector_3(RT(0), RT(0), RT(0))),
@@ -31,8 +31,8 @@ Predicate_g_3<R>::Predicate_g_3()
 {
 }
 
-template<class R>
-Predicate_g_3<R>::Predicate_g_3(
+template<class Kernel_>
+Predicate_g_3<Kernel_>::Predicate_g_3(
         const Vector_3  &k,
         const Vector_3  &l,
         const Vector_3  &a,
@@ -46,8 +46,8 @@ Predicate_g_3<R>::Predicate_g_3(
 {
 }
 
-template<class R>
-Predicate_g_3<R>::Predicate_g_3(const Predicate_h_3 &h3)
+template<class Kernel_>
+Predicate_g_3<Kernel_>::Predicate_g_3(const Predicate_h_3 &h3)
 {
     Vector_3 v(h3.p().a(), h3.p().b(), h3.p().c());
     Vector_3 r = choose_r_vector(v);
@@ -63,8 +63,8 @@ Predicate_g_3<R>::Predicate_g_3(const Predicate_h_3 &h3)
     m_c = RT(2) * d * sq;
 }
 
-template<class R>
-Predicate_g_3<R>::Predicate_g_3(const Predicate_s_3 &s3)
+template<class Kernel_>
+Predicate_g_3<Kernel_>::Predicate_g_3(const Predicate_s_3 &s3)
     : m_k(s3.k()),
       m_l(s3.l()),
       m_a(s3.a()),
@@ -73,45 +73,58 @@ Predicate_g_3<R>::Predicate_g_3(const Predicate_s_3 &s3)
 {
 }
 
-template<class R>
-const typename Predicate_g_3<R>::Vector_3 &Predicate_g_3<R>::k() const
+template<class Kernel_>
+typename Predicate_g_3<Kernel_>::Vector_3 Predicate_g_3<Kernel_>::choose_r_vector(const Vector_3 &v)
+{
+    // choose a vector that is not parallel to v
+    // project the vector on a plane and take one orthogonal to it
+    if (v.x() != RT(0))
+        return Vector_3(-v.y(), v.x(), v.z()); // take x-y plane
+    else if (v.y() != RT(0))
+        return Vector_3(v.x(), -v.z(), v.y()); // take y-z plane
+    else
+        return Vector_3(v.z(), v.y(), -v.x()); // take z-x plane
+}
+
+template<class Kernel_>
+const typename Predicate_g_3<Kernel_>::Vector_3 &Predicate_g_3<Kernel_>::k() const
 {
     return m_k;
 }
 
-template<class R>
-const typename Predicate_g_3<R>::Vector_3 &Predicate_g_3<R>::l() const
+template<class Kernel_>
+const typename Predicate_g_3<Kernel_>::Vector_3 &Predicate_g_3<Kernel_>::l() const
 {
     return m_l;
 }
 
-template<class R>
-const typename Predicate_g_3<R>::Vector_3 &Predicate_g_3<R>::a() const
+template<class Kernel_>
+const typename Predicate_g_3<Kernel_>::Vector_3 &Predicate_g_3<Kernel_>::a() const
 {
     return m_a;
 }
 
-template<class R>
-const typename Predicate_g_3<R>::Vector_3 &Predicate_g_3<R>::b() const
+template<class Kernel_>
+const typename Predicate_g_3<Kernel_>::Vector_3 &Predicate_g_3<Kernel_>::b() const
 {
     return m_b;
 }
 
-template<class R>
-const typename Predicate_g_3<R>::RT &Predicate_g_3<R>::c() const
+template<class Kernel_>
+const typename Predicate_g_3<Kernel_>::RT &Predicate_g_3<Kernel_>::c() const
 {
     return m_c;
 }
 
-template<class R>
-Predicate_g_3<R> Predicate_g_3<R>::opposite() const
+template<class Kernel_>
+Predicate_g_3<Kernel_> Predicate_g_3<Kernel_>::opposite() const
 {
     // Swap k & l components or a & b components
-    return Predicate_g_3<R>(l(), k(), a(), b());
+    return Predicate_g_3<Kernel_>(l(), k(), a(), b());
 }
 
-template<class R>
-std::ostream &operator <<(std::ostream &os, const Predicate_g_3<R> &predicate)
+template<class Kernel_>
+std::ostream &operator <<(std::ostream &os, const Predicate_g_3<Kernel_> &predicate)
 {
     return (os << "[" << predicate.k() << ";" << predicate.l() << ";"
                       << predicate.a() << ";" << predicate.b() << ";"

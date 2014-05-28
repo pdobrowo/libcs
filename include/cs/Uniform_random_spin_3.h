@@ -28,11 +28,11 @@
 
 namespace CS
 {
-template<typename FT>
-FT uniform_rand();
+template<typename FT_>
+FT_ uniform_rand();
 
-template<class FT>
-void uniform_random_spin_3(Spin_3<FT> &out);
+template<class FT_>
+void uniform_random_spin_3(Spin_3<FT_> &out);
 } // namespace CS
 
 #include "Uniform_random_spin_3.ipp"

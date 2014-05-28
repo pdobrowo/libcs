@@ -21,41 +21,41 @@
 
 namespace CS
 {
-template<class R>
-Predicate_h_3<R>::Predicate_h_3()
+template<class Kernel_>
+Predicate_h_3<Kernel_>::Predicate_h_3()
     : m_b(Vector_3(RT(0), RT(0), RT(0))),
       m_p(Plane_3(RT(0), RT(0), RT(0), RT(0)))
 {
 }
 
-template<class R>
-Predicate_h_3<R>::Predicate_h_3(const Vector_3 &b,
+template<class Kernel_>
+Predicate_h_3<Kernel_>::Predicate_h_3(const Vector_3 &b,
                                 const Plane_3 &p)
     : m_b(b),
       m_p(p)
 {
 }
 
-template<class R>
-const typename Predicate_h_3<R>::Vector_3 &Predicate_h_3<R>::b() const
+template<class Kernel_>
+const typename Predicate_h_3<Kernel_>::Vector_3 &Predicate_h_3<Kernel_>::b() const
 {
     return m_b;
 }
 
-template<class R>
-const typename Predicate_h_3<R>::Plane_3 &Predicate_h_3<R>::p() const
+template<class Kernel_>
+const typename Predicate_h_3<Kernel_>::Plane_3 &Predicate_h_3<Kernel_>::p() const
 {
     return m_p;
 }
 
-template<class R>
-Predicate_h_3<R> Predicate_h_3<R>::opposite() const
+template<class Kernel_>
+Predicate_h_3<Kernel_> Predicate_h_3<Kernel_>::opposite() const
 {
-    return Predicate_h_3<R>(b(), p().opposite());
+    return Predicate_h_3<Kernel_>(b(), p().opposite());
 }
 
-template<class R>
-std::ostream &operator <<(std::ostream &os, const Predicate_h_3<R> &predicate)
+template<class Kernel_>
+std::ostream &operator <<(std::ostream &os, const Predicate_h_3<Kernel_> &predicate)
 {
     return (os << "[" << predicate.b() << ";" << predicate.p() << "]");
 }

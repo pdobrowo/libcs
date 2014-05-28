@@ -90,9 +90,9 @@ public:
     Spin_configuration_space_3();
 
     // scene from primitives
-    template<typename RobotInputIterator, typename ObstacleInputIterator>
-    void                                    create_from_scene(RobotInputIterator robot_begin, RobotInputIterator robot_end,
-                                                              ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
+    template<typename RobotInputIterator_, typename ObstacleInputIterator_>
+    void                                    create_from_scene(RobotInputIterator_ robot_begin, RobotInputIterator_ robot_end,
+                                                              ObstacleInputIterator_ obstacle_begin, ObstacleInputIterator_ obstacle_end,
                                                               const Parameters &parameters = Parameters());
 
     // route finder

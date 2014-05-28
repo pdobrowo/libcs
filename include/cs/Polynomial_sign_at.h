@@ -35,21 +35,21 @@ namespace CS
  * By using polynomial sign at point, and polynomial differential it is possible
  * to deduce what the sign of whole interval is.
  */
-template<class Polynomial_1, class RT>
+template<class Polynomial_1_, class RT_>
 CGAL::Uncertain<CGAL::Sign> polynomial_interval_sign_at(
-        const std::vector<Polynomial_1> &polynomials,
+        const std::vector<Polynomial_1_> &polynomials,
         const size_t &level,
-        const RT &low, const RT &high);
+        const RT_ &low, const RT_ &high);
 
-template<class Polynomial_1, class Algebraic_real_1>
+template<class Polynomial_1_, class Algebraic_real_1_>
 CGAL::Uncertain<CGAL::Sign> polynomial_sign_at(
-        const std::vector<Polynomial_1> &polynomials,
-        const Algebraic_real_1 &r);
+        const std::vector<Polynomial_1_> &polynomials,
+        const Algebraic_real_1_ &r);
 
-template<class Polynomial_1>
+template<class Polynomial_1_>
 void polynomial_sign_at_prepare(
-        const Polynomial_1 &polynomial,
-        std::vector<Polynomial_1> &polynomials);
+        const Polynomial_1_ &polynomial,
+        std::vector<Polynomial_1_> &polynomials);
 
 } // namespace CS
 

@@ -26,40 +26,40 @@
 
 namespace CS
 {
-template <class R_>
+template <class Kernel_>
 class Smooth_triangle_3
 {
 public:
-    typedef CGAL::Point_3<R_> Point_3;
-    typedef CGAL::Vector_3<R_> Vector_3;
-    typedef CGAL::Triangle_3<R_> Triangle_3;
+    typedef CGAL::Point_3<Kernel_> Point_3;
+    typedef CGAL::Vector_3<Kernel_> Vector_3;
+    typedef CGAL::Triangle_3<Kernel_> Triangle_3;
 
     Smooth_triangle_3();
 
-    Smooth_triangle_3(const CGAL::Triangle_3<R_> &triangle);
+    Smooth_triangle_3(const CGAL::Triangle_3<Kernel_> &triangle);
 
-    Smooth_triangle_3(const CGAL::Point_3<R_> &v0,
-                      const CGAL::Point_3<R_> &v1,
-                      const CGAL::Point_3<R_> &v2);
+    Smooth_triangle_3(const CGAL::Point_3<Kernel_> &v0,
+                      const CGAL::Point_3<Kernel_> &v1,
+                      const CGAL::Point_3<Kernel_> &v2);
 
-    Smooth_triangle_3(const CGAL::Triangle_3<R_> &triangle,
-                      const CGAL::Vector_3<R_> &normal_0,
-                      const CGAL::Vector_3<R_> &normal_1,
-                      const CGAL::Vector_3<R_> &normal_2);
+    Smooth_triangle_3(const CGAL::Triangle_3<Kernel_> &triangle,
+                      const CGAL::Vector_3<Kernel_> &normal_0,
+                      const CGAL::Vector_3<Kernel_> &normal_1,
+                      const CGAL::Vector_3<Kernel_> &normal_2);
 
-    const CGAL::Triangle_3<R_>    &triangle() const;
-    const CGAL::Vector_3<R_>      &normal_0() const;
-    const CGAL::Vector_3<R_>      &normal_1() const;
-    const CGAL::Vector_3<R_>      &normal_2() const;
+    const CGAL::Triangle_3<Kernel_>    &triangle() const;
+    const CGAL::Vector_3<Kernel_>      &normal_0() const;
+    const CGAL::Vector_3<Kernel_>      &normal_1() const;
+    const CGAL::Vector_3<Kernel_>      &normal_2() const;
 
-    CGAL::Point_3<R_> vertex(int i) const;
-    CGAL::Point_3<R_> operator[](int i) const;
+    CGAL::Point_3<Kernel_> vertex(int i) const;
+    CGAL::Point_3<Kernel_> operator[](int i) const;
 
 private:
-    CGAL::Triangle_3<R_>    m_triangle;
-    CGAL::Vector_3<R_>      m_normal_0;
-    CGAL::Vector_3<R_>      m_normal_1;
-    CGAL::Vector_3<R_>      m_normal_2;
+    CGAL::Triangle_3<Kernel_>    m_triangle;
+    CGAL::Vector_3<Kernel_>      m_normal_0;
+    CGAL::Vector_3<Kernel_>      m_normal_1;
+    CGAL::Vector_3<Kernel_>      m_normal_2;
 };
 } // namespace CS
 

@@ -51,12 +51,14 @@ namespace CS
 // International Journal of Robotics Research, IJRR 2009
 //
 // Predicate_type is Predicate_tt_3 or Predicate_bb_3
-template<class K,
+template<class Kernel_,
          class Predicate_>
 class Spin_raster_graph_3
 {
-    typedef typename K::FT                          FT;
-    typedef typename K::Spin_quadric_3              Spin_quadric_3;
+    typedef Kernel_ Kernel;
+
+    typedef typename Kernel::FT                          FT;
+    typedef typename Kernel::Spin_quadric_3              Spin_quadric_3;
 
     // sub-predicates
     typedef Predicate_                              Predicate;

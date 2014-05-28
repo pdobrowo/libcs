@@ -83,13 +83,13 @@ private:
     Vector_3 evaluate_gradient(Point_3 p, FT sign);
 
 public:
-    typedef Kernel_                             R;
+    typedef Kernel_                             Kernel;
     typedef CGAL::Polyhedron_3<CGAL::Epick>     Polyhedron_3;
 
     /*
      * Construct a mesher for a spin quadric
      */
-    Spin_quadric_mesh_3(const Spin_quadric_3<R> &spin_quadric);
+    Spin_quadric_mesh_3(const Spin_quadric_3<Kernel> &spin_quadric);
 
     /*
      * Mesh to a polyhedron
@@ -139,7 +139,7 @@ private:
             double radius_bound,
             double distance_bound);
 
-    const Spin_quadric_3<R> &       m_spin_quadric;
+    const Spin_quadric_3<Kernel> &       m_spin_quadric;
 };
 } // namespace CS
 

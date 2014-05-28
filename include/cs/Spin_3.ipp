@@ -21,11 +21,11 @@
 
 namespace CS
 {
-template<class FT>
-void check_spin_3_norm(const FT &s12, const FT &s23, const FT &s31, const FT &s0)
+template<class FT_>
+void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0)
 {
     // exact checking
-    assert(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0 == FT(1));
+    assert(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0 == FT_(1));
 }
 
 template<class FT_>
@@ -210,8 +210,8 @@ Spin_3<FT> slerp(const Spin_3<FT> &spin_0, const Spin_3<FT> &spin_1, double time
     }
 }
 
-template<class FT>
-std::ostream &operator <<(std::ostream &stream, const Spin_3<FT> &spin)
+template<class FT_>
+std::ostream &operator <<(std::ostream &stream, const Spin_3<FT_> &spin)
 {
     stream << spin.m_s12 << " * e_12 + "
            << spin.m_s23 << " * e_23 + "

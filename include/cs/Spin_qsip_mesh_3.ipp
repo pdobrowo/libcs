@@ -21,21 +21,21 @@
 
 namespace CS
 {
-template<class R>
-Spin_qsip_mesh_3<R>::Spin_qsip_mesh_3(const Spin_qsip_3 &spin_qsip)
+template<class Kernel_>
+Spin_qsip_mesh_3<Kernel_>::Spin_qsip_mesh_3(const Spin_qsip_3 &spin_qsip)
     : m_spin_qsip(spin_qsip)
 {
 }
 
-template<class R>
-size_t Spin_qsip_mesh_3<R>::size_of_points() const
+template<class Kernel_>
+size_t Spin_qsip_mesh_3<Kernel_>::size_of_points() const
 {
     // forward
     return m_spin_qsip.size_of_points();
 }
 
-template<class R>
-void Spin_qsip_mesh_3<R>::mesh_point(Spin_3 &outSpin, size_t index) const
+template<class Kernel_>
+void Spin_qsip_mesh_3<Kernel_>::mesh_point(Spin_3 &outSpin, size_t index) const
 {
     // refine point up to maximum in Epick
     Spin_qsip_point point = m_spin_qsip.point_at(index);

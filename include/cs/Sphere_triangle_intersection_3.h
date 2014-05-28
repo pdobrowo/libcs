@@ -24,12 +24,12 @@
 
 namespace CS
 {
-template<class K>
-typename K::RT dot_product(const CGAL::Vector_3<K> &v, const CGAL::Vector_3<K> &w);
+template<class Kernel_>
+typename Kernel_::RT dot_product(const CGAL::Vector_3<Kernel_> &v, const CGAL::Vector_3<Kernel_> &w);
 
-template<class K>
-bool sphere_triangle_intersection_3(const CGAL::Vector_3<K> &A_, const CGAL::Vector_3<K> &B_, const CGAL::Vector_3<K> &C_,
-                                    const typename K::RT &rr, const CGAL::Vector_3<K> &P);
+template<class Kernel_>
+bool sphere_triangle_intersection_3(const CGAL::Vector_3<Kernel_> &A_, const CGAL::Vector_3<Kernel_> &B_, const CGAL::Vector_3<Kernel_> &C_,
+                                    const typename Kernel_::RT &rr, const CGAL::Vector_3<Kernel_> &P);
 
 } // namespace CS
 

@@ -21,32 +21,32 @@
 
 namespace CS
 {
-template <class R_>
-Smooth_triangle_3<R_>::Smooth_triangle_3()
+template<class Kernel_>
+Smooth_triangle_3<Kernel_>::Smooth_triangle_3()
 {
 }
 
-template <class R_>
-Smooth_triangle_3<R_>::Smooth_triangle_3(const CGAL::Triangle_3<R_> &triangle)
+template<class Kernel_>
+Smooth_triangle_3<Kernel_>::Smooth_triangle_3(const CGAL::Triangle_3<Kernel_> &triangle)
     : m_triangle(triangle)
 {
 }
 
-template <class R_>
-Smooth_triangle_3<R_>::Smooth_triangle_3(
-        const CGAL::Point_3<R_> &v0,
-        const CGAL::Point_3<R_> &v1,
-        const CGAL::Point_3<R_> &v2)
-    : m_triangle(CGAL::Triangle_3<R_>(v0, v1, v2))
+template<class Kernel_>
+Smooth_triangle_3<Kernel_>::Smooth_triangle_3(
+        const CGAL::Point_3<Kernel_> &v0,
+        const CGAL::Point_3<Kernel_> &v1,
+        const CGAL::Point_3<Kernel_> &v2)
+    : m_triangle(CGAL::Triangle_3<Kernel_>(v0, v1, v2))
 {
 }
 
-template <class R_>
-Smooth_triangle_3<R_>::Smooth_triangle_3(
-        const CGAL::Triangle_3<R_> &triangle,
-        const CGAL::Vector_3<R_> &normal_0,
-        const CGAL::Vector_3<R_> &normal_1,
-        const CGAL::Vector_3<R_> &normal_2)
+template<class Kernel_>
+Smooth_triangle_3<Kernel_>::Smooth_triangle_3(
+        const CGAL::Triangle_3<Kernel_> &triangle,
+        const CGAL::Vector_3<Kernel_> &normal_0,
+        const CGAL::Vector_3<Kernel_> &normal_1,
+        const CGAL::Vector_3<Kernel_> &normal_2)
     : m_triangle(triangle),
       m_normal_0(normal_0),
       m_normal_1(normal_1),
@@ -54,38 +54,38 @@ Smooth_triangle_3<R_>::Smooth_triangle_3(
 {
 }
 
-template <class R_>
-CGAL::Point_3<R_> Smooth_triangle_3<R_>::vertex(int i) const
+template<class Kernel_>
+CGAL::Point_3<Kernel_> Smooth_triangle_3<Kernel_>::vertex(int i) const
 {
     return m_triangle.vertex(i);
 }
 
-template <class R_>
-CGAL::Point_3<R_> Smooth_triangle_3<R_>::operator[](int i) const
+template<class Kernel_>
+CGAL::Point_3<Kernel_> Smooth_triangle_3<Kernel_>::operator[](int i) const
 {
     return vertex(i);
 }
 
-template <class R_>
-const CGAL::Triangle_3<R_> &Smooth_triangle_3<R_>::triangle() const
+template<class Kernel_>
+const CGAL::Triangle_3<Kernel_> &Smooth_triangle_3<Kernel_>::triangle() const
 {
     return m_triangle;
 }
 
-template <class R_>
-const CGAL::Vector_3<R_> &Smooth_triangle_3<R_>::normal_0() const
+template<class Kernel_>
+const CGAL::Vector_3<Kernel_> &Smooth_triangle_3<Kernel_>::normal_0() const
 {
     return m_normal_0;
 }
 
-template <class R_>
-const CGAL::Vector_3<R_> &Smooth_triangle_3<R_>::normal_1() const
+template<class Kernel_>
+const CGAL::Vector_3<Kernel_> &Smooth_triangle_3<Kernel_>::normal_1() const
 {
     return m_normal_1;
 }
 
-template <class R_>
-const CGAL::Vector_3<R_> &Smooth_triangle_3<R_>::normal_2() const
+template<class Kernel_>
+const CGAL::Vector_3<Kernel_> &Smooth_triangle_3<Kernel_>::normal_2() const
 {
     return m_normal_2;
 }

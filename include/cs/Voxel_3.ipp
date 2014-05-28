@@ -21,14 +21,14 @@
 
 namespace CS
 {
-template<class D>
-Voxel_3<D>::Voxel_3()
+template<class Data_>
+Voxel_3<Data_>::Voxel_3()
 {
     // dummy constructor
 }
 
-template<class D>
-Voxel_3<D>::Voxel_3(int u, int v, int w,
+template<class Data_>
+Voxel_3<Data_>::Voxel_3(int u, int v, int w,
                     double px, double py, double pz,
                     bool real,
                     bool negative_value,
@@ -46,44 +46,44 @@ Voxel_3<D>::Voxel_3(int u, int v, int w,
     m_value[Cover_Positive] = positive_value;
 }
 
-template<class D>
-int Voxel_3<D>::u() const
+template<class Data_>
+int Voxel_3<Data_>::u() const
 {
     return m_u;
 }
 
-template<class D>
-int Voxel_3<D>::v() const
+template<class Data_>
+int Voxel_3<Data_>::v() const
 {
     return m_v;
 }
 
-template<class D>
-int Voxel_3<D>::w() const
+template<class Data_>
+int Voxel_3<Data_>::w() const
 {
     return m_w;
 }
 
-template<class D>
-double Voxel_3<D>::px() const
+template<class Data_>
+double Voxel_3<Data_>::px() const
 {
     return m_px;
 }
 
-template<class D>
-double Voxel_3<D>::py() const
+template<class Data_>
+double Voxel_3<Data_>::py() const
 {
     return m_py;
 }
 
-template<class D>
-double Voxel_3<D>::pz() const
+template<class Data_>
+double Voxel_3<Data_>::pz() const
 {
     return m_pz;
 }
 
-template<class D>
-Spin_3<double> Voxel_3<D>::spinor(Cover cover) const
+template<class Data_>
+Spin_3<double> Voxel_3<Data_>::spinor(Cover cover) const
 {
     switch (cover)
     {
@@ -96,44 +96,44 @@ Spin_3<double> Voxel_3<D>::spinor(Cover cover) const
     }
 }
 
-template<class D>
-bool Voxel_3<D>::is_real() const
+template<class Data_>
+bool Voxel_3<Data_>::is_real() const
 {
     return m_real;
 }
 
-template<class D>
-bool Voxel_3<D>::is_imaginary() const
+template<class Data_>
+bool Voxel_3<Data_>::is_imaginary() const
 {
     return !is_real();
 }
 
-template<class D>
-bool Voxel_3<D>::is_border() const
+template<class Data_>
+bool Voxel_3<Data_>::is_border() const
 {
     return m_border;
 }
 
-template<class D>
-void Voxel_3<D>::set_is_border(bool boolean)
+template<class Data_>
+void Voxel_3<Data_>::set_is_border(bool boolean)
 {
     m_border = boolean;
 }
 
-template<class D>
-bool Voxel_3<D>::value(Cover cover) const
+template<class Data_>
+bool Voxel_3<Data_>::value(Cover cover) const
 {
     return m_value[cover];
 }
 
-template<class D>
-const typename Voxel_3<D>::Data &Voxel_3<D>::data() const
+template<class Data_>
+const typename Voxel_3<Data_>::Data &Voxel_3<Data_>::data() const
 {
     return m_data;
 }
 
-template<class D>
-typename Voxel_3<D>::Data &Voxel_3<D>::data()
+template<class Data_>
+typename Voxel_3<Data_>::Data &Voxel_3<Data_>::data()
 {
     return m_data;
 }

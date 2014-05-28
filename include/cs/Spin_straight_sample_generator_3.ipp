@@ -21,9 +21,9 @@
 
 namespace CS
 {
-template<class K, class FT>
-template<typename Spin_quadric_iterator>
-void Spin_straight_sample_generator_3<K, FT>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
+template<class Kernel_, class FT_>
+template<typename Spin_quadric_iterator_>
+void Spin_straight_sample_generator_3<Kernel_, FT_>::operator()(Spin_quadric_iterator_ quadrics_begin, Spin_quadric_iterator_ quadrics_end, Sample &sample)
 {
     (void)quadrics_begin;
     (void)quadrics_end;
@@ -54,10 +54,9 @@ void Spin_straight_sample_generator_3<K, FT>::operator()(Spin_quadric_iterator q
     sample = Sample(s12, s23, s31, ExtendedFT(FT(0), (rand() % 2) ? FT(1) : FT(-1), FT(1) - sqr));
 }
 
-
-template<class Kernel>
+template<class Kernel_>
 template<typename Spin_quadric_iterator>
-void Spin_straight_sample_generator_3<Kernel, double>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
+void Spin_straight_sample_generator_3<Kernel_, double>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
 {
     (void)quadrics_begin;
     (void)quadrics_end;
@@ -66,9 +65,9 @@ void Spin_straight_sample_generator_3<Kernel, double>::operator()(Spin_quadric_i
     uniform_random_spin_3(sample);
 }
 
-template<class Kernel>
+template<class Kernel_>
 template<typename Spin_quadric_iterator>
-void Spin_straight_sample_generator_3<Kernel, CGAL::Gmpfr>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
+void Spin_straight_sample_generator_3<Kernel_, CGAL::Gmpfr>::operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample)
 {
     (void)quadrics_begin;
     (void)quadrics_end;

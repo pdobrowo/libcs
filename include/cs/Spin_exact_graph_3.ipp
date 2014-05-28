@@ -21,34 +21,34 @@
 
 namespace CS
 {
-template<class K, class P>
-Spin_exact_graph_3<K, P>::Parameters::Parameters()
+template<class Kernel_, class Predicate_>
+Spin_exact_graph_3<Kernel_, Predicate_>::Parameters::Parameters()
     : m_suppress_qsic_calculation(false),
       m_suppress_qsip_calculation(false)
 {
 }
 
-template<class K, class P>
-Spin_exact_graph_3<K, P>::Parameters::Parameters(bool suppress_qsic_calculation, bool suppress_qsip_calculation)
+template<class Kernel_, class Predicate_>
+Spin_exact_graph_3<Kernel_, Predicate_>::Parameters::Parameters(bool suppress_qsic_calculation, bool suppress_qsip_calculation)
     : m_suppress_qsic_calculation(suppress_qsic_calculation),
       m_suppress_qsip_calculation(suppress_qsip_calculation)
 {
 }
 
-template<class K, class P>
-bool Spin_exact_graph_3<K, P>::Parameters::suppress_qsic_calculation() const
+template<class Kernel_, class Predicate_>
+bool Spin_exact_graph_3<Kernel_, Predicate_>::Parameters::suppress_qsic_calculation() const
 {
     return m_suppress_qsic_calculation;
 }
 
-template<class K, class P>
-bool Spin_exact_graph_3<K, P>::Parameters::suppress_qsip_calculation() const
+template<class Kernel_, class Predicate_>
+bool Spin_exact_graph_3<Kernel_, Predicate_>::Parameters::suppress_qsip_calculation() const
 {
     return m_suppress_qsip_calculation;
 }
 
-template<class K, class P>
-Spin_exact_graph_3<K, P>::Spin_exact_graph_3(const std::vector<Predicate> &predicates,
+template<class Kernel_, class Predicate_>
+Spin_exact_graph_3<Kernel_, Predicate_>::Spin_exact_graph_3(const std::vector<Predicate> &predicates,
                                              const std::vector<Spin_quadric_3> &spin_quadrics,
                                              const Parameters &parameters)
     : m_spin_quadrics(spin_quadrics),
@@ -111,22 +111,22 @@ Spin_exact_graph_3<K, P>::Spin_exact_graph_3(const std::vector<Predicate> &predi
     LOG4CXX_INFO(m_logger, "Exact representation: " << m_qsics.size() << " spin-QSICs, " << m_qsips.size() << " spin-QSIPs");
 }
 
-template<class K, class P>
-Spin_exact_graph_3<K, P>::~Spin_exact_graph_3()
+template<class Kernel_, class Predicate_>
+Spin_exact_graph_3<Kernel_, Predicate_>::~Spin_exact_graph_3()
 {
     release();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Route Spin_exact_graph_3<K, P>::find_route(const Sample &begin, const Sample &end)
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Route Spin_exact_graph_3<Kernel_, Predicate_>::find_route(const Sample &begin, const Sample &end)
 {
     (void)begin;
     (void)end;
     return Route();
 }
 
-template<class K, class P>
-void Spin_exact_graph_3<K, P>::release()
+template<class Kernel_, class Predicate_>
+void Spin_exact_graph_3<Kernel_, Predicate_>::release()
 {
     BOOST_FOREACH(Qsic_handle handle, m_qsics)
         delete handle;
@@ -138,81 +138,81 @@ void Spin_exact_graph_3<K, P>::release()
     m_qsips.clear();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Spin_quadric_const_iterator Spin_exact_graph_3<K, P>::spin_quadrics_begin() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Spin_quadric_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::spin_quadrics_begin() const
 {
     return m_spin_quadrics.begin();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Spin_quadric_const_iterator Spin_exact_graph_3<K, P>::spin_quadrics_end() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Spin_quadric_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::spin_quadrics_end() const
 {
     return m_spin_quadrics.end();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Spin_quadric_size_type Spin_exact_graph_3<K, P>::size_of_spin_quadrics() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Spin_quadric_size_type Spin_exact_graph_3<Kernel_, Predicate_>::size_of_spin_quadrics() const
 {
     return m_spin_quadrics.size();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsic_const_iterator Spin_exact_graph_3<K, P>::qsics_begin() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsic_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::qsics_begin() const
 {
     return m_qsics.begin();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsic_const_iterator Spin_exact_graph_3<K, P>::qsics_end() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsic_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::qsics_end() const
 {
     return m_qsics.end();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsic_size_type Spin_exact_graph_3<K, P>::size_of_qsics() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsic_size_type Spin_exact_graph_3<Kernel_, Predicate_>::size_of_qsics() const
 {
     return m_qsics.size();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsip_const_iterator Spin_exact_graph_3<K, P>::qsips_begin() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsip_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::qsips_begin() const
 {
     return m_qsips.begin();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsip_const_iterator Spin_exact_graph_3<K, P>::qsips_end() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsip_const_iterator Spin_exact_graph_3<Kernel_, Predicate_>::qsips_end() const
 {
     return m_qsips.end();
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Qsip_size_type Spin_exact_graph_3<K, P>::size_of_qsips() const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Qsip_size_type Spin_exact_graph_3<Kernel_, Predicate_>::size_of_qsips() const
 {
     return m_qsips.size();
 }
 
-template<class K, class P>
-Spin_exact_graph_3<K, P>::Route::Route()
+template<class Kernel_, class Predicate_>
+Spin_exact_graph_3<Kernel_, Predicate_>::Route::Route()
     : m_valid(false)
 {
 }
 
-//template<class K, class P>
-//Spin_exact_graph_3<K, P>::Route::Route(const std::vector<Voxel_link> &nodes)
+//template<class Kernel_, class Predicate_>
+//Spin_exact_graph_3<Kernel_, Predicate_>::Route::Route(const std::vector<Voxel_link> &nodes)
 //    : m_valid(true),
 //      m_nodes(nodes)
 //{
 //}
 
-template<class K, class P>
-bool Spin_exact_graph_3<K, P>::Route::is_valid() const
+template<class Kernel_, class Predicate_>
+bool Spin_exact_graph_3<Kernel_, Predicate_>::Route::is_valid() const
 {
     return m_valid;
 }
 
-template<class K, class P>
-typename Spin_exact_graph_3<K, P>::Sample Spin_exact_graph_3<K, P>::Route::evaluate(double t) const
+template<class Kernel_, class Predicate_>
+typename Spin_exact_graph_3<Kernel_, Predicate_>::Sample Spin_exact_graph_3<Kernel_, Predicate_>::Route::evaluate(double t) const
 {
     (void)t;
 

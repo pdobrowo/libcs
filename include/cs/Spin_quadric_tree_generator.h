@@ -39,17 +39,17 @@ public:
     {
     }
 
-    const Vector_3 a() const
+    const Vector_3 &a() const
     {
         return m_a;
     }
 
-    const Vector_3 b() const
+    const Vector_3 &b() const
     {
         return m_b;
     }
 
-    const Vector_3 c() const
+    const Vector_3 &c() const
     {
         return m_c;
     }

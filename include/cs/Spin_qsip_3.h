@@ -40,38 +40,41 @@ namespace CS
 template<class Kernel_>
 class Spin_qsip_3
 {
-    typedef typename Kernel_::RT                                 RT;
+    typedef typename Kernel_::RT                RT;
 
-    typedef typename Kernel_::Qsic_component                     Qsic_component;
-    typedef typename Kernel_::Qsic_curve                         Qsic_curve;
-    typedef typename Kernel_::Qsic_surface                       Qsic_surface;
+    typedef typename Kernel_::Qsic_component    Qsic_component;
+    typedef typename Kernel_::Qsic_curve        Qsic_curve;
+    typedef typename Kernel_::Qsic_surface      Qsic_surface;
 
-    typedef typename Kernel_::Spin_qsip_point                    Spin_qsip_point;
-    typedef typename Kernel_::Hom_root                           Hom_root;
+    typedef typename Kernel_::Spin_quadric_3    Spin_quadric_3;
+    typedef typename Kernel_::Spin_qsic_3       Spin_qsic_3;
 
-    typedef typename Kernel_::Hom_polynomial                     Hom_polynomial;
-    typedef typename Kernel_::Hom_hom_polynomial                 Hom_hom_polynomial;
+    typedef typename Kernel_::Spin_qsip_point   Spin_qsip_point;
+    typedef typename Kernel_::Hom_root          Hom_root;
+
+    typedef typename Kernel_::Hom_polynomial        Hom_polynomial;
+    typedef typename Kernel_::Hom_hom_polynomial    Hom_hom_polynomial;
 
     typedef std::vector<Spin_qsip_point>                    Spin_qsip_point_list;
     typedef typename Spin_qsip_point_list::const_iterator   Point_const_iterator;
 
-    typedef typename Kernel_::Algebraic_kernel_with_sqrt         Algebraic_kernel_with_sqrt;
+    typedef typename Kernel_::Algebraic_kernel_with_sqrt    Algebraic_kernel_with_sqrt;
 
-    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1         Polynomial_1;
-    typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1     Algebraic_real_1;
-    typedef typename Algebraic_kernel_with_sqrt::Bound                Bound;
-    typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type    Multiplicity_type;
-    typedef typename Algebraic_kernel_with_sqrt::Solve_1              Solve_1;
+    typedef typename Algebraic_kernel_with_sqrt::Polynomial_1       Polynomial_1;
+    typedef typename Algebraic_kernel_with_sqrt::Algebraic_real_1   Algebraic_real_1;
+    typedef typename Algebraic_kernel_with_sqrt::Bound              Bound;
+    typedef typename Algebraic_kernel_with_sqrt::Multiplicity_type  Multiplicity_type;
+    typedef typename Algebraic_kernel_with_sqrt::Solve_1            Solve_1;
 
-    typedef typename Kernel_::Sqrt_extension                     Sqrt_extension;
-    typedef typename Kernel_::Hom_polynomial_with_sqrt           Hom_polynomial_with_sqrt;
+    typedef typename Kernel_::Sqrt_extension            Sqrt_extension;
+    typedef typename Kernel_::Hom_polynomial_with_sqrt  Hom_polynomial_with_sqrt;
 
-    typedef Spin_qsip_3                                     Self;
+    typedef Spin_qsip_3                                                 Self;
 
 public:
-    typedef Kernel_                                              R;
+    typedef Kernel_                                                     Kernel;
 
-    Spin_qsip_3(const Spin_quadric_3<R> &q, const Spin_qsic_3<R> &c);
+    Spin_qsip_3(const Spin_quadric_3 &q, const Spin_qsic_3 &c);
 
     size_t                      size_of_points() const;
 
@@ -85,12 +88,11 @@ private:
 
     // generic case
     void                        intersect_smooth_qsic(
-                                    const Spin_quadric_3<R> &quadric,
-                                    const Spin_qsic_3<R> &qsic);
+                                    const Spin_quadric_3 &quadric,
+                                    const Spin_qsic_3 &qsic);
 
     // special cases
-    void                        intersect_rational_component(
-                                    const Spin_quadric_3<R> &quadric,
+    void                        intersect_rational_component(const Spin_quadric_3 &quadric,
                                     const Qsic_component &component);
 
     // extract intersections on a curve as a zeroes of a characteristic polynomial
@@ -124,12 +126,12 @@ private:
                                     const RT &root);
 
     Hom_polynomial_with_sqrt    extend_hom_polynomial(
-                                    const Spin_qsip_3<R>::Hom_polynomial &a0);
+                                    const Hom_polynomial &a0);
 
     Hom_polynomial_with_sqrt    extend_hom_polynomial(
-                                    const Spin_qsip_3<R>::Hom_polynomial &a0,
-                                    const Spin_qsip_3<R>::Hom_polynomial &a1,
-                                    const Spin_qsip_3<R>::RT &root);
+                                    const Hom_polynomial &a0,
+                                    const Hom_polynomial &a1,
+                                    const RT &root);
 };
 } // namespace CS
 

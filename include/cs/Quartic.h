@@ -76,9 +76,9 @@ using Math::pi;
 /* solve_quartic.c - finds the real roots of
  *  x^4 + a x^3 + b x^2 + c x + d = 0
  */
-template<class FT>
-int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
-                         FT *x0, FT *x1, FT *x2, FT *x3);
+template<class FT_>
+int solve_quartic(const FT_ &a, const FT_ &b, const FT_ &c, const FT_ &d,
+                  FT_ *x0, FT_ *x1, FT_ *x2, FT_ *x3);
 
 /*  DYNAMO:- Event driven molecular dynamics simulator
     http://www.marcusbannerman.co.uk/dynamo
@@ -104,7 +104,7 @@ int solve_quartic(const FT &a, const FT &b, const FT &c, const FT &d,
 // BUG: maybe the problematic is a my bugfix in ferrari code
 template<>
 int solve_quartic<double>(const double &a, const double &b, const double &c, const double &d,
-                                 double *x0, double *x1, double *x2, double *x3)
+                          double *x0, double *x1, double *x2, double *x3)
 {
     return static_cast<int>(magnet::math::quarticSolve(a, b, c, d, *x0, *x1, *x2, *x3));
 }

@@ -21,9 +21,8 @@
 
 namespace CS
 {
-template<class R>
-Spin_qsip_3<R>::Spin_qsip_3(const Spin_quadric_3<R> &q,
-                            const Spin_qsic_3<R> &c)
+template<class Kernel_>
+Spin_qsip_3<Kernel_>::Spin_qsip_3(const Spin_quadric_3 &q, const Spin_qsic_3 &c)
 {
     CS_BENCHMARK_POINT();
 
@@ -53,32 +52,32 @@ Spin_qsip_3<R>::Spin_qsip_3(const Spin_quadric_3<R> &q,
     }
 }
 
-template<class R>
-size_t Spin_qsip_3<R>::size_of_points() const
+template<class Kernel_>
+size_t Spin_qsip_3<Kernel_>::size_of_points() const
 {
     return m_points.size();
 }
 
-template<class R>
-typename Spin_qsip_3<R>::Point_const_iterator Spin_qsip_3<R>::points_begin() const
+template<class Kernel_>
+typename Spin_qsip_3<Kernel_>::Point_const_iterator Spin_qsip_3<Kernel_>::points_begin() const
 {
     return m_points.begin();
 }
 
-template<class R>
-typename Spin_qsip_3<R>::Point_const_iterator Spin_qsip_3<R>::points_end() const
+template<class Kernel_>
+typename Spin_qsip_3<Kernel_>::Point_const_iterator Spin_qsip_3<Kernel_>::points_end() const
 {
     return m_points.end();
 }
 
-template<class R>
-const typename Spin_qsip_3<R>::Spin_qsip_point & Spin_qsip_3<R>::point_at(size_t index) const
+template<class Kernel_>
+const typename Spin_qsip_3<Kernel_>::Spin_qsip_point & Spin_qsip_3<Kernel_>::point_at(size_t index) const
 {
     return m_points[index];
 }
 
-template<class R>
-void Spin_qsip_3<R>::mul3(
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::mul3(
         Hom_polynomial_with_sqrt &out,
         const Hom_polynomial_with_sqrt &a,
         const Hom_polynomial_with_sqrt &b,
@@ -91,8 +90,8 @@ void Spin_qsip_3<R>::mul3(
     multiply(out, tmp, c);
 }
 
-template<class R>
-void Spin_qsip_3<R>::add10(
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::add10(
         Hom_polynomial_with_sqrt &out,
         const Hom_polynomial_with_sqrt a[10]) const
 {
@@ -115,10 +114,9 @@ void Spin_qsip_3<R>::add10(
     add(out, b[4], d[0]);
 }
 
-template<class R>
-typename Spin_qsip_3<R>::Hom_polynomial_with_sqrt
-Spin_qsip_3<R>::extend_hom_polynomial(
-        const Spin_qsip_3<R>::Hom_polynomial &a0)
+template<class Kernel_>
+typename Spin_qsip_3<Kernel_>::Hom_polynomial_with_sqrt
+Spin_qsip_3<Kernel_>::extend_hom_polynomial(const Hom_polynomial &a0)
 {
     CS_BENCHMARK_POINT();
 
@@ -131,12 +129,12 @@ Spin_qsip_3<R>::extend_hom_polynomial(
     return result;
 }
 
-template<class R>
-typename Spin_qsip_3<R>::Hom_polynomial_with_sqrt
-Spin_qsip_3<R>::extend_hom_polynomial(
-        const Spin_qsip_3<R>::Hom_polynomial &a0,
-        const Spin_qsip_3<R>::Hom_polynomial &a1,
-        const Spin_qsip_3<R>::RT &root)
+template<class Kernel_>
+typename Spin_qsip_3<Kernel_>::Hom_polynomial_with_sqrt
+Spin_qsip_3<Kernel_>::extend_hom_polynomial(
+        const Hom_polynomial &a0,
+        const Hom_polynomial &a1,
+        const RT &root)
 {
     CS_BENCHMARK_POINT();
 
@@ -153,9 +151,9 @@ Spin_qsip_3<R>::extend_hom_polynomial(
     return result;
 }
 
-template<class R>
-void Spin_qsip_3<R>::intersect_rational_component(
-        const Spin_quadric_3<R> &quadric,
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::intersect_rational_component(
+        const Spin_quadric_3 &quadric,
         const Qsic_component &component)
 {
     CS_BENCHMARK_POINT();
@@ -251,8 +249,8 @@ void Spin_qsip_3<R>::intersect_rational_component(
     populate_component_intersections(characteristic, component);
 }
 
-template<class R>
-void Spin_qsip_3<R>::populate_component_intersections(
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::populate_component_intersections(
         const Hom_polynomial_with_sqrt &characteristic,
         const Qsic_component &component)
 {
@@ -261,7 +259,7 @@ void Spin_qsip_3<R>::populate_component_intersections(
     std::vector<Hom_root> roots;
 
     // extract isolated roots
-    extract_isolated_hom_roots<R>(characteristic, std::back_inserter(roots));
+    extract_isolated_hom_roots<Kernel_>(characteristic, std::back_inserter(roots));
 
     // create qsip points
     for (size_t i = 0; i < roots.size(); ++i)
@@ -271,8 +269,8 @@ void Spin_qsip_3<R>::populate_component_intersections(
     }
 }
 
-template<class R>
-void Spin_qsip_3<R>::calc_implicit_qsic_equation(
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::calc_implicit_qsic_equation(
         const bigint_matrix &quadric,           // first quadric
         const Qsic_surface &s1,                 // bilinear parametrization of second quadric: first component of Q[sqrt(xi)]
         const Qsic_surface &s2,                 // bilinear parametrization of second quadric: second component of Q[sqrt(xi)]
@@ -295,8 +293,8 @@ void Spin_qsip_3<R>::calc_implicit_qsic_equation(
     add(out_implicit_s2, out_implicit_s2, out_implicit_s2); // * 2
 }
 
-template<class R>
-void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, const Spin_qsic_3<R> &qsic)
+template<class Kernel_>
+void Spin_qsip_3<Kernel_>::intersect_smooth_qsic(const Spin_quadric_3 &quadric, const Spin_qsic_3 &qsic)
 {
     CS_BENCHMARK_POINT();
 
@@ -331,12 +329,12 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
     Hom_hom_polynomial fs1, fs2; // implicit f = Qr ^ Qs
     Hom_hom_polynomial gs1, gs2; // implicit g = Qr ^ Qu
 
-    calc_implicit_qsic_equation(R::to_lidia_matrix(qsic.q1().matrix()), s1, s2, d, fs1, fs2);
+    calc_implicit_qsic_equation(Kernel::to_lidia_matrix(qsic.q1().matrix()), s1, s2, d, fs1, fs2);
 
     if (fs1.is_zero() && fs2.is_zero())
     {
         // ops, the Dupont quadric is the first quadric, try with the other one
-        calc_implicit_qsic_equation(R::to_lidia_matrix(qsic.q2().matrix()), s1, s2, d, fs1, fs2);
+        calc_implicit_qsic_equation(Kernel::to_lidia_matrix(qsic.q2().matrix()), s1, s2, d, fs1, fs2);
 
         if (fs1.is_zero() && fs2.is_zero())
         {
@@ -345,7 +343,7 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
         }
     }
 
-    calc_implicit_qsic_equation(R::to_lidia_matrix(quadric.matrix()), s1, s2, d, gs1, gs2);
+    calc_implicit_qsic_equation(Kernel::to_lidia_matrix(quadric.matrix()), s1, s2, d, gs1, gs2);
 
     //std::cerr << "implicit curves are:" << std::endl;
     //std::cerr << "  fs1 = " << fs1 << std::endl;
@@ -391,12 +389,12 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
 
     // extract roots
     std::vector<Hom_root> roots;
-    extract_isolated_hom_roots<R>(resultant, std::back_inserter(roots));
+    extract_isolated_hom_roots<Kernel_>(resultant, std::back_inserter(roots));
 
     // find out which components are these roots from
     for (size_t i = 0; i < roots.size(); ++i)
     {
-        CGAL::Sign sign_discriminant = hom_polynomial_with_sqrt_sign_at<R>(discriminant, roots[i]);
+        CGAL::Sign sign_discriminant = hom_polynomial_with_sqrt_sign_at<Kernel_>(discriminant, roots[i]);
 
         // Hemmer: theorem 2
         if (sign_discriminant == CGAL::NEGATIVE)
@@ -414,7 +412,7 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
         else
         {
             // otherwise
-            CGAL::Sign sign_s01 = hom_polynomial_with_sqrt_sign_at<R>(s01, roots[i]);
+            CGAL::Sign sign_s01 = hom_polynomial_with_sqrt_sign_at<Kernel_>(s01, roots[i]);
 
             if (sign_s01 == CGAL::ZERO)
             {
@@ -438,7 +436,7 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
                 subtract(arc_poly, tmp1, tmp2);
 
                 // one real intersection point on arc E
-                CGAL::Sign sign = -sign_s01 * hom_polynomial_with_sqrt_sign_at<R>(arc_poly, roots[i]);
+                CGAL::Sign sign = -sign_s01 * hom_polynomial_with_sqrt_sign_at<Kernel_>(arc_poly, roots[i]);
 
                 if (sign == CGAL::NEGATIVE)
                 {
@@ -457,8 +455,8 @@ void Spin_qsip_3<R>::intersect_smooth_qsic(const Spin_quadric_3<R> &quadric, con
     }
 }
 
-template<class R>
-typename Spin_qsip_3<R>::Hom_polynomial_with_sqrt Spin_qsip_3<R>::get_coefficient(
+template<class Kernel_>
+typename Spin_qsip_3<Kernel_>::Hom_polynomial_with_sqrt Spin_qsip_3<Kernel_>::get_coefficient(
         int index,
         const Hom_hom_polynomial &a,
         const Hom_hom_polynomial &b,

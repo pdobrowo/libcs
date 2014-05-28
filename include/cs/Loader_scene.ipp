@@ -21,12 +21,12 @@
 
 namespace CS
 {
-template<class K, typename VertexOutputIterator, typename FaceOutputIterator>
-bool load_scene_object(const char *fileName, VertexOutputIterator vertexIterator, FaceOutputIterator faceIterator,
-                              double scale, const CGAL::Vector_3<K> &translation)
+template<class Kernel_, typename VertexOutputIterator_, typename FaceOutputIterator_>
+bool load_scene_object(const char *fileName, VertexOutputIterator_ vertexIterator, FaceOutputIterator_ faceIterator,
+                       double scale, const CGAL::Vector_3<Kernel_> &translation)
 {
-    typedef typename K::RT      RT;
-    typedef CGAL::Vector_3<K>   Vector_3;
+    typedef typename Kernel_::RT      RT;
+    typedef CGAL::Vector_3<Kernel_>   Vector_3;
 
     std::ifstream file(fileName);
 
@@ -75,13 +75,13 @@ bool load_scene_object(const char *fileName, VertexOutputIterator vertexIterator
     return true;
 }
 
-template<class K, typename TriangleOutputIterator>
-bool load_scene(const char *path, TriangleOutputIterator outRobotFaces, TriangleOutputIterator outObstacleFaces,
-                       double scale, const CGAL::Vector_3<K> &scaledRobotTranslation)
+template<class Kernel_, typename TriangleOutputIterator_>
+bool load_scene(const char *path, TriangleOutputIterator_ outRobotFaces, TriangleOutputIterator_ outObstacleFaces,
+                       double scale, const CGAL::Vector_3<Kernel_> &scaledRobotTranslation)
 {
-    typedef typename K::Vector_3 Vector_3;
-    typedef typename K::Point_3 Point_3;
-    typedef typename K::Triangle_3 Triangle_3;
+    typedef typename Kernel_::Vector_3 Vector_3;
+    typedef typename Kernel_::Point_3 Point_3;
+    typedef typename Kernel_::Triangle_3 Triangle_3;
 
     std::string obstacleFileName = std::string(path) + "/" + "obstacle.txt";
     std::string robotFileName = std::string(path) + "/" + "robot.txt";
@@ -92,8 +92,8 @@ bool load_scene(const char *path, TriangleOutputIterator outRobotFaces, Triangle
     std::vector<Vector_3> robotVertices;
     std::vector<Face> robotFaces;
 
-    if (!load_scene_object<K>(obstacleFileName.c_str(), std::back_inserter(obstacleVertices), std::back_inserter(obstacleFaces), scale) ||
-        !load_scene_object<K>(robotFileName.c_str(), std::back_inserter(robotVertices), std::back_inserter(robotFaces), scale))
+    if (!load_scene_object<Kernel_>(obstacleFileName.c_str(), std::back_inserter(obstacleVertices), std::back_inserter(obstacleFaces), scale) ||
+        !load_scene_object<Kernel_>(robotFileName.c_str(), std::back_inserter(robotVertices), std::back_inserter(robotFaces), scale))
     {
         // failed to read one of definition files
         return false;

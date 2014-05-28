@@ -26,6 +26,9 @@
 #include <iterator>
 #include <deque>
 #include <cmath>
+#include <lidia/bigfloat.h>
+#include <lidia/math_vector.h>
+#include <lidia/bigint.h>
 
 namespace CS
 {
@@ -48,9 +51,9 @@ public:
     typedef std::deque<Spin_3> Spin_list_3;
 
 private:
-    typedef LiDIA::bigfloat     bigfloat;
-    typedef bigfloat            bigfloat_vector[4];
-    typedef math_vector<bigint> bigint_vector;
+    typedef LiDIA::bigfloat                     bigfloat;
+    typedef bigfloat                            bigfloat_vector[4];
+    typedef LiDIA::math_vector<LiDIA::bigint>   bigint_vector;
 
     class scoped_bigfloat_precision
     {
@@ -207,9 +210,9 @@ private:
     }
 
 public:
-    typedef Kernel_                      R;
+    typedef Kernel_                      Kernel;
 
-    Spin_qsic_mesh_3(const Spin_qsic_3<R> &spinQsic);
+    Spin_qsic_mesh_3(const Spin_qsic_3<Kernel> &spinQsic);
 
     size_t          size_of_components() const;
     bool            evaluate_component(Spin_3 &outSpin, size_t component, const RT &a, const RT &b) const;
@@ -221,7 +224,7 @@ public:
     bool            is_component_visible(size_t component) const;
 
 private:
-    const Spin_qsic_3<R>        &m_spinQsic;
+    const Spin_qsic_3<Kernel>        &m_spinQsic;
 
     template<typename OutputIterator>
     bool            mesh_component_walk(OutputIterator outputIterator,  // output curve points
@@ -388,28 +391,28 @@ private:
     void mesh_component_optimize(Spin_list_3 &outCurve, const Spin_list_3 &dirtyCurve);
 };
 
-template<class R>
-Spin_qsic_mesh_3<R>::Spin_qsic_mesh_3(const Spin_qsic_3<R> &spinQsic)
+template<class Kernel_>
+Spin_qsic_mesh_3<Kernel_>::Spin_qsic_mesh_3(const Spin_qsic_3<Kernel> &spinQsic)
     : m_spinQsic(spinQsic)
 {
 }
 
-template<class R>
-size_t Spin_qsic_mesh_3<R>::size_of_components() const
+template<class Kernel_>
+size_t Spin_qsic_mesh_3<Kernel_>::size_of_components() const
 {
     // forward
     return m_spinQsic.num_components();
 }
 
-template<class R>
-bool Spin_qsic_mesh_3<R>::is_component_visible(size_t component) const
+template<class Kernel_>
+bool Spin_qsic_mesh_3<Kernel_>::is_component_visible(size_t component) const
 {
     // forward
     return m_spinQsic.is_component_visible(component);
 }
 
-template<class R>
-bool Spin_qsic_mesh_3<R>::evaluate_component(Spin_3 &outSpin, size_t component, const RT &a, const RT &b) const
+template<class Kernel_>
+bool Spin_qsic_mesh_3<Kernel_>::evaluate_component(Spin_3 &outSpin, size_t component, const RT &a, const RT &b) const
 {
     bigfloat_vector qsicValue;
 
@@ -425,8 +428,8 @@ bool Spin_qsic_mesh_3<R>::evaluate_component(Spin_3 &outSpin, size_t component, 
     return false;
 }
 
-template<class R>
-bool Spin_qsic_mesh_3<R>::evaluate_component(Spin_3 &outSpin, const Qsic_component &component, const RT &a, const RT &b)
+template<class Kernel_>
+bool Spin_qsic_mesh_3<Kernel_>::evaluate_component(Spin_3 &outSpin, const Qsic_component &component, const RT &a, const RT &b)
 {
     bigfloat_vector qsicValue;
 
@@ -442,8 +445,8 @@ bool Spin_qsic_mesh_3<R>::evaluate_component(Spin_3 &outSpin, const Qsic_compone
     return false;
 }
 
-template<class R>
-void Spin_qsic_mesh_3<R>::mesh_component(Spin_list_3 &outCurve, size_t component, double radiusBound)
+template<class Kernel_>
+void Spin_qsic_mesh_3<Kernel_>::mesh_component(Spin_list_3 &outCurve, size_t component, double radiusBound)
 {
     // bounds
     const bigint minimumStep = 1 << 24; // maximum number of subdivisions
@@ -487,8 +490,8 @@ void Spin_qsic_mesh_3<R>::mesh_component(Spin_list_3 &outCurve, size_t component
     mesh_component_optimize(outCurve, dirtyCurve);
 }
 
-template<class R>
-void Spin_qsic_mesh_3<R>::mesh_component_optimize(Spin_list_3 &outCurve, const Spin_list_3 &dirtyCurve)
+template<class Kernel_>
+void Spin_qsic_mesh_3<Kernel_>::mesh_component_optimize(Spin_list_3 &outCurve, const Spin_list_3 &dirtyCurve)
 {
     // cleanup dity curve - remove duplicated nodes
     outCurve.clear();

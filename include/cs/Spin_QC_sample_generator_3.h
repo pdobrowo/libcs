@@ -30,17 +30,17 @@
 namespace CS
 {
 // QC (quadric-circle) sample generator: generate samples in between of quadrics in SO(3)
-template<class Kernel, class FT = typename Kernel::FT>
+template<class Kernel_, class FT_ = typename Kernel_::FT>
 struct Spin_QC_sample_generator_3
 {
     // no general implementation
 };
 
 // QC sample generator designed for inexact types
-template<class Kernel, class FT = typename Kernel::FT>
+template<class Kernel_, class FT_ = typename Kernel_::FT>
 struct Spin_QC_inexact_sample_generator_3
 {
-    typedef Spin_3<FT>              Sample;
+    typedef Spin_3<FT_>              Sample;
     typedef std::deque<Sample>      Sample_list;
 
     // cached samples
@@ -50,11 +50,11 @@ struct Spin_QC_inexact_sample_generator_3
 
     Spin_QC_inexact_sample_generator_3();
 
-    template<typename Spin_quadric_iterator>
-    void fetch(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end);
+    template<typename Spin_quadric_iterator_>
+    void fetch(Spin_quadric_iterator_ quadrics_begin, Spin_quadric_iterator_ quadrics_end);
 
-    template<typename Spin_quadric_iterator>
-    void operator()(Spin_quadric_iterator quadrics_begin, Spin_quadric_iterator quadrics_end, Sample &sample);
+    template<typename Spin_quadric_iterator_>
+    void operator()(Spin_quadric_iterator_ quadrics_begin, Spin_quadric_iterator_ quadrics_end, Sample &sample);
 };
 
 // QC sample generator
@@ -62,21 +62,21 @@ struct Spin_QC_inexact_sample_generator_3
 // specialize depending on type exactness
 // for now, only specialize QC for inexact types
 // the specialization is provided by Spin_QC_inexact_sample_generator_3
-template<class Kernel>
-struct Spin_QC_sample_generator_3<Kernel, float>
-    : Spin_QC_inexact_sample_generator_3<Kernel, float>
+template<class Kernel_>
+struct Spin_QC_sample_generator_3<Kernel_, float>
+    : Spin_QC_inexact_sample_generator_3<Kernel_, float>
 {
 };
 
-template<class Kernel>
-struct Spin_QC_sample_generator_3<Kernel, double>
-    : Spin_QC_inexact_sample_generator_3<Kernel, double>
+template<class Kernel_>
+struct Spin_QC_sample_generator_3<Kernel_, double>
+    : Spin_QC_inexact_sample_generator_3<Kernel_, double>
 {
 };
 
-template<class Kernel>
-struct Spin_QC_sample_generator_3<Kernel, CGAL::Gmpfr>
-    : Spin_QC_inexact_sample_generator_3<Kernel, CGAL::Gmpfr>
+template<class Kernel_>
+struct Spin_QC_sample_generator_3<Kernel_, CGAL::Gmpfr>
+    : Spin_QC_inexact_sample_generator_3<Kernel_, CGAL::Gmpfr>
 {
 };
 } // namespace CS

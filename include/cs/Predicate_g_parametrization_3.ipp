@@ -30,8 +30,8 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
     using std::cout;
     using std::endl;
 
-    const RT zero = RT(0);
-    const RT one = RT(1);
+    const RT zero(0);
+    const RT one(1);
 
     Vector_3 k = g3.k();
     Vector_3 l = g3.l();
@@ -49,34 +49,34 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
 
     cout<<"_1k=["<<k<<"]"<<endl;cout<<"_1l=["<<l<<"]"<<endl;cout<<"_1a=["<<a<<"]"<<endl;cout<<"_1b=["<<b<<"]"<<endl;cout<<"_1c="<<c<<endl;
 
-    RT i = CGAL::cross_product(k, l).squared_length();
-    RT j = CGAL::cross_product(a, b).squared_length();
+    RT u = CGAL::cross_product(k, l).squared_length() * (a - b).squared_length();
+    RT v = (k - l).squared_length() * CGAL::cross_product(a, b).squared_length();
 
-    cout<<"_2i="<<i<<endl;cout<<"_2j="<<j<<endl;
+    cout<<"_2u="<<u<<endl;cout<<"_2v="<<v<<endl;
 
     RT r;
     ERT p, d;
 
-    if (i == zero)
+    if (u == zero)
     {
         r = one;
-        p = ERT(j, zero, r);
+        p = ERT(v, zero, r);
         d = ERT(zero, zero, r);
     }
-    else if (j == zero)
+    else if (v == zero)
     {
         r = one;
-        p = ERT(i, zero, r);
+        p = ERT(u, zero, r);
         d = ERT(zero, zero, r);
     }
     else
     {
-        r = i * j;
+        r = u * v;
 
-        if (i < j)
-            p = ERT(i, zero, r);
+        if (u < v)
+            p = ERT(u, zero, r);
         else
-            p = ERT(j, zero, r);
+            p = ERT(v, zero, r);
 
         d = ERT(zero, one, r);
     }
@@ -90,19 +90,43 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
 
     cout<<"_3pp="<<pp<<endl;cout<<"_3ppp="<<ppp<<endl;cout<<"_3cppp="<<cppp<<endl;cout<<"_3pd="<<pd<<endl;
 
-    ERT e[4] = { cppp - ( pp + pd ),
-                 cppp - ( pp - pd ),
-                 cppp - (-pp + pd ) ,
-                 cppp - (-pp - pd ) };
+    ERT eval[4] = { cppp - ( pp + pd ),
+                    cppp - ( pp - pd ),
+                    cppp - (-pp + pd ) ,
+                    cppp - (-pp - pd ) };
 
-    cout<<"_4e0="<<e[0]<<endl;cout<<"_4e1="<<e[1]<<endl;cout<<"_4e2="<<e[2]<<endl;cout<<"_4e3="<<e[3]<<endl;
+    cout<<"_4e0="<<eval[0]<<endl;cout<<"_4e1="<<eval[1]<<endl;cout<<"_4e2="<<eval[2]<<endl;cout<<"_4e3="<<eval[3]<<endl;
 
-    Matrix_ERT m(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
-    Matrix_ERT me[4];
+    std::sort(eval, eval + 4);
+    ERT *uni_eval = std::unique(eval, eval + 4);
+    int uni_count = static_cast<int>(uni_eval - eval);
 
-//    for (int z = 0; z < 4; ++z)
-//        me[z] = m - Matrix_ERT::diagonal(e[z]);
+    cout<<"eu="<<uni_count<<endl;
+    for(int z=0;z<uni_count;++z)cout<<"se"<<z<<":"<<eval[z]<<endl;
 
+    Matrix_ERT mbase(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
+    Matrix_ERT q;
+
+    int total_dim = 0;
+    Vector_ERT vk[4];
+
+    for (int uni_idx = 0; uni_idx < uni_count; ++uni_idx)
+    {
+        Matrix_ERT meval(mbase);
+
+        for (int i = 0; i < 4; ++i)
+            meval.set(i, i, meval.get(i, i) - eval[uni_idx]);
+
+        int dim = meval.kernel(vk);
+
+        cout<<"dim="<<dim<<endl;
+
+        for (int i = 0; i < dim; ++i)
+            vk[total_dim++] = vk[i];
+    }
+
+    //assert(total_dim == 4);
+    cout<<"total_dim="<<total_dim<<endl;
 }
 
 template<class Kernel_>

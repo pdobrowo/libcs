@@ -22,6 +22,7 @@
 
 #include "Spin_3.h"
 #include "Matrix_44.h"
+#include "Vector_4.h"
 #include <CGAL/Kernel/global_functions.h>
 #include <CGAL/Sqrt_extension.h>
 #include <ostream>
@@ -36,14 +37,11 @@ class Predicate_g_parametrization_3
 {
     typedef typename Kernel_::RT                RT;
     typedef typename Kernel_::Vector_3          Vector_3;
-
     typedef typename Kernel_::Predicate_g_3     Predicate_g_3;
-
     typedef typename Kernel_::Spin_quadric_3    Spin_quadric_3;
-
-    typedef Matrix_44<RT>                       Matrix_RT;
     typedef CGAL::Sqrt_extension<RT, RT>        ERT;
     typedef Matrix_44<ERT>                      Matrix_ERT;
+    typedef Vector_4<ERT>                       Vector_ERT;
 
 public:
     typedef Kernel_                             Kernel;

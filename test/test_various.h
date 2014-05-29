@@ -20,8 +20,6 @@
 #ifndef TEST_VARIOUS_H
 #define TEST_VARIOUS_H
 
-#include <stdint.h>
-
-void test_various(size_t param);
+void test_various();
 
 #endif // TEST_VARIOUS_H

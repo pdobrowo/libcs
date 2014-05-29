@@ -40,7 +40,7 @@ struct Spin_QC_sample_generator_3
 template<class Kernel_, class FT_ = typename Kernel_::FT>
 struct Spin_QC_inexact_sample_generator_3
 {
-    typedef Spin_3<FT_>              Sample;
+    typedef Spin_3<FT_>             Sample;
     typedef std::deque<Sample>      Sample_list;
 
     // cached samples

@@ -131,7 +131,7 @@ Predicate_g_type Predicate_g_3<Kernel_>::type() const
 }
 
 template<class Kernel_>
-Predicate_g_parametrization_3<Kernel_> Predicate_g_3<Kernel_>::parametrization() const
+typename Predicate_g_3<Kernel_>::Parametrization Predicate_g_3<Kernel_>::parametrization() const
 {
     return Predicate_g_parametrization_3<Kernel>(*this);
 }

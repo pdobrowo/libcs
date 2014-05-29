@@ -20,7 +20,7 @@
 #include <log4cxx/logger.h>
 #include <log4cxx/propertyconfigurator.h>
 
-//#include "test_various.h"
+#include "test_various.h"
 //#include "test_exact_perf.h"
 //#include "test_cell_perf.h"
 #include "test_inexact_perf.h"
@@ -33,9 +33,10 @@ int main()
     // configure logger
     log4cxx::PropertyConfigurator::configure("logger.conf");
 
+    test_various();
     //test_exact_perf();
     //test_cell_perf();
-    test_inexact_perf();
+    //test_inexact_perf();
 
     return 0;
 }

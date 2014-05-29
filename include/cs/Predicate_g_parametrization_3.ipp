@@ -20,77 +20,100 @@
 #include "Predicate_g_parametrization_3.h"
 #include <algorithm>
 
+#include <iostream>
+
 namespace CS
 {
 template<class Kernel_>
 Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Predicate_g_3 &g3)
 {
+    using std::cout;
+    using std::endl;
+
+    const RT zero = RT(0);
+    const RT one = RT(1);
+
     Vector_3 k = g3.k();
     Vector_3 l = g3.l();
     Vector_3 a = g3.a();
     Vector_3 b = g3.b();
     RT c = g3.c();
 
-    if (c < RT(0))
+    cout<<"_0k=["<<k<<"]"<<endl;cout<<"_0l=["<<l<<"]"<<endl;cout<<"_0a=["<<a<<"]"<<endl;cout<<"_0b=["<<b<<"]"<<endl;cout<<"_0c="<<c<<endl;
+
+    if (c < zero)
     {
         std::swap(k, l);
         c = -c;
     }
 
-    RT p, d;
+    cout<<"_1k=["<<k<<"]"<<endl;cout<<"_1l=["<<l<<"]"<<endl;cout<<"_1a=["<<a<<"]"<<endl;cout<<"_1b=["<<b<<"]"<<endl;cout<<"_1c="<<c<<endl;
 
     RT i = CGAL::cross_product(k, l).squared_length();
     RT j = CGAL::cross_product(a, b).squared_length();
 
-    if (i == RT(0))
+    cout<<"_2i="<<i<<endl;cout<<"_2j="<<j<<endl;
+
+    RT r;
+    ERT p, d;
+
+    if (i == zero)
     {
-        p = j;
-        d = RT(0);
+        r = one;
+        p = ERT(j, zero, r);
+        d = ERT(zero, zero, r);
     }
-    else if (j == RT(0))
+    else if (j == zero)
     {
-        p = i;
-        d = RT(0);
+        r = one;
+        p = ERT(i, zero, r);
+        d = ERT(zero, zero, r);
     }
     else
     {
+        r = i * j;
+
         if (i < j)
-            p = i;
+            p = ERT(i, zero, r);
         else
-            p = j;
+            p = ERT(j, zero, r);
 
-        d = i * j;
+        d = ERT(zero, one, r);
     }
 
-    if (d == RT(0))
-    {
-        // no extension
-    }
-    else
-    {
-        // with extension
-        RT pp = p * p;
-        RT ppp = pp * p;
-        RT cppp = c * ppp;
-        ERT pd = p * ERT(RT(0), d);
+    cout<<"_2p="<<p<<endl;cout<<"_2d="<<d<<endl;
 
-        ERT e[4] = { cppp - ( pp + pd ),
-                     cppp - ( pp - pd ),
-                     cppp - (-pp + pd ) ,
-                     cppp - (-pp - pd ) };
+    ERT pp = p * p;
+    ERT ppp = pp * p;
+    ERT cppp = c * ppp;
+    ERT pd = p * d;
 
-        Matrix_ERT m = Matrix_ERT(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
+    cout<<"_3pp="<<pp<<endl;cout<<"_3ppp="<<ppp<<endl;cout<<"_3cppp="<<cppp<<endl;cout<<"_3pd="<<pd<<endl;
 
-        Matrix_ERT me[4];
+    ERT e[4] = { cppp - ( pp + pd ),
+                 cppp - ( pp - pd ),
+                 cppp - (-pp + pd ) ,
+                 cppp - (-pp - pd ) };
 
-    //    for (int z = 0; z < 4; ++z)
-    //        me[z] = m - Matrix_ERT::diagonal(e[z]);
-    }
+    cout<<"_4e0="<<e[0]<<endl;cout<<"_4e1="<<e[1]<<endl;cout<<"_4e2="<<e[2]<<endl;cout<<"_4e3="<<e[3]<<endl;
+
+    Matrix_ERT m(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
+    Matrix_ERT me[4];
+
+//    for (int z = 0; z < 4; ++z)
+//        me[z] = m - Matrix_ERT::diagonal(e[z]);
+
 }
 
 template<class Kernel_>
 const typename Predicate_g_parametrization_3<Kernel_>::Vector_3 &Predicate_g_parametrization_3<Kernel_>::b() const
 {
     return m_b;
+}
+
+template<class Kernel_>
+Spin_3<double> Predicate_g_parametrization_3<Kernel_>::approx_evaluate(double u, double v) const
+{
+    return Spin_3<double>(1, 0, 0, 0);
 }
 } // namespace CS

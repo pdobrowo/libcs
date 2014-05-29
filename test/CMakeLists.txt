@@ -198,6 +198,7 @@ set(test_BASE_SOURCES
     ${test_HEADERS}
     main.cpp
     test_inexact_perf.cpp
+    test_various.cpp
 )
 
 if(LIBCS_WITH_EXACT_KERNEL)

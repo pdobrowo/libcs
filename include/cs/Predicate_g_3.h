@@ -48,7 +48,9 @@ class Predicate_g_3
     Vector_3 choose_r_vector(const Vector_3 &v);
 
 public:
-    typedef Kernel_                             Kernel;
+    typedef Kernel_                                 Kernel;
+
+    typedef Predicate_g_parametrization_3<Kernel>   Parametrization;
 
     Predicate_g_3();
 
@@ -73,7 +75,7 @@ public:
 
     Predicate_g_type type() const;
 
-    Predicate_g_parametrization_3<Kernel> parametrization() const;
+    Parametrization parametrization() const;
 
 private:
     Vector_3    m_k;

@@ -21,6 +21,7 @@
 #define LIBCS_MATRIX_44_H
 
 #include "Vector_4.h"
+#include <ostream>
 
 namespace CS
 {
@@ -62,6 +63,9 @@ public:
 private:
     RT m_e[4][4];
 };
+
+template<class RT_>
+std::ostream &operator <<(std::ostream &os, const Matrix_44<RT_> &matrix);
 } // namespace CS
 
 #include "Matrix_44.ipp"

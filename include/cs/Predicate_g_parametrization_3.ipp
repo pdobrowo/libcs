@@ -20,6 +20,7 @@
 #include "Predicate_g_parametrization_3.h"
 #include <algorithm>
 
+#include <cassert>
 #include <iostream>
 
 namespace CS
@@ -54,31 +55,31 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
 
     cout<<"_2u="<<u<<endl;cout<<"_2v="<<v<<endl;
 
-    RT r;
+    RT root;
     ERT p, d;
 
     if (u == zero)
     {
-        r = one;
-        p = ERT(v, zero, r);
-        d = ERT(zero, zero, r);
+        root = one;
+        p = ERT(v, zero, root);
+        d = ERT(zero, zero, root);
     }
     else if (v == zero)
     {
-        r = one;
-        p = ERT(u, zero, r);
-        d = ERT(zero, zero, r);
+        root = one;
+        p = ERT(u, zero, root);
+        d = ERT(zero, zero, root);
     }
     else
     {
-        r = u * v;
+        root = u * v;
 
         if (u < v)
-            p = ERT(u, zero, r);
+            p = ERT(u, zero, root);
         else
-            p = ERT(v, zero, r);
+            p = ERT(v, zero, root);
 
-        d = ERT(zero, one, r);
+        d = ERT(zero, one, root);
     }
 
     cout<<"_2p="<<p<<endl;cout<<"_2d="<<d<<endl;
@@ -104,11 +105,19 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
     cout<<"eu="<<uni_count<<endl;
     for(int z=0;z<uni_count;++z)cout<<"se"<<z<<":"<<eval[z]<<endl;
 
-    Matrix_ERT mbase(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
+    Matrix_RT mbaseraw(Spin_quadric_3(Predicate_g_3(p.a0() * k, p.a0() * l, p.a0() * a, p.a0() * b, ppp.a0() * c)).matrix());
+    Matrix_ERT mbase;
+
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            mbase.set(i, j, ERT(mbaseraw.get(i, j), zero, root));
+
     Matrix_ERT q;
 
     int total_dim = 0;
     Vector_ERT vk[4];
+
+    cout<<"mbase:"<<endl<<mbase<<endl;
 
     for (int uni_idx = 0; uni_idx < uni_count; ++uni_idx)
     {
@@ -117,7 +126,10 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
         for (int i = 0; i < 4; ++i)
             meval.set(i, i, meval.get(i, i) - eval[uni_idx]);
 
+        cout<<"meval"<<uni_idx<<":"<<endl<<meval<<endl;
+
         int dim = meval.kernel(vk);
+        assert(dim > 0);
 
         cout<<"dim="<<dim<<endl;
 
@@ -125,7 +137,7 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
             vk[total_dim++] = vk[i];
     }
 
-    //assert(total_dim == 4);
+    assert(total_dim == 4);
     cout<<"total_dim="<<total_dim<<endl;
 }
 

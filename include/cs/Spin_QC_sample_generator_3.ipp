@@ -58,7 +58,6 @@ void Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::fetch(Spin_quadric_iterat
             const double MAX_SOLUTION_ERROR = 10-8;
             (void)MAX_SOLUTION_ERROR;
 
-            using std::fabs;
             using Math::fabs;
 
             assert(fabs(iterator->evaluate(random_circle.evaluate(solutions[j]))) < MAX_SOLUTION_ERROR);

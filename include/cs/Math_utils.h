@@ -20,13 +20,14 @@
 #ifndef LIBCS_MATH_UTILS_H
 #define LIBCS_MATH_UTILS_H
 
-#include <CGAL/Gmpfr.h>
-#include <mpfr.h>
-#include <cassert>
+#if !defined(LIBCS_MATH_UTILS_INTERNAL_FILE)
+#if !defined(LIBCS_SPIN_KERNEL_INCLUDE_FILE) && !defined(LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE)
+#error Do not include this file directly, include Spin_kernel_3.h or Spin_inexact_kernel_3.h instead
+#endif // !defined(LIBCS_SPIN_KERNEL_INCLUDE_FILE) && !defined(LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE)
+#endif // !defined(LIBCS_MATH_UTILS_INTERNAL_FILE)
 
 namespace CS
 {
-// implement missing math operators for CGAL::Gmpfr
 namespace Math
 {
 // add missing definitions in some toolchains
@@ -34,17 +35,23 @@ namespace Math
 #define M_PI 3.14159265358979323846
 #endif // M_PI
 
-mpfr_rnd_t gmp_rounding_mode(std::float_round_style r);
-CGAL::Gmpfr::Precision_type gmp_result_precision(const CGAL::Gmpfr &x);
+float sin(const float &x);
+float cos(const float &x);
+float acos(const float &x);
+float atan(const float &x);
+float pow(const float &x, const float &y);
+float atan2(const float &y, const float &x);
+float sqrt(const float &x);
+float fabs(const float &x);
 
-CGAL::Gmpfr sin(const CGAL::Gmpfr &x);
-CGAL::Gmpfr cos(const CGAL::Gmpfr &x);
-CGAL::Gmpfr acos(const CGAL::Gmpfr &x);
-CGAL::Gmpfr atan(const CGAL::Gmpfr &x);
-CGAL::Gmpfr pow(const CGAL::Gmpfr &x, const CGAL::Gmpfr &y);
-CGAL::Gmpfr atan2(const CGAL::Gmpfr &y, const CGAL::Gmpfr &x);
-CGAL::Gmpfr sqrt(const CGAL::Gmpfr &x);
-CGAL::Gmpfr fabs(const CGAL::Gmpfr &x);
+double sin(const double &x);
+double cos(const double &x);
+double acos(const double &x);
+double atan(const double &x);
+double pow(const double &x, const double &y);
+double atan2(const double &y, const double &x);
+double sqrt(const double &x);
+double fabs(const double &x);
 
 template<class FT_>
 FT_ pi();
@@ -54,11 +61,6 @@ float pi<float>();
 
 template<>
 double pi<double>();
-
-template<>
-CGAL::Gmpfr pi<CGAL::Gmpfr>();
-
-void print(const CGAL::Gmpfr &x);
 } // namespace Math
 } // namespace CS
 

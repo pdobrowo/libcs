@@ -23,6 +23,11 @@
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 
+// math utils
+#define LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE
+#include "Math_utils.h"
+#undef LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE
+
 // predicates
 #include "Predicate_h_3.h"
 #include "Predicate_s_3.h"

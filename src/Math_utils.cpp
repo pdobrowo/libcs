@@ -17,85 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define LIBCS_MATH_UTILS_INTERNAL_FILE
 #include <cs/Math_utils.h>
+#undef LIBCS_MATH_UTILS_INTERNAL_FILE
+
+#include <cmath>
 
 namespace CS
 {
 namespace Math
 {
-mpfr_rnd_t gmp_rounding_mode(std::float_round_style r)
-{
-    switch (r)
-    {
-        case std::round_toward_infinity: return MPFR_RNDU;
-        case std::round_toward_neg_infinity: return MPFR_RNDD;
-        case std::round_toward_zero: return MPFR_RNDZ;
-        case std::round_to_nearest: return MPFR_RNDN;
-        default:
-            assert(0);
-            return MPFR_RNDN;
-    }
-}
-
-CGAL::Gmpfr::Precision_type gmp_result_precision(const CGAL::Gmpfr &x)
-{
-    return (x.get_precision() > CGAL::Gmpfr::get_default_precision() ?
-            x.get_precision() :
-            CGAL::Gmpfr::get_default_precision());
-}
-
-CGAL::Gmpfr sin(const CGAL::Gmpfr &x)
-{
-    CGAL::Gmpfr result(0, gmp_result_precision(x));
-    mpfr_sin(result.fr(), x.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr cos(const CGAL::Gmpfr &x)
-{
-    CGAL::Gmpfr result(0, gmp_result_precision(x));
-    mpfr_cos(result.fr(), x.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr acos(const CGAL::Gmpfr &x)
-{
-    CGAL::Gmpfr result(0, gmp_result_precision(x));
-    mpfr_acos(result.fr(), x.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr atan(const CGAL::Gmpfr &x)
-{
-    CGAL::Gmpfr result(0, gmp_result_precision(x));
-    mpfr_atan(result.fr(), x.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr pow(const CGAL::Gmpfr &x, const CGAL::Gmpfr &y)
-{
-    CGAL::Gmpfr result(0, std::max(gmp_result_precision(x), gmp_result_precision(y)));
-    mpfr_pow(result.fr(), x.fr(), y.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr atan2(const CGAL::Gmpfr &y, const CGAL::Gmpfr &x)
-{
-    CGAL::Gmpfr result(0, std::max(gmp_result_precision(y), gmp_result_precision(x)));
-    mpfr_atan2(result.fr(), y.fr(), x.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
-}
-
-CGAL::Gmpfr sqrt(const CGAL::Gmpfr &x)
-{
-    return x.sqrt();
-}
-
-CGAL::Gmpfr fabs(const CGAL::Gmpfr &x)
-{
-    return x.abs();
-}
-
 template<>
 float pi<float>()
 {
@@ -108,17 +39,85 @@ double pi<double>()
     return M_PI;
 }
 
-template<>
-CGAL::Gmpfr pi<CGAL::Gmpfr>()
+float sin(const float &x)
 {
-    CGAL::Gmpfr result(0, CGAL::Gmpfr::get_default_precision());
-    mpfr_const_pi(result.fr(), gmp_rounding_mode(CGAL::Gmpfr::get_default_rndmode()));
-    return result;
+    return std::sin(x);
 }
 
-void print(const CGAL::Gmpfr &x)
+float cos(const float &x)
 {
-    mpfr_out_str(stderr, 10, 0, x.fr(), GMP_RNDD);
+    return std::cos(x);
 }
+
+float acos(const float &x)
+{
+    return std::acos(x);
+}
+
+float atan(const float &x)
+{
+    return std::atan(x);
+}
+
+float pow(const float &x, const float &y)
+{
+    return std::pow(x, y);
+}
+
+float atan2(const float &y, const float &x)
+{
+    return std::atan2(y, x);
+}
+
+float sqrt(const float &x)
+{
+    return std::sqrt(x);
+}
+
+float fabs(const float &x)
+{
+    return std::fabs(x);
+}
+
+double sin(const double &x)
+{
+    return std::sin(x);
+}
+
+double cos(const double &x)
+{
+    return std::cos(x);
+}
+
+double acos(const double &x)
+{
+    return std::acos(x);
+}
+
+double atan(const double &x)
+{
+    return std::atan(x);
+}
+
+double pow(const double &x, const double &y)
+{
+    return std::pow(x, y);
+}
+
+double atan2(const double &y, const double &x)
+{
+    return std::atan2(y, x);
+}
+
+double sqrt(const double &x)
+{
+    return std::sqrt(x);
+}
+
+double fabs(const double &x)
+{
+    return std::fabs(x);
+}
+
 } // namespace Math
 } // namespace CS

@@ -20,7 +20,6 @@
 #ifndef LIBCS_CUBIC_H
 #define LIBCS_CUBIC_H
 
-#include "Math_utils.h"
 #include <CGAL/Gmpfr.h>
 #include <algorithm>
 #include <cassert>
@@ -35,11 +34,6 @@ namespace Math
  *
  * The code comes from GSL package
  */
-using std::cos;
-using std::acos;
-using std::sqrt;
-using std::pow;
-using std::fabs;
 using Math::cos;
 using Math::acos;
 using Math::sqrt;

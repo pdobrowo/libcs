@@ -22,11 +22,51 @@
 namespace CS
 {
 template<class FT_>
-void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0)
+inline void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0)
 {
     // exact checking
     assert(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0 == FT_(1));
 }
+
+template<>
+inline void check_spin_3_norm<float>(const float &s12, const float &s23, const float &s31, const float &s0)
+{
+    // double is an inexact type - check norm with an error bound
+    const float MAX_ERROR = 10e-6;
+    (void)MAX_ERROR;
+
+    const float length = std::sqrt(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0);
+    (void)length;
+
+    assert(std::fabs(1.0 - length) <= MAX_ERROR);
+}
+
+template<>
+inline void check_spin_3_norm<double>(const double &s12, const double &s23, const double &s31, const double &s0)
+{
+    // double is an inexact type - check norm with an error bound
+    const double MAX_ERROR = 10e-10;
+    (void)MAX_ERROR;
+
+    const double length = std::sqrt(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0);
+    (void)length;
+
+    assert(std::fabs(1.0 - length) <= MAX_ERROR);
+}
+
+#ifdef Gmpfr // TODO: Fixme
+template<>
+inline void check_spin_3_norm<CGAL::Gmpfr>(const CGAL::Gmpfr &s12, const CGAL::Gmpfr &s23, const CGAL::Gmpfr &s31, const CGAL::Gmpfr &s0)
+{
+    // CGAL::Gmpfr is an inexact type - check norm with an error bound
+    const CGAL::Gmpfr MAX_ERROR = 10e-64;
+
+    const CGAL::Gmpfr length = Math::sqrt(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0);
+    //Math::print(length);
+
+    assert(Math::fabs(CGAL::Gmpfr(1.0) - length) <= MAX_ERROR);
+}
+#endif // Gmpfr
 
 template<class FT_>
 Spin_3<FT_>::Spin_3()
@@ -57,7 +97,7 @@ Spin_3<FT_>::Spin_3(
 }
 
 template<class FT_>
-bool operator == (const Spin_3<FT_> &lhs, const Spin_3<FT_> &rhs)
+inline bool operator == (const Spin_3<FT_> &lhs, const Spin_3<FT_> &rhs)
 {
     return lhs.m_s12 == rhs.m_s12 &&
            lhs.m_s23 == rhs.m_s23 &&
@@ -171,7 +211,7 @@ void Spin_3<FT>::premultiply()
 }
 
 template<class FT>
-FT imaginary_squared_distance(const Spin_3<FT> &lhs, const Spin_3<FT> &rhs)
+inline FT imaginary_squared_distance(const Spin_3<FT> &lhs, const Spin_3<FT> &rhs)
 {
     return (lhs.s12() - rhs.s12()) * (lhs.s12() - rhs.s12()) +
            (lhs.s23() - rhs.s23()) * (lhs.s23() - rhs.s23()) +
@@ -179,7 +219,7 @@ FT imaginary_squared_distance(const Spin_3<FT> &lhs, const Spin_3<FT> &rhs)
 }
 
 template<class FT>
-Spin_3<FT> slerp(const Spin_3<FT> &spin_0, const Spin_3<FT> &spin_1, double time)
+inline Spin_3<FT> slerp(const Spin_3<FT> &spin_0, const Spin_3<FT> &spin_1, double time)
 {
     // taken from Shoemake's paper
     FT dot = spin_0.s12() * spin_1.s12() + spin_0.s23() * spin_1.s23() + spin_0.s31() * spin_1.s31() + spin_0.s0()  * spin_1.s0();
@@ -211,7 +251,7 @@ Spin_3<FT> slerp(const Spin_3<FT> &spin_0, const Spin_3<FT> &spin_1, double time
 }
 
 template<class FT_>
-std::ostream &operator <<(std::ostream &stream, const Spin_3<FT_> &spin)
+inline std::ostream &operator <<(std::ostream &stream, const Spin_3<FT_> &spin)
 {
     stream << spin.m_s12 << " * e_12 + "
            << spin.m_s23 << " * e_23 + "
@@ -285,7 +325,7 @@ const typename Diff_spin_3<FT_>::FT &Diff_spin_3<FT_>::ds0() const
 }
 
 template<class FT>
-std::ostream &operator <<(std::ostream &stream, const Diff_spin_3<FT> &spin)
+inline std::ostream &operator <<(std::ostream &stream, const Diff_spin_3<FT> &spin)
 {
     stream << spin.m_ds12 << " * d e_12 + "
            << spin.m_ds23 << " * d e_23 + "

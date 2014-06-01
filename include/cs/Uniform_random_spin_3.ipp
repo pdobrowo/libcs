@@ -48,20 +48,14 @@ void uniform_random_spin_3(Spin_3<FT_> &out)
     const FT_ TWO    = 2.0;
     const FT_ TWO_PI = TWO * pi<FT_>();
 
-    // take math functions from std
-    using std::sqrt;
-    using std::sin;
-    using std::cos;
-
-    // also take math functions from private implementation for CGAL types
     using Math::sqrt;
     using Math::sin;
     using Math::cos;
 
     // calculate
     out = Spin_3<FT_>(sqrt(ONE - u1) * sin(TWO_PI * u2),
-                     sqrt(ONE - u1) * cos(TWO_PI * u2),
-                     sqrt(u1) * sin(TWO_PI * u3),
-                     sqrt(u1) * cos(TWO_PI * u3));
+                      sqrt(ONE - u1) * cos(TWO_PI * u2),
+                      sqrt(u1) * sin(TWO_PI * u3),
+                      sqrt(u1) * cos(TWO_PI * u3));
 }
 } // namespace CS

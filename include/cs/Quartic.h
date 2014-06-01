@@ -20,7 +20,6 @@
 #ifndef LIBCS_QUARTIC_H
 #define LIBCS_QUARTIC_H
 
-#include "Math_utils.h"
 #include "Quadratic.h"
 #include <CGAL/Gmpfr.h>
 #include <algorithm>
@@ -36,12 +35,6 @@ namespace Math
  *
  * The code comes from GSL package extension, which in fact comes from CERN project
  */
-using std::sin;
-using std::cos;
-using std::sqrt;
-using std::acos;
-using std::pow;
-using std::atan2;
 using Math::sin;
 using Math::cos;
 using Math::sqrt;

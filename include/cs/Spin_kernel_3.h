@@ -31,6 +31,11 @@
 #include <CGAL/basic.h>
 #include <CGAL/Gmpz.h>
 
+// math utils
+#define LIBCS_SPIN_KERNEL_INCLUDE_FILE
+#include "Math_utils_exact.h"
+#undef LIBCS_SPIN_KERNEL_INCLUDE_FILE
+
 #ifdef CS_USE_RS_LIBRARY
 #    define CGAL_USE_RS3 1
 //   RS kernel for integer polynomials

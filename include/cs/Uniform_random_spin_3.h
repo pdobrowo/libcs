@@ -22,7 +22,6 @@
 
 #include <CGAL/Gmpfr.h>
 #include "Spin_3.h"
-#include "Math_utils.h"
 #include <cstdlib>
 #include <cassert>
 

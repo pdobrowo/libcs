@@ -20,7 +20,6 @@
 #ifndef LIBCS_QUADRATIC_H
 #define LIBCS_QUADRATIC_H
 
-#include "Math_utils.h"
 #include <CGAL/Gmpfr.h>
 #include <cassert>
 #include <cmath>
@@ -34,9 +33,7 @@ namespace Math
  *
  * The code comes from GSL package
  */
-using std::sqrt;
 using Math::sqrt;
-using std::fabs;
 using Math::fabs;
 
 /* poly/solve_quadratic.c

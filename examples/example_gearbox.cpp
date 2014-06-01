@@ -19,9 +19,18 @@
  */
 #include "example_gearbox.h"
 
+#define EXACT 0
+
+#if EXACT
 #include <cs/Spin_kernel_3.h>
 #include <cs/Bigint.h>
+#else // EXACT
+#include <cs/Spin_inexact_kernel_3.h>
+#include <cs/Coordinate.h>
+#endif // EXACT
 #include <CGAL/Cartesian.h>
+
+#include <iostream>
 
 struct Floating_point_inexact_kernel_raster_graph
 {
@@ -65,6 +74,7 @@ struct Floating_point_inexact_kernel_cell_graph
     typedef Kernel::Point_3 Point_3;
 };
 
+#if EXACT
 struct Bigint_exact_kernel_exact_graph
 {
     // kernel settings
@@ -85,6 +95,7 @@ struct Bigint_exact_kernel_exact_graph
     typedef Kernel::Triangle_3 Triangle_3;
     typedef Kernel::Point_3 Point_3;
 };
+#endif // EXACT
 
 template<typename Traits>
 void example_gearbox_generic()
@@ -144,6 +155,38 @@ void example_gearbox_generic()
     cs.create_from_scene(knob_triangles, knob_triangles + 6,
                          body_triangles, body_triangles + 6,
                          Traits::parameters());
+
+#if 1
+
+    typedef typename Configuration_space_3::Representation Representation;
+    const Representation &rep = cs.rep();
+
+    typedef typename Representation::Cell_const_iterator Cell_const_iterator;
+    typedef typename Representation::Cell Cell;
+
+    size_t index = 0;
+
+    for (Cell_const_iterator cell_iterator = rep.cells_begin(); cell_iterator != rep.cells_end(); ++cell_iterator)
+    {
+        const Cell &cell = *cell_iterator;
+        CS::Coordinate coordinate = cell.coordinate();
+
+        std::cout << index << ": [";
+
+        for (CS::Coordinate::const_iterator bit_iterator = coordinate.begin(); bit_iterator != coordinate.end(); ++bit_iterator)
+        {
+            if (bit_iterator == coordinate.begin())
+                std::cout << (*bit_iterator ? "1" : "0");
+            else
+                std::cout << (*bit_iterator ? ", 1" : ", 0");
+        }
+
+        std::cout << "]" << std::endl;
+
+        ++index;
+    }
+
+#endif
 }
 
 void example_gearbox()

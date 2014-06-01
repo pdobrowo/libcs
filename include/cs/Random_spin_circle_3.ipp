@@ -110,7 +110,6 @@ size_t Random_spin_circle_3<Kernel_>::intersect_quadric(const Spin_quadric_3 &qu
                                                     solutions + 0, solutions + 1, solutions + 2, solutions + 3);
 
     // take inexact atan functions
-    using std::atan;
     using Math::atan;
 
     // convert solutions to alpha-space
@@ -130,8 +129,6 @@ typename Random_spin_circle_3<Kernel_>::Spin_3 Random_spin_circle_3<Kernel_>::ev
     const FT &g0 = m_g.s0();
 
     // take inexact sin/cos functions
-    using std::sin;
-    using std::cos;
     using Math::sin;
     using Math::cos;
 

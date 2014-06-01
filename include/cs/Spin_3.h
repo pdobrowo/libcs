@@ -20,7 +20,6 @@
 #ifndef LIBCS_SPIN_3_H
 #define LIBCS_SPIN_3_H
 
-#include "Math_utils.h"
 #include <cassert>
 #include <ostream>
 #include <cmath>
@@ -30,17 +29,16 @@ namespace CS
 template<class FT_>
 void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0);
 
-template<class FT_>
-void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0);
-
 template<>
 void check_spin_3_norm<float>(const float &s12, const float &s23, const float &s31, const float &s0);
 
 template<>
 void check_spin_3_norm<double>(const double &s12, const double &s23, const double &s31, const double &s0);
 
+#ifdef Gmpfr // TODO: Fixme
 template<>
 void check_spin_3_norm<CGAL::Gmpfr>(const CGAL::Gmpfr &s12, const CGAL::Gmpfr &s23, const CGAL::Gmpfr &s31, const CGAL::Gmpfr &s0);
+#endif // Gmpfr
 
 template<class FT_>
 class Spin_3;

@@ -211,7 +211,7 @@ int Matrix_44<RT_>::kernel(Vector_4<RT> out_base[4]) const
 }
 
 template<class RT_>
-std::ostream &operator <<(std::ostream &os, const Matrix_44<RT_> &matrix)
+inline std::ostream &operator <<(std::ostream &os, const Matrix_44<RT_> &matrix)
 {
     return (os << "|" << matrix.get(0, 0) << "; " << matrix.get(0, 1) << "; " << matrix.get(0, 2) << "; " << matrix.get(0, 3) << "|" << std::endl
                << "|" << matrix.get(1, 0) << "; " << matrix.get(1, 1) << "; " << matrix.get(1, 2) << "; " << matrix.get(1, 3) << "|" << std::endl

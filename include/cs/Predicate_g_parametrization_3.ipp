@@ -50,6 +50,9 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
 
     cout<<"_1k=["<<k<<"]"<<endl;cout<<"_1l=["<<l<<"]"<<endl;cout<<"_1a=["<<a<<"]"<<endl;cout<<"_1b=["<<b<<"]"<<endl;cout<<"_1c="<<c<<endl;
 
+    Matrix_RT temp(Spin_quadric_3(Predicate_g_3(k, l, a, b, c)).matrix());
+    cout<<"unnormalized:"<<endl<<temp<<endl;
+
     RT u = CGAL::cross_product(k, l).squared_length() * (a - b).squared_length();
     RT v = (k - l).squared_length() * CGAL::cross_product(a, b).squared_length();
 
@@ -63,12 +66,18 @@ Predicate_g_parametrization_3<Kernel_>::Predicate_g_parametrization_3(const Pred
         root = one;
         p = ERT(v, zero, root);
         d = ERT(zero, zero, root);
+
+        Matrix_RT tempV(Spin_quadric_3(Predicate_g_3(v * k, v * l, v * a, v * b, v * v * v * c)).matrix());
+        cout<<"v normalized:"<<endl<<tempV<<endl;
     }
     else if (v == zero)
     {
         root = one;
         p = ERT(u, zero, root);
         d = ERT(zero, zero, root);
+
+        Matrix_RT tempU(Spin_quadric_3(Predicate_g_3(u * k, u * l, u * a, u * b, u * u * u * c)).matrix());
+        cout<<"u normalized:"<<endl<<tempU<<endl;
     }
     else
     {

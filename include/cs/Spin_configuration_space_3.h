@@ -138,6 +138,15 @@ private:
 // standard representations
 template<class Kernel_,
          class Predicate_>
+class Spin_null_configuration_space_3
+    : public Spin_configuration_space_3<Kernel_,
+                                        Predicate_,
+                                        typename Kernel_::template Spin_null_graph_3_generator<Predicate_>::Type>
+{
+};
+
+template<class Kernel_,
+         class Predicate_>
 class Spin_cell_configuration_space_3
     : public Spin_configuration_space_3<Kernel_,
                                         Predicate_,

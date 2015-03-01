@@ -79,6 +79,7 @@
 #include "Spin_quadric_tree_3.h"
 
 // configuration space
+#include "Spin_null_graph_3.h"
 #include "Spin_cell_graph_3.h"
 #include "Spin_raster_graph_3.h"
 #include "Spin_exact_graph_3.h"
@@ -150,6 +151,13 @@ struct Spin_kernel_3
     // sentence
     typedef CS::Spin_quadric_tree_3<Kernel>         Spin_quadric_tree_3;
 
+    // spin null graph and configuration space generators based on base predicate type
+    template<class Predicate>
+    struct Spin_null_graph_3_generator
+    {
+        typedef CS::Spin_null_graph_3<Kernel, Predicate> Type;
+    };
+
     // spin cell graph and configuration space generators based on base predicate type
     template<class Predicate>
     struct Spin_cell_graph_3_generator
@@ -179,6 +187,12 @@ struct Spin_kernel_3
     };
 
     // shortcuts
+    template<class Predicate>
+    struct Spin_null_configuration_space_3
+    {
+        typedef CS::Spin_null_configuration_space_3<Kernel, Predicate> Type;
+    };
+
     template<class Predicate>
     struct Spin_cell_configuration_space_3
     {

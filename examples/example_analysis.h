@@ -17,22 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//#include "example_simple_raster.h"
-//#include "example_gearbox.h"
-//#include "example_ball_knob.h"
-//#include "example_find_path.h"
-#include "example_analysis.h"
-#include <log4cxx/propertyconfigurator.h>
+#ifndef EXAMPLE_ANALYSIS_H
+#define EXAMPLE_ANALYSIS_H
 
-int main()
-{
-    log4cxx::PropertyConfigurator::configure("logger.conf");
+void example_analysis();
 
-    //example_simple_raster();
-    //example_gearbox();
-    //example_ball_knob();
-    //example_find_path();
-    example_analysis();
-
-    return 0;
-}
+#endif // EXAMPLE_ANALYSIS_H

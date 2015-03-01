@@ -193,8 +193,9 @@ endif()
 set(examples_HEADERS
 #    example_ball_knob.h
 #    example_find_path.h
-    example_gearbox.h
+#    example_gearbox.h
 #    example_simple_raster.h
+    example_analysis.h
 )
 
 set(examples_BASE_SOURCES
@@ -202,8 +203,9 @@ set(examples_BASE_SOURCES
     main.cpp
 #    example_ball_knob.cpp
 #    example_find_path.cpp
-    example_gearbox.cpp
+#    example_gearbox.cpp
 #    example_simple_raster.cpp
+    example_analysis.cpp
 )
 
 if(LIBCS_WITH_EXACT_KERNEL)

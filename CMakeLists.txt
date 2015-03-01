@@ -287,6 +287,8 @@ set(cs_HEADERS
     include/cs/Spin_quadric_tree_generator.ipp
     include/cs/Spin_raster_graph_3.h
     include/cs/Spin_raster_graph_3.ipp
+    include/cs/Spin_null_graph_3.h
+    include/cs/Spin_null_graph_3.ipp
     include/cs/Spin_reduced_quadric_3.h
     include/cs/Spin_reduced_quadric_3.ipp
     include/cs/Spin_straight_sample_generator_3.h

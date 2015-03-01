@@ -19,13 +19,6 @@
  */
 #include "Spin_configuration_space_3.h"
 
-//#define DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-
-#ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-    #include <iostream>
-    #include <eigen3/Eigen/Dense>
-#endif // DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-
 namespace CS
 {
 template<class Kernel_, class Predicate_, class Representation_>
@@ -86,31 +79,6 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
 
     BOOST_FOREACH(const Predicate_g_3 &general_predicate, m_general_predicates)
         m_spin_quadrics.push_back(Spin_quadric_3(general_predicate));
-
-#ifdef DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
-
-    // print spin-surface associated ellipsoids
-    for (typename std::vector<Spin_quadric_3>::const_iterator it = m_quadrics.begin(); it != m_quadrics.end(); ++it)
-    {
-        typename K::Matrix ellipsoid_matrix = it->ellipsoid_matrix();
-
-        Eigen::Matrix4d eigen_matrix;
-
-        for (int row = 0; row < 4; ++row)
-            for (int column = 0; column < 4; ++column)
-                eigen_matrix(row, column) = ellipsoid_matrix(row, column);
-
-        std::cout << "spin-quadric associated ellipsoid:" << std::endl << eigen_matrix << std::endl;
-
-        Eigen::EigenSolver<Eigen::Matrix4d> eigensolver(eigen_matrix);
-
-        if (eigensolver.info() == Eigen::Success)
-            std::cout << "eigenvalues:" << std::endl << eigensolver.eigenvalues() << std::endl;
-        else
-            std::cout << "failed to calculate eigenvalues!" << std::endl;
-    }
-
-#endif // DISPLAY_SPIN_SURFACE_ASSOCIATED_ELLIPSOID
 
     LOG4CXX_INFO(m_logger, "Prepared " << m_spin_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");
 

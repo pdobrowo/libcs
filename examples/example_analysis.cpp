@@ -22,6 +22,7 @@
 #include <CGAL/Cartesian.h>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
+#include <cmath>
 
 // kernel settings
 typedef double RT;
@@ -34,9 +35,11 @@ typedef Kernel::Spin_null_configuration_space_3<Predicate_tt_3>::Type Configurat
 typedef Configuration_space_3::Parameters Parameters;
 
 // objects
-typedef Kernel::Triangle_3 Triangle_3;
 typedef Kernel::Point_3 Point_3;
+typedef Kernel::Vector_3 Vector_3;
+typedef Kernel::Triangle_3 Triangle_3;
 typedef Kernel::Spin_quadric_3 Spin_quadric_3;
+typedef Kernel::Predicate_g_3 Predicate_g_3;
 
 void example_analysis()
 {
@@ -93,9 +96,23 @@ void example_analysis()
     // analysis
 
     // print spin-surface associated ellipsoids
-    for (typename std::vector<Spin_quadric_3>::const_iterator it = cs.spin_quadrics_begin(); it != cs.spin_quadrics_end(); ++it)
+    std::vector<Spin_quadric_3>::const_iterator spin_quadrics_iterator = cs.spin_quadrics_begin();
+    std::vector<Predicate_g_3>::const_iterator general_predicate_iterator = cs.general_predicates_begin();
+    assert(cs.size_of_spin_quadrics() == cs.size_of_general_predicates());
+
+    typedef Configuration_space_3::General_predicate_size_type Count_type;
+    Count_type count = cs.size_of_general_predicates();
+
+    for (Count_type idx = 0; idx < count; ++idx)
     {
-        typename Kernel::Matrix ellipsoid_matrix = it->ellipsoid_matrix();
+        // current
+        const Spin_quadric_3 &spin_quadric = *spin_quadrics_iterator;
+        const Predicate_g_3 &general_predicate = *general_predicate_iterator;
+
+        std::cout << "--------------------------------------------------------" << std::endl;
+
+        // matrix
+        Kernel::Matrix ellipsoid_matrix = spin_quadric.matrix();
 
         Eigen::Matrix4d eigen_matrix;
 
@@ -103,8 +120,9 @@ void example_analysis()
             for (int column = 0; column < 4; ++column)
                 eigen_matrix(row, column) = ellipsoid_matrix.get(row, column);
 
-        std::cout << "spin-quadric associated ellipsoid:" << std::endl << eigen_matrix << std::endl;
+        std::cout << "spin-quadric associated matrix:" << std::endl << eigen_matrix << std::endl;
 
+        // eigensystem
         Eigen::EigenSolver<Eigen::Matrix4d> eigensolver(eigen_matrix);
 
         if (eigensolver.info() == Eigen::Success)
@@ -114,5 +132,38 @@ void example_analysis()
         }
         else
             std::cout << "failed to calculate eigenvalues!" << std::endl;
+
+        // analysis
+        Vector_3 k = general_predicate.k();
+        Vector_3 l = general_predicate.l();
+        Vector_3 a = general_predicate.a();
+        Vector_3 b = general_predicate.b();
+        RT c = general_predicate.c();
+
+        Vector_3 p = CGAL::cross_product(k, l);
+        Vector_3 q = a - b;
+        Vector_3 u = k - l;
+        Vector_3 v = CGAL::cross_product(a, b);
+
+        RT pp = p.squared_length();
+        RT qq = q.squared_length();
+        RT uu = u.squared_length();
+        RT vv = v.squared_length();
+
+        RT sqrt_ppqq = std::sqrt(pp * qq);
+        RT sqrt_uuvv = std::sqrt(uu * vv);
+
+        RT l1 = c - (+ sqrt_ppqq + sqrt_uuvv);
+        RT l2 = c - (+ sqrt_ppqq - sqrt_uuvv);
+        RT l3 = c - (- sqrt_ppqq + sqrt_uuvv);
+        RT l4 = c - (- sqrt_ppqq - sqrt_uuvv);
+
+        std::cout << "analysis values:" << std::endl << l1 << std::endl << l2 << std::endl << l3 << std::endl << l4 << std::endl;
+
+        // Z and z
+
+        // next spin quadrics and general predicate
+        ++spin_quadrics_iterator;
+        ++general_predicate_iterator;
     }
 }

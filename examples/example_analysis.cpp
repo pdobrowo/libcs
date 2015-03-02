@@ -19,6 +19,7 @@
  */
 #include "example_analysis.h"
 #include <cs/Spin_inexact_kernel_3.h>
+#include <cs/Spin_3.h>
 #include <CGAL/Cartesian.h>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
@@ -40,6 +41,82 @@ typedef Kernel::Vector_3 Vector_3;
 typedef Kernel::Triangle_3 Triangle_3;
 typedef Kernel::Spin_quadric_3 Spin_quadric_3;
 typedef Kernel::Predicate_g_3 Predicate_g_3;
+
+typedef CS::Spin_3<double> Spin;
+
+Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vector_3 &u, const Vector_3 &v, RT alpha, RT beta)
+{
+    Vector_3 pxq = CGAL::cross_product(p, q);
+    Vector_3 uxv = CGAL::cross_product(u, v);
+    Vector_3 r = pxq + uxv;
+    RT trr = r.x() + r.y() + r.z();
+    RT rr = r * r;
+    RT pq = p * q;
+    RT uv = u * v;
+    RT qu = q * u;
+    RT pv = p * v;
+    RT pp = p * p;
+    RT qq = q * q;
+    RT uu = u * u;
+    RT vv = v * v;
+    RT trp = p.x() + p.y() + p.z();
+    RT trq = q.x() + q.y() + q.z();
+    RT tru = u.x() + u.y() + u.z();
+    RT trv = v.x() + v.y() + v.z();
+    Vector_3 pxu = CGAL::cross_product(p, u);
+    Vector_3 qxv = CGAL::cross_product(q, v);
+    RT trpxu = pxu.x() + pxu.y() + pxu.z();
+    RT trqxv = qxv.x() + qxv.y() + qxv.z();
+    RT l = alpha * std::sqrt(pp * qq) + beta * std::sqrt(uu * vv);
+    RT ll = l * l;
+    RT a44 = pq + uv + l;
+    
+    Vector_3 big_z = a44 * (qxv * trpxu
+                            + pxu * trqxv
+                            + p * qq * trp
+                            + q * pp * trq
+                            + u * vv * tru
+                            + v * uu * trv
+                            - l * (p * trq
+                                   + q * trp
+                                   + u * trv
+                                   + v * tru
+                                  )
+                           )
+                     - (p * tru + u * trp) * (pv * qq + qu * vv)
+                     - (q * trv + v * trq) * (pv * uu + qu * pp)
+                     + (p * trq + q * trp) * (pp * qq + pv * qu - pq * uv)
+                     + (u * trv + v * tru) * (uu * vv + pv * qu - pq * uv)
+                     + p * uv * trp * qq
+                     + q * uv * trq * pp
+                     - u * uv * tru * vv
+                     - v * uv * trv * uu
+                     - p * pq * trp * qq
+                     - q * pq * trq * pp
+                     + u * pq * tru * vv
+                     + v * pq * trv * uu
+                     + l * trr * r;
+  
+    RT small_z = - l * rr + a44 * (ll - pp * qq - uu * vv);
+
+    RT e1 = a44 * (big_z.z() + small_z);
+    RT e2 = a44 * (big_z.x() + small_z);
+    RT e3 = a44 * (big_z.y() + small_z);
+    RT e4 = -big_z * r - small_z * trr;
+
+    RT ee = e1 * e1 + e2 * e2 + e3 * e3 + e4 * e4;
+    RT en = std::sqrt(ee);
+    
+    std::cout << "norm: " << en << std::endl;
+
+    if (std::fabs(en) < 0.0000001)
+    {
+        std::cout << "ZERO NORM" << std::endl;
+        return Spin();
+    }
+    
+    return Spin(e1 / en, e2 / en, e3 / en, e4 / en);
+}
 
 void example_analysis()
 {
@@ -120,19 +197,29 @@ void example_analysis()
             for (int column = 0; column < 4; ++column)
                 eigen_matrix(row, column) = ellipsoid_matrix.get(row, column);
 
-        std::cout << "spin-quadric associated matrix:" << std::endl << eigen_matrix << std::endl;
+        //std::cout << "spin-quadric associated matrix:" << std::endl << eigen_matrix << std::endl;
 
         // eigensystem
         Eigen::EigenSolver<Eigen::Matrix4d> eigensolver(eigen_matrix);
 
         if (eigensolver.info() == Eigen::Success)
         {
-            std::cout << "eigenvalues:" << std::endl << eigensolver.eigenvalues() << std::endl;
-            std::cout << "eigenvectors:" << std::endl << eigensolver.eigenvectors() << std::endl;
+            std::cout << "eigen values:" << std::endl
+                << eigensolver.eigenvalues()[0].real() << std::endl
+                << eigensolver.eigenvalues()[1].real() << std::endl
+                << eigensolver.eigenvalues()[2].real() << std::endl
+                << eigensolver.eigenvalues()[3].real() << std::endl;
+                
+            std::cout << "eigen vector 1: [" << eigensolver.eigenvectors()(0, 0).real() << ", " << eigensolver.eigenvectors()(1, 0).real() << ", " << eigensolver.eigenvectors()(2, 0).real() << ", " << eigensolver.eigenvectors()(3, 0).real() << "]" << std::endl;
+            std::cout << "eigen vector 2: [" << eigensolver.eigenvectors()(0, 1).real() << ", " << eigensolver.eigenvectors()(1, 1).real() << ", " << eigensolver.eigenvectors()(2, 1).real() << ", " << eigensolver.eigenvectors()(3, 1).real() << "]" << std::endl;
+            std::cout << "eigen vector 3: [" << eigensolver.eigenvectors()(0, 2).real() << ", " << eigensolver.eigenvectors()(1, 2).real() << ", " << eigensolver.eigenvectors()(2, 2).real() << ", " << eigensolver.eigenvectors()(3, 2).real() << "]" << std::endl;
+            std::cout << "eigen vector 4: [" << eigensolver.eigenvectors()(0, 3).real() << ", " << eigensolver.eigenvectors()(1, 3).real() << ", " << eigensolver.eigenvectors()(2, 3).real() << ", " << eigensolver.eigenvectors()(3, 3).real() << "]" << std::endl;
         }
         else
             std::cout << "failed to calculate eigenvalues!" << std::endl;
 
+        std::cout << std::endl;
+        
         // analysis
         Vector_3 k = general_predicate.k();
         Vector_3 l = general_predicate.l();
@@ -161,6 +248,15 @@ void example_analysis()
         std::cout << "analysis values:" << std::endl << l1 << std::endl << l2 << std::endl << l3 << std::endl << l4 << std::endl;
 
         // Z and z
+        Spin e1 = calculate_analysis_vector(p, q, u, v, +1, +1);
+        Spin e2 = calculate_analysis_vector(p, q, u, v, +1, -1);
+        Spin e3 = calculate_analysis_vector(p, q, u, v, -1, +1);
+        Spin e4 = calculate_analysis_vector(p, q, u, v, -1, -1);
+        
+        std::cout << "analysis vector 1: [" << e1.s12() << ", " << e1.s23() << ", " << e1.s31() << ", " << e1.s0() << "]" << std::endl;
+        std::cout << "analysis vector 2: [" << e2.s12() << ", " << e2.s23() << ", " << e2.s31() << ", " << e2.s0() << "]" << std::endl;
+        std::cout << "analysis vector 3: [" << e3.s12() << ", " << e3.s23() << ", " << e3.s31() << ", " << e3.s0() << "]" << std::endl;
+        std::cout << "analysis vector 4: [" << e4.s12() << ", " << e4.s23() << ", " << e4.s31() << ", " << e4.s0() << "]" << std::endl;
 
         // next spin quadrics and general predicate
         ++spin_quadrics_iterator;

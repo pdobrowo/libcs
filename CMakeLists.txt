@@ -227,6 +227,8 @@ set(cs_HEADERS
     include/cs/Predicate_bb_3.ipp
     include/cs/Predicate_bb_3_list_generator.h
     include/cs/Predicate_bb_3_list_generator.ipp
+    include/cs/Predicate_h_3_list_generator.h
+    include/cs/Predicate_h_3_list_generator.ipp
     include/cs/Predicate_g_3.h
     include/cs/Predicate_g_3.ipp
     include/cs/Predicate_g_parametrization_3.h

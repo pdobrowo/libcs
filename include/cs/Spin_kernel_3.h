@@ -51,6 +51,7 @@
 #include <CGAL/Sqrt_extension.h>
 #include <CGAL/Filtered_kernel.h>
 #include <CGAL/Cartesian.h>
+#include <CGAL/Polyhedron_3.h>
 #include "Bigint.h"
 
 // predicates
@@ -136,7 +137,9 @@ struct Spin_kernel_3
     typedef CS::Predicate_g_3<Kernel>               Predicate_g_3;
     typedef CS::Predicate_tt_3<Kernel>              Predicate_tt_3;
     typedef CS::Predicate_bb_3<Kernel>              Predicate_bb_3;
+
     typedef CS::Ball_3<Kernel>                      Ball_3;
+    typedef CGAL::Polyhedron_3<Kernel>              Polyhedron_3;
 
     // meshers
     typedef CS::Spin_quadric_mesh_3<Kernel>         Spin_quadric_mesh_3;

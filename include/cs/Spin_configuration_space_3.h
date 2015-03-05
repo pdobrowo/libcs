@@ -23,6 +23,7 @@
 #include <CGAL/Kernel/global_functions.h>
 #include "Predicate_tt_3_list_generator.h"
 #include "Predicate_bb_3_list_generator.h"
+#include "Predicate_h_3_list_generator.h"
 #include <log4cxx/logger.h>
 #include <boost/scoped_ptr.hpp>
 #include <boost/foreach.hpp>

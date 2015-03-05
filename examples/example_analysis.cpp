@@ -189,13 +189,12 @@ void example_analysis()
         std::cout << "--------------------------------------------------------" << std::endl;
 
         // matrix
-        Kernel::Matrix ellipsoid_matrix = spin_quadric.matrix();
-
+        Kernel::Matrix matrix = spin_quadric.matrix();
         Eigen::Matrix4d eigen_matrix;
 
         for (int row = 0; row < 4; ++row)
             for (int column = 0; column < 4; ++column)
-                eigen_matrix(row, column) = ellipsoid_matrix.get(row, column);
+                eigen_matrix(row, column) = matrix.get(row, column);
 
         //std::cout << "spin-quadric associated matrix:" << std::endl << eigen_matrix << std::endl;
 

@@ -17,13 +17,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBCS_PREDICATE_LIST_GENERATOR_H
-#define LIBCS_PREDICATE_LIST_GENERATOR_H
+#ifndef LIBCS_PREDICATE_H_3_LIST_GENERATOR_H
+#define LIBCS_PREDICATE_H_3_LIST_GENERATOR_H
+
+#include "Predicate_list_generator.h"
+#include "Predicate_h_3.h"
+#include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/convex_decomposition_3.h>
+#include <list>
 
 namespace CS
 {
-template<class Kernel_, class Predicate_>
-struct Predicate_list_generator
+template<class Kernel_>
+struct Predicate_list_generator<Kernel_, Predicate_h_3<Kernel_> >
 {
     template<typename RobotInputIterator_, typename ObstacleInputIterator_, typename OutputIterator_>
     void create_predicate_list(
@@ -37,4 +43,6 @@ private:
 };
 } // namespace CS
 
-#endif // LIBCS_PREDICATE_LIST_GENERATOR_H
+#include "Predicate_h_3_list_generator.ipp"
+
+#endif // LIBCS_PREDICATE_H_3_LIST_GENERATOR_H

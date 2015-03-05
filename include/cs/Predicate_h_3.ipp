@@ -59,4 +59,17 @@ std::ostream &operator <<(std::ostream &os, const Predicate_h_3<Kernel_> &predic
 {
     return (os << "[" << predicate.b() << ";" << predicate.p() << "]");
 }
+
+template<class Kernel_>
+const typename Predicate_h_3<Kernel_>::Predicate_h_3 *Predicate_h_3<Kernel_>::sub_predicates() const
+{
+    return this;
+}
+
+template<class Kernel_>
+bool Predicate_h_3<Kernel_>::evaluate(const bool *signs) const
+{
+    // evaluate collision predicate
+    return signs[0];
+}
 } // namespace CS

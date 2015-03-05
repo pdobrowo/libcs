@@ -48,6 +48,15 @@ public:
 
     Predicate_h_3 opposite() const;
 
+    // access to sub-predicates
+    //
+    // return value is a pointer to a table with one element
+    static const size_t SUB_PREDICATE_COUNT = 1;
+    typedef Predicate_h_3 Sub_predicate;
+
+    const Predicate_h_3 *sub_predicates() const;
+    bool evaluate(const bool *signs) const;
+
 private:
     Vector_3  m_b;  ///< Base vector
     Plane_3   m_p;  ///< Plane

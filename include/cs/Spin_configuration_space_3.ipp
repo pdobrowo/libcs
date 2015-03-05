@@ -34,11 +34,11 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
         ObstacleInputIterator obstacle_begin, ObstacleInputIterator obstacle_end,
         const Parameters &parameters)
 {
-    size_t number_of_robot_faces = std::distance(robot_begin, robot_end);
-    size_t number_of_obstacle_faces = std::distance(obstacle_begin, obstacle_end);
+    size_t number_of_robot_primitives = std::distance(robot_begin, robot_end);
+    size_t number_of_obstacle_primitives = std::distance(obstacle_begin, obstacle_end);
 
     LOG4CXX_INFO(m_logger, "Creating configuration space");
-    LOG4CXX_INFO(m_logger, "Configuration: " << number_of_robot_faces << " robot primitives; " << number_of_obstacle_faces << " obstacle primitives");
+    LOG4CXX_INFO(m_logger, "Configuration: " << number_of_robot_primitives << " robot primitives; " << number_of_obstacle_primitives << " obstacle primitives");
 
     // timing
     unsigned long long timer_start, timer_end, timer_all_start, timer_all_end;
@@ -55,11 +55,12 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
                                     obstacle_begin, obstacle_end,
                                     std::back_inserter(m_predicates));
 
-    size_t total_number_of_predicates = number_of_obstacle_faces * number_of_robot_faces;
+    // note: the following calculation is not valid for H-scenes created from polyhedrons
+    size_t total_number_of_scene_predicates = number_of_obstacle_primitives * number_of_robot_primitives;
 
     timer_end = get_tick_count();
 
-    LOG4CXX_INFO(m_logger, "Prepared " << m_predicates.size() << "/" << total_number_of_predicates << " predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
+    LOG4CXX_INFO(m_logger, "Prepared " << m_predicates.size() << "/" << total_number_of_scene_predicates << " scene predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_scene_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
 
     // prepare general predicate list
     LOG4CXX_DEBUG(m_logger, "Creating general predicate list");

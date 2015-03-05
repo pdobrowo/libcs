@@ -195,7 +195,8 @@ set(examples_HEADERS
 #    example_find_path.h
 #    example_gearbox.h
 #    example_simple_raster.h
-    example_analysis.h
+#    example_analysis.h
+    example_convex.h
 )
 
 set(examples_BASE_SOURCES
@@ -205,7 +206,8 @@ set(examples_BASE_SOURCES
 #    example_find_path.cpp
 #    example_gearbox.cpp
 #    example_simple_raster.cpp
-    example_analysis.cpp
+#    example_analysis.cpp
+    example_convex.cpp
 )
 
 if(LIBCS_WITH_EXACT_KERNEL)

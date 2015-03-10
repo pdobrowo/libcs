@@ -1,0 +1,136 @@
+# FindCS:
+#   Find the libcs includes and libraries.
+#
+# Definitions:
+#   CS_INCLUDE_DIR: include dirs
+#   CS_LIBRARIES: libraries
+#   CS_FOUND: availability flag
+SET(CS_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+# cs
+SET(CS_INCLUDE_DIR ${CS_BASE_DIR}/include)
+SET(CS_LIBRARIES ${CS_BASE_DIR}/lib/libcs.a)
+SET(CS_FOUND "YES")
+
+# cmake find
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# cgal
+FIND_PACKAGE(CGAL REQUIRED)
+SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${CGAL_INCLUDE_DIRS})
+SET(CS_LIBRARIES ${CS_LIBRARIES} ${CGAL_LIBRARIES})
+
+# boost
+FIND_PACKAGE(Boost COMPONENTS thread REQUIRED)
+SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+SET(CS_LIBRARIES ${CS_LIBRARIES} ${Boost_LIBRARIES})
+
+# log4cxx
+FIND_PACKAGE(LOG4CXX REQUIRED)
+SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LOG4CXX_INCLUDE_DIRS})
+SET(CS_LIBRARIES ${CS_LIBRARIES} ${LOG4CXX_LIBRARIES})
+
+# exact
+SET(CS_WITH_EXACT_KERNEL $ENV{EXACT})
+
+IF(CS_WITH_EXACT_KERNEL)
+    MESSAGE(STATUS "LIBCS: environment variable EXACT is set")
+else(CS_WITH_EXACT_KERNEL)
+    SET(CS_WITH_EXACT_KERNEL 0)
+ENDIF(CS_WITH_EXACT_KERNEL)
+
+MESSAGE(STATUS "LIBCS: exact kernel: " ${CS_WITH_EXACT_KERNEL})
+
+# 3rd
+SET(ARCH ${CMAKE_SOURCE_DIR}/3rd)
+
+# architecture
+IF(CMAKE_SIZEOF_VOID_P MATCHES 8)
+    SET(ARCH ${ARCH}/amd64)
+ENDIF(CMAKE_SIZEOF_VOID_P MATCHES 8)
+
+IF(CMAKE_SIZEOF_VOID_P MATCHES 4)
+    SET(ARCH ${ARCH}/i386)
+ENDIF(CMAKE_SIZEOF_VOID_P MATCHES 4)
+
+# system
+IF(WIN32)
+    SET(ARCH ${ARCH}/windows)
+ENDIF(WIN32)
+
+IF(UNIX)
+    SET(ARCH ${ARCH}/unix)
+ENDIF(UNIX)
+
+MESSAGE(STATUS "LIBCS: 3rd libs: " ${ARCH})
+
+IF(CS_WITH_EXACT_KERNEL)
+    # lidia
+    SET(LIDIA ${ARCH}/lidia-2.3.0)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LIDIA}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIDIA}/lib/libLiDIA.a)
+
+    # libqi
+    SET(LIBQI ${ARCH}/libqi-0.9.33)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LIBQI}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIBQI}/lib/libqi.a)
+
+    # realroot
+    SET(REALROOT ${ARCH}/realroot)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${REALROOT}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${REALROOT}/lib/librealroot.a)
+
+    # sys: mpfi, mpfr, gmp
+    SET(CS_LIBRARIES ${CS_LIBRARIES} mpfi mpfr gmp)
+ENDIF(CS_WITH_EXACT_KERNEL)
+
+IF(WIN32)
+    # boost needs that
+#    add_definitions(-DBOOST_THREAD_USE_LIB)
+
+    # boost
+#    SET(BOOST ${ARCH}/boost-1.49)
+#    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${BOOST}/include)
+
+    # GMP
+    SET(GMP ${ARCH}/gmp-5.0.5)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${GMP}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${GMP}/lib/gmp.lib)
+
+    # MPFR
+    SET(MPFR ${ARCH}/mpfr-3.1.0)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${MPFR}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${MPFR}/lib/mpfr.lib)
+
+    # MPFI
+    SET(MPFI ${ARCH}/mpfi-1.5.1)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${REALROOT}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${REALROOT}/lib/mpfi.lib)
+
+    # CGAL
+#    SET(CGAL ${ARCH}/CGAL-4.0)
+#    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${CGAL}/include)
+#    SET(CS_LIBRARIES ${CS_LIBRARIES} ${CGAL}/lib/cgal.lib)
+
+    # APR
+    SET(APR ${ARCH}/apr-1.4.6)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${APR}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${APR}/lib/apr.lib)
+
+    # APRUTIL
+    SET(APRUTIL ${ARCH}/apr-util-1.4.1)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${APRUTIL}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${APRUTIL}/lib/aprutil.lib)
+
+    # LOG4CXX
+    SET(LOG4CXX ${ARCH}/log4cxx-0.10.0)
+    SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LOG4CXX}/include)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LOG4CXX}/lib/log4cxx.lib)
+
+    # sys: ws2, expat, iconv, mswsock
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ws2_32 expat iconv mswsock)
+ENDIF(WIN32)
+
+MESSAGE(STATUS "cs: " ${CS_LIBRARIES})
+
+mark_as_advanced(CS_LIBRARIES CS_INCLUDE_DIRS)

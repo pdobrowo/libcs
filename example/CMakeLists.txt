@@ -1,5 +1,5 @@
 ###
- # Copyright (C) 2009-2013  Przemysław Dobrowolski
+ # Copyright (C) 2009-2015  Przemysław Dobrowolski
  #
  # This file is part of the Configuration Space Library (libcs), a library
  # for creating configuration spaces of various motion planning problems.

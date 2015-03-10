@@ -1,5 +1,5 @@
 ###
- # Copyright (C) 2009-2013  Przemysław Dobrowolski
+ # Copyright (C) 2009-2015  Przemysław Dobrowolski
  #
  # This file is part of the Configuration Space Library (libcs), a library
  # for creating configuration spaces of various motion planning problems.
@@ -17,173 +17,134 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ##
-project(cs)
-cmake_minimum_required(VERSION 2.6)
+PROJECT(cs)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-# configuration: with exact kernel
-set(LIBCS_WITH_EXACT_KERNEL $ENV{EXACT})
+# cmake find
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-if(LIBCS_WITH_EXACT_KERNEL)
-    message("ok")
-else(LIBCS_WITH_EXACT_KERNEL)
-    set(LIBCS_WITH_EXACT_KERNEL 0)
-endif(LIBCS_WITH_EXACT_KERNEL)
-
-message("with exact kernel: " ${LIBCS_WITH_EXACT_KERNEL})
-
-# CGAL
-find_package(CGAL REQUIRED)
-include(${CGAL_USE_FILE})
+# cgal
+FIND_PACKAGE(CGAL REQUIRED)
+INCLUDE(${CGAL_USE_FILE})
 
 # boost
-find_package(Boost COMPONENTS thread REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+FIND_PACKAGE(Boost COMPONENTS thread REQUIRED)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
+# log4cxx
+find_package(LOG4CXX REQUIRED)
+INCLUDE_DIRECTORIES(${LOG4CXX_INCLUDE_DIRS})
 
 # compiler settings
-if(UNIX)
-    add_definitions(
-    #   -Werror
-        -Wall
-        -Wextra
-    #   -pedantic
-    #   -Weffc++
-        -Wwrite-strings
-        -Winit-self
-        -Wcast-align
-        -Wcast-qual
-    #   -Wold-style-cast
-        -Wpointer-arith
-        -Wstrict-aliasing
-        -Wuninitialized
-    #   -Wmissing-declarations
-    #   -Woverloaded-virtual
-    #   -Wnon-virtual-dtor
-    #   -Wctor-dtor-privacy
-    #   -Wlong-long
-        -Wunreachable-code
-    #   -Wfloat-equal
-        -Wabi
-    #   -Wswitch-enum
-        -Wformat=2
-    #   -Wundef
-    #   -Wshadow
-    #   -Wconversion
-    #   -Wlogical-op
-    #   -Waggregate-return
-        -Wmissing-field-initializers
-        -Wredundant-decls
-        -Wmissing-include-dirs
-    #   -Wswitch-default
-    #   -Wsync-nand
-        -Wunused
-    #   -Wstrict-overflow=5
-    #   -Wunsafe-loop-optimizations
-        -Wmissing-format-attribute
-    #   -Wpadded
-    #   -Winline
-        -Wdisabled-optimization
-    )
-endif(UNIX)
+SET(LIBCS_DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++14 -Wall -Wextra")
+
+IF(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    ADD_DEFINITIONS(${LIBCS_DEFAULT_CLANG_AND_GNU_FLAGS})
+ENDIF(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+
+IF(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    ADD_DEFINITIONS(${LIBCS_DEFAULT_CLANG_AND_GNU_FLAGS})
+ENDIF(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
 
 # output directory
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 # base include directory
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/3rdparty
+    ${CMAKE_SOURCE_DIR}/3rd
 )
 
-# non-packaged 3rdparty external libraries
-set(ARCH ${CMAKE_SOURCE_DIR}/3rdparty)
+# configuration: with exact kernel
+SET(LIBCS_WITH_EXACT_KERNEL $ENV{EXACT})
+
+IF(LIBCS_WITH_EXACT_KERNEL)
+    MESSAGE(STATUS "LIBCS: environment variable EXACT is set")
+ELSE(LIBCS_WITH_EXACT_KERNEL)
+    SET(LIBCS_WITH_EXACT_KERNEL 0)
+ENDIF(LIBCS_WITH_EXACT_KERNEL)
+
+MESSAGE(STATUS "LIBCS: exact kernel: " ${LIBCS_WITH_EXACT_KERNEL})
+
+# non-packaged 3rd libs
+SET(ARCH ${CMAKE_SOURCE_DIR}/3rd)
 
 # architecture
-if(CMAKE_SIZEOF_VOID_P MATCHES "8")
-    set(ARCH ${ARCH}/amd64)
-endif(CMAKE_SIZEOF_VOID_P MATCHES "8")
+IF(CMAKE_SIZEOF_VOID_P MATCHES 8)
+    SET(ARCH ${ARCH}/amd64)
+ENDIF(CMAKE_SIZEOF_VOID_P MATCHES 8)
 
-if(CMAKE_SIZEOF_VOID_P MATCHES "4")
-    set(ARCH ${ARCH}/i386)
-endif(CMAKE_SIZEOF_VOID_P MATCHES "4")
+IF(CMAKE_SIZEOF_VOID_P MATCHES 4)
+    SET(ARCH ${ARCH}/i386)
+ENDIF(CMAKE_SIZEOF_VOID_P MATCHES 4)
 
 # system
-if(WIN32)
-    set(ARCH ${ARCH}/windows)
-endif()
+IF(WIN32)
+    SET(ARCH ${ARCH}/windows)
+ENDIF(WIN32)
 
-if(UNIX)
-    set(ARCH ${ARCH}/linux)
-endif()
+IF(UNIX)
+    SET(ARCH ${ARCH}/unix)
+ENDIF(UNIX)
 
-message("3rdparty external libraries: " ${ARCH})
+message(STATUS "LIBCS: 3rd libs: " ${ARCH})
 
-if(LIBCS_WITH_EXACT_KERNEL)
+IF(LIBCS_WITH_EXACT_KERNEL)
     # lidia
-    set(LIDIA ${ARCH}/lidia-2.3.0)
+    SET(LIDIA ${ARCH}/lidia-2.3.0)
     include_directories(${LIDIA}/include)
-    link_directories(${LIDIA}/lib)
 
     # libqi
-    set(LIBQI ${ARCH}/libqi-0.9.33)
+    SET(LIBQI ${ARCH}/libqi-0.9.33)
     include_directories(${LIBQI}/include)
-    link_directories(${LIBQI}/lib)
 
     # realroot
-    set(REALROOT ${ARCH}/realroot)
+    SET(REALROOT ${ARCH}/realroot)
     include_directories(${REALROOT}/include)
-    link_directories(${REALROOT}/lib)
-endif(LIBCS_WITH_EXACT_KERNEL)
+ENDIF(LIBCS_WITH_EXACT_KERNEL)
 
 # optimization
 #add_definitions(-DCGAL_NDEBUG)
 
-if(WIN32)
+IF(WIN32)
     # boost needs that
 #    add_definitions(-DBOOST_THREAD_USE_LIB)
 
     # boost
-#    set(BOOST ${ARCH}/boost-1.49)
+#    SET(BOOST ${ARCH}/boost-1.49)
 #    include_directories(${BOOST}/include)
-#    link_directories(${BOOST}/lib)
 
     # GMP
-    set(GMP ${ARCH}/gmp-5.0.5)
+    SET(GMP ${ARCH}/gmp-5.0.5)
     include_directories(${GMP}/include)
-    link_directories(${GMP}/lib)
 
     # MPFR
-    set(MPFR ${ARCH}/mpfr-3.1.0)
+    SET(MPFR ${ARCH}/mpfr-3.1.0)
     include_directories(${MPFR}/include)
-    link_directories(${MPFR}/lib)
 
     # MPFI
-    set(MPFI ${ARCH}/mpfi-1.5.1)
+    SET(MPFI ${ARCH}/mpfi-1.5.1)
     include_directories(${MPFI}/include)
-    link_directories(${MPFI}/lib)
 
     # CGAL
-#    set(CGAL ${ARCH}/CGAL-4.0)
+#    SET(CGAL ${ARCH}/CGAL-4.0)
 #    include_directories(${CGAL}/include)
-#    link_directories(${CGAL}/lib)
 
     # APR
-    set(APR ${ARCH}/apr-1.4.6)
+    SET(APR ${ARCH}/apr-1.4.6)
     include_directories(${APR}/include)
-    link_directories(${APR}/lib)
 
     # APRUTIL
-    set(APRUTIL ${ARCH}/apr-util-1.4.1)
+    SET(APRUTIL ${ARCH}/apr-util-1.4.1)
     include_directories(${APRUTIL}/include)
-    link_directories(${APRUTIL}/lib)
 
     # LOG4CXX
-    set(LOG4CXX ${ARCH}/log4cxx-0.10.0)
+    SET(LOG4CXX ${ARCH}/log4cxx-0.10.0)
     include_directories(${LOG4CXX}/include)
-    link_directories(${LOG4CXX}/lib)
-endif()
+ENDIF(WIN32)
 
-set(cs_HEADERS
-    3rdparty/libqi.h
+SET(cs_HEADERS
+    3rd/libqi.h
     include/cs/Ball_3.h
     include/cs/Ball_3.ipp
     include/cs/Benchmark.h
@@ -305,7 +266,7 @@ set(cs_HEADERS
     include/cs/Voxel_3.ipp
 )
 
-set(cs_BASE_SOURCES
+SET(cs_BASE_SOURCES
     ${cs_HEADERS}
     src/Spin_inexact_kernel_3.cpp
     src/Spin_qsic_trim_3.cpp
@@ -319,8 +280,8 @@ set(cs_BASE_SOURCES
     src/Config.cpp
 )
 
-if(LIBCS_WITH_EXACT_KERNEL)
-    set(cs_SOURCES
+IF(LIBCS_WITH_EXACT_KERNEL)
+    SET(cs_SOURCES
         ${cs_BASE_SOURCES}
         src/Spin_kernel_3.cpp
         src/Uspensky_Hanrot.c
@@ -328,39 +289,10 @@ if(LIBCS_WITH_EXACT_KERNEL)
         src/Contfrac.cpp
         src/Math_utils_exact.cpp
     )
-else(LIBCS_WITH_EXACT_KERNEL)
-    set(cs_SOURCES
+ELSE(LIBCS_WITH_EXACT_KERNEL)
+    SET(cs_SOURCES
         ${cs_BASE_SOURCES}
     )
-endif(LIBCS_WITH_EXACT_KERNEL)
+ENDIF(LIBCS_WITH_EXACT_KERNEL)
 
 add_library(cs STATIC ${cs_SOURCES})
-
-target_link_libraries(cs 
-    ${CGAL_LIBRARIES}
-    ${Boost_LIBRARIES}
-    log4cxx
-)
-
-if(LIBCS_WITH_EXACT_KERNEL)
-    target_link_libraries(cs
-        LiDIA
-        qi
-        mpfi
-        mpfr
-        gmp
-        realroot
-    )
-endif(LIBCS_WITH_EXACT_KERNEL)
-
-if(WIN32)
-    target_link_libraries(cs
-        apr-1
-        aprutil-1
-        ws2_32
-        expat
-        iconv
-        mswsock
-    )
-endif()
-

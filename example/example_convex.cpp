@@ -19,8 +19,10 @@
  */
 #include "example_convex.h"
 #include <cs/Spin_inexact_kernel_3.h>
+#include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Gmpz.h>
+#include <fstream>
 
 // kernel
 typedef CGAL::Gmpz RT;
@@ -41,18 +43,36 @@ void example_convex()
     // robot
     Polyhedron_3 robot;
 
+    /*
     robot.make_tetrahedron(Point_3(-1, -1, -1),
                            Point_3(+1, -1, -1),
                            Point_3(+0, +1, -1),
                            Point_3(+0, +0, +2));
+    */
+
+    std::ifstream robot_file("models/cube.off");
+
+    if (!robot_file.is_open())
+        exit(-1);
+
+    robot_file >> robot;
 
     // obstacle
     Polyhedron_3 obstacle;
 
+    /*
     obstacle.make_tetrahedron(Point_3(+1, -1, -1),
                               Point_3(+3, -1, -1),
                               Point_3(+2, +1, -1),
                               Point_3(+2, +0, +1));
+    */
+
+    std::ifstream obstacle_file("models/cube.off");
+
+    if (!obstacle_file.is_open())
+        exit(-1);
+
+    obstacle_file >> obstacle;
 
     // configuration space
     Configuration_space_3 cs;

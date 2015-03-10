@@ -21,7 +21,7 @@
 #define LIBCS_BENCHMARK_H
 
 #include "Random.h"
-#include <boost/function.hpp>
+#include <functional>
 #include <sstream>
 #include <vector>
 #include <cstdlib>
@@ -65,7 +65,7 @@ public:
     typedef typename Kernel_::Predicate_s_3          Predicate_s_3;
     typedef typename Kernel_::Predicate_g_3          Predicate_g_3;
 
-    typedef boost::function<void (const std::string &)> Report_proc;
+    typedef std::function<void (const std::string &)> Report_proc;
 
 public:
     static RT       random_point(int cube_size = 10);

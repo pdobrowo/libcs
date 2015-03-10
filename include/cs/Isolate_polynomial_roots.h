@@ -25,7 +25,7 @@
 #include "Uspensky.h"
 #include "Polynomial_interval.h"
 #include "Contfrac.h"
-#include <boost/scoped_array.hpp>
+#include <memory>
 
 // isolation algorithm
 //#define isolate_polynomial_roots  isolate_polynomial_roots_cgal

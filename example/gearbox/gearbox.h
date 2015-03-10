@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_CONVEX_H
-#define EXAMPLE_CONVEX_H
+#ifndef GEARBOX_H
+#define GEARBOX_H
 
-void example_convex();
+void gearbox();
 
-#endif // EXAMPLE_CONVEX_H
+#endif // GEARBOX_H

@@ -19,6 +19,7 @@
  */
 #include <cs/Benchmark.h>
 #include <cstdio>
+#include <cstring>
 #if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 #include <sys/time.h>
 #endif // defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)

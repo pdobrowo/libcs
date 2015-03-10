@@ -69,7 +69,7 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
 
     m_general_predicates.reserve(SUB_PREDICATE_COUNT * m_predicates.size());
 
-    BOOST_FOREACH(const Predicate &predicate, m_predicates)
+    for (const Predicate &predicate: m_predicates)
         for (size_t j = 0; j < SUB_PREDICATE_COUNT; ++j)
             m_general_predicates.push_back(Predicate_g_3(predicate.sub_predicates()[j]));
 
@@ -78,7 +78,7 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
 
     m_spin_quadrics.reserve(m_general_predicates.size());
 
-    BOOST_FOREACH(const Predicate_g_3 &general_predicate, m_general_predicates)
+    for (const Predicate_g_3 &general_predicate: m_general_predicates)
         m_spin_quadrics.push_back(Spin_quadric_3(general_predicate));
 
     LOG4CXX_INFO(m_logger, "Prepared " << m_spin_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");

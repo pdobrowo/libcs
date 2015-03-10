@@ -55,6 +55,7 @@ Spin_exact_graph_3<Kernel_, Predicate_>::Spin_exact_graph_3(const std::vector<Pr
       m_logger(log4cxx::Logger::getLogger("CS.Spin_exact_graph_3"))
 {
     (void)parameters;
+    (void)predicates;
 
     // check if everything is ok with predicates and quadrics
     assert(predicates.size() * SUB_PREDICATE_COUNT == spin_quadrics.size());
@@ -128,10 +129,10 @@ typename Spin_exact_graph_3<Kernel_, Predicate_>::Route Spin_exact_graph_3<Kerne
 template<class Kernel_, class Predicate_>
 void Spin_exact_graph_3<Kernel_, Predicate_>::release()
 {
-    BOOST_FOREACH(Qsic_handle handle, m_qsics)
+    for (Qsic_handle handle: m_qsics)
         delete handle;
 
-    BOOST_FOREACH(Qsip_handle handle, m_qsips)
+    for (Qsip_handle handle: m_qsips)
         delete handle;
 
     m_qsics.clear();

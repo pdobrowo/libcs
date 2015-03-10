@@ -20,11 +20,11 @@
 #ifndef LIBCS_MATH_UTILS_H
 #define LIBCS_MATH_UTILS_H
 
-#if !defined(LIBCS_MATH_UTILS_INTERNAL_FILE)
+#if !defined(LIBCS_MATH_UTILS_INTERNAL_FILE) && !defined(LIBCS_MATH_UTILS_EXACT_INTERNAL_FILE)
 #if !defined(LIBCS_SPIN_KERNEL_INCLUDE_FILE) && !defined(LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE)
 #error Do not include this file directly, include Spin_kernel_3.h or Spin_inexact_kernel_3.h instead
 #endif // !defined(LIBCS_SPIN_KERNEL_INCLUDE_FILE) && !defined(LIBCS_SPIN_INEXACT_KERNEL_INCLUDE_FILE)
-#endif // !defined(LIBCS_MATH_UTILS_INTERNAL_FILE)
+#endif // !defined(LIBCS_MATH_UTILS_INTERNAL_FILE) && !defined(LIBCS_MATH_UTILS_EXACT_INTERNAL_FILE)
 
 namespace CS
 {

@@ -24,7 +24,7 @@
 #include "Spin_3.h"
 #include "Voxel_3.h"
 #include <log4cxx/logger.h>
-#include <boost/scoped_array.hpp>
+#include <memory>
 #include <boost/heap/fibonacci_heap.hpp>
 #include <functional>
 #include <limits>
@@ -175,7 +175,7 @@ private:
     // internals
     size_t                      m_resolution;   // target Cartesian density in a unit cube; only pi/6 = ~52% will hit Spin(3) ball
 
-    boost::scoped_array<Voxel>  m_voxels;       // m_density ^ 3
+    std::unique_ptr<Voxel []>   m_voxels;       // m_density ^ 3
 
     size_t                      m_number_of_empty_voxels;   // out of all real voxels
     size_t                      m_number_of_full_voxels;    // out of all real voxels

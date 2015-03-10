@@ -19,7 +19,7 @@
  */
 #define LIBCS_MATH_UTILS_EXACT_INTERNAL_FILE
 #include <cs/Math_utils_exact.h>
-#undef // LIBCS_MATH_UTILS_EXACT_INTERNAL_FILE
+#undef LIBCS_MATH_UTILS_EXACT_INTERNAL_FILE
 
 namespace CS
 {

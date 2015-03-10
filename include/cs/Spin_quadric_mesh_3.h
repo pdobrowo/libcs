@@ -29,8 +29,7 @@
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/IO/output_surface_facets_to_polyhedron.h>
 #include <CGAL/IO/output_surface_facets_to_triangle_soup.h>
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+#include <functional>
 
 namespace CS
 {
@@ -61,7 +60,7 @@ private:
     typedef CS::Spin_3<FT>                                                      Spin_3;
     typedef CS::Diff_spin_3<FT>                                                 Diff_spin_3;
 
-    typedef boost::function<FT (Point_3)>                                       Function;
+    typedef std::function<FT (Point_3)>                                         Function;
 
     typedef CGAL::Implicit_surface_3<Geom_traits, Function>                     Implicit_surface_3;
 

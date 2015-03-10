@@ -1,3 +1,3 @@
 #!/bin/sh
-( cmake . -DCMAKE_BUILD_TYPE=Release && make clean )
+( cmake . -DCMAKE_BUILD_TYPE=Release && make distclean )
 

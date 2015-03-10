@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_SIMPLE_RASTER_H
-#define EXAMPLE_SIMPLE_RASTER_H
+#ifndef CONVEX_H
+#define CONVEX_H
 
-void example_simple_raster();
+void convex();
 
-#endif // EXAMPLE_SIMPLE_RASTER_H
+#endif // CONVEX_H

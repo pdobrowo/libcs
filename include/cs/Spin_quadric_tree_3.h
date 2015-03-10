@@ -22,7 +22,7 @@
 
 #include "Spin_3.h"
 #include <CGAL/Kernel/global_functions.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <cassert>
 
 namespace CS
@@ -53,7 +53,7 @@ class Spin_quadric_tree_3
     public:
         struct Operator
         {
-            enum Type
+            enum class Type
             {
                 And,
                 Or

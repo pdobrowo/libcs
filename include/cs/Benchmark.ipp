@@ -133,15 +133,15 @@ void Benchmark<Kernel_>::intersection_test(const std::vector<Predicate_g_3> &pre
     }
 
     // cleanup
-    for (typename std::vector<Spin_quadric_3 *>::iterator iterator = quadrics.begin(); iterator != quadrics.end(); ++iterator)
+    for (auto iterator: quadrics)
         delete *iterator;
     quadrics.clear();
 
-    for (typename std::vector<Spin_qsic_3 *>::iterator iterator = qsics.begin(); iterator != qsics.end(); ++iterator)
+    for (auto iterator: qsics)
         delete *iterator;
     qsics.clear();
 
-    for (typename std::vector<Spin_qsip_3 *>::iterator iterator = qsips.begin(); iterator != qsips.end(); ++iterator)
+    for (auto iterator: qsips)
         delete *iterator;
     qsips.clear();
 }

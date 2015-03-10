@@ -21,7 +21,7 @@
 #define LIBCS_INDEX_TREE_N_H
 
 #include <log4cxx/logger.h>
-#include <boost/cstdint.hpp>
+#include <cstdint>
 #include <cassert>
 
 namespace CS

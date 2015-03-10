@@ -23,7 +23,6 @@
 #include "Spin_3.h"             // FIXME: remove
 #include "Benchmark.h"          // TODO: add Timing.h
 #include <log4cxx/logger.h>
-#include <boost/foreach.hpp>
 
 namespace CS
 {

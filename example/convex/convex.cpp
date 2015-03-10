@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "example_convex.h"
+#include "convex.h"
 #include <cs/Spin_inexact_kernel_3.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/Cartesian.h>
@@ -38,7 +38,7 @@ typedef Configuration_space_3::Parameters Parameters;
 typedef Kernel::Point_3 Point_3;
 typedef Kernel::Polyhedron_3 Polyhedron_3;
 
-void example_convex()
+void convex()
 {
     // robot
     Polyhedron_3 robot;

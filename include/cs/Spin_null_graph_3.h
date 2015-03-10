@@ -24,8 +24,6 @@
 #include "Spin_3.h"
 #include "Voxel_3.h"
 #include <log4cxx/logger.h>
-#include <boost/scoped_array.hpp>
-#include <boost/heap/fibonacci_heap.hpp>
 #include <functional>
 #include <limits>
 #include <cmath>

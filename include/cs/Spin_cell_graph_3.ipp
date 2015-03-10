@@ -1077,14 +1077,14 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate
 {
     LOG4CXX_DEBUG(m_logger, "Pops histogram:");
 
-    boost::scoped_array<size_t> counts(new size_t[m_coordinate_size]);
+    std::unique_ptr<size_t []> counts = std::make_unique<size_t []>(m_coordinate_size);
 
     for (size_t i = 0; i < m_coordinate_size; ++i)
         counts[i] = 0;
 
     size_t index = 0;
 
-    for (typename Cell_list::iterator cell_iterator = m_cells.begin(); cell_iterator != m_cells.end(); ++cell_iterator)
+    for (auto cell_iterator: m_cells)
     {
         Coordinate coordinate = cell_iterator->coordinate();
         size_t count = 0;

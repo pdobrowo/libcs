@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_ANALYSIS_H
-#define EXAMPLE_ANALYSIS_H
+#ifndef FIND_PATH_H
+#define FIND_PATH_H
 
-void example_analysis();
+void find_path();
 
-#endif // EXAMPLE_ANALYSIS_H
+#endif // FIND_PATH_H

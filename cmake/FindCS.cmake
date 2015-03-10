@@ -5,7 +5,7 @@
 #   CS_INCLUDE_DIR: include dirs
 #   CS_LIBRARIES: libraries
 #   CS_FOUND: availability flag
-SET(CS_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+SET(CS_BASE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # cs
 SET(CS_INCLUDE_DIR ${CS_BASE_DIR}/include)
@@ -42,7 +42,7 @@ ENDIF(CS_WITH_EXACT_KERNEL)
 MESSAGE(STATUS "LIBCS: exact kernel: " ${CS_WITH_EXACT_KERNEL})
 
 # 3rd
-SET(ARCH ${CMAKE_SOURCE_DIR}/3rd)
+SET(ARCH ${CS_BASE_DIR}/3rd)
 
 # architecture
 IF(CMAKE_SIZEOF_VOID_P MATCHES 8)
@@ -68,21 +68,21 @@ IF(CS_WITH_EXACT_KERNEL)
     # lidia
     SET(LIDIA ${ARCH}/lidia-2.3.0)
     SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LIDIA}/include)
-    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIDIA}/lib/libLiDIA.a)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIDIA}/lib/libLiDIA.so)
 
     # libqi
     SET(LIBQI ${ARCH}/libqi-0.9.33)
     SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${LIBQI}/include)
-    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIBQI}/lib/libqi.a)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${LIBQI}/lib/libqi.so)
 
     # realroot
     SET(REALROOT ${ARCH}/realroot)
     SET(CS_INCLUDE_DIR ${CS_INCLUDE_DIR} ${REALROOT}/include)
-    SET(CS_LIBRARIES ${CS_LIBRARIES} ${REALROOT}/lib/librealroot.a)
-
-    # sys: mpfi, mpfr, gmp
-    SET(CS_LIBRARIES ${CS_LIBRARIES} mpfi mpfr gmp)
+    SET(CS_LIBRARIES ${CS_LIBRARIES} ${REALROOT}/lib/librealroot.so)
 ENDIF(CS_WITH_EXACT_KERNEL)
+
+# sys: mpfi, mpfr, gmp
+SET(CS_LIBRARIES ${CS_LIBRARIES} mpfi mpfr gmp CGAL)
 
 IF(WIN32)
     # boost needs that
@@ -131,6 +131,7 @@ IF(WIN32)
     SET(CS_LIBRARIES ${CS_LIBRARIES} ws2_32 expat iconv mswsock)
 ENDIF(WIN32)
 
-MESSAGE(STATUS "cs: " ${CS_LIBRARIES})
+MESSAGE(STATUS "CS_INCLUDE_DIR: " ${CS_INCLUDE_DIR})
+MESSAGE(STATUS "CS_LIBRARIES: " ${CS_LIBRARIES})
 
-mark_as_advanced(CS_LIBRARIES CS_INCLUDE_DIRS)
+mark_as_advanced(CS_LIBRARIES CS_INCLUDE_DIR)

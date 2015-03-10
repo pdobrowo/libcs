@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "example_analysis.h"
+#include "analysis.h"
 #include <cs/Spin_inexact_kernel_3.h>
 #include <cs/Spin_3.h>
 #include <CGAL/Cartesian.h>
@@ -118,7 +118,7 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     return Spin(e1 / en, e2 / en, e3 / en, e4 / en);
 }
 
-void example_analysis()
+void analysis()
 {
     // 4-sided rectangular pyramid
     const Point_3 knob_vertices[5] = {

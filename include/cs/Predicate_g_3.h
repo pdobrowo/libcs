@@ -26,10 +26,10 @@
 
 namespace CS
 {
-enum Predicate_g_type
+enum class Predicate_g_3_type
 {
-    Ellipsoidal_general_predicate,
-    Cylindrical_general_predicate
+    Ellipsoidal,
+    Cylindrical
 };
 
 // G3: (k x l) * rot(a - b) + (k - l) * rot(a x b) + c
@@ -73,7 +73,7 @@ public:
 
     Predicate_g_3 opposite() const;
 
-    Predicate_g_type type() const;
+    Predicate_g_3_type type() const;
 
     Parametrization parametrization() const;
 

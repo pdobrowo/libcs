@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_GEARBOX_H
-#define EXAMPLE_GEARBOX_H
+#ifndef ANALYSIS_H
+#define ANALYSIS_H
 
-void example_gearbox();
+void analysis();
 
-#endif // EXAMPLE_GEARBOX_H
+#endif // ANALYSIS_H

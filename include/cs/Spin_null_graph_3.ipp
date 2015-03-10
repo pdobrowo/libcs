@@ -33,6 +33,8 @@ Spin_null_graph_3<K, P>::Spin_null_graph_3(const std::vector<Predicate> &predica
     : m_logger(log4cxx::Logger::getLogger("CS.Spin_null_graph_3"))
 {
     (void)parameters;
+    (void)predicates;
+    (void)quadrics;
 
     // check if everything is ok with predicates and quadrics
     assert(predicates.size() * SUB_PREDICATE_COUNT == quadrics.size());

@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "example_ball_knob.h"
-
+#include "ball_knob.h"
 #include <cs/Spin_kernel_3.h>
+#include <cs/Spin_inexact_kernel_3.h>
 #include <cs/Bigint.h>
 #include <CGAL/Cartesian.h>
 
@@ -87,10 +87,10 @@ struct Bigint_exact_kernel_exact_graph
 };
 
 template<typename Traits>
-void example_ball_knob_generic()
+void ball_knob_generic()
 {
     // bring types here
-    typedef typename Traits::Point_3 Point_3;
+    //typedef typename Traits::Point_3 Point_3;
     typedef typename Traits::Ball_3 Ball_3;
 
     typedef typename Traits::Configuration_space_3 Configuration_space_3;
@@ -123,9 +123,9 @@ void example_ball_knob_generic()
                          Traits::parameters());
 }
 
-void example_ball_knob()
+void ball_knob()
 {
-    //example_ball_knob_generic<Floating_point_inexact_kernel_raster_graph>();
-    //example_ball_knob_generic<Floating_point_inexact_kernel_cell_graph>();
-    example_ball_knob_generic<Bigint_exact_kernel_exact_graph>();
+    //ball_knob_generic<Floating_point_inexact_kernel_raster_graph>();
+    //ball_knob_generic<Floating_point_inexact_kernel_cell_graph>();
+    ball_knob_generic<Bigint_exact_kernel_exact_graph>();
 }

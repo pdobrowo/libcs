@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "example_gearbox.h"
+#include "gearbox.h"
 
 #define EXACT 0
 
@@ -98,7 +98,7 @@ struct Bigint_exact_kernel_exact_graph
 #endif // EXACT
 
 template<typename Traits>
-void example_gearbox_generic()
+void gearbox_generic()
 {
     // bring types here
     typedef typename Traits::Point_3 Point_3;
@@ -189,9 +189,9 @@ void example_gearbox_generic()
 #endif
 }
 
-void example_gearbox()
+void gearbox()
 {
-    //example_gearbox_generic<Floating_point_inexact_kernel_raster_graph>();
-    example_gearbox_generic<Floating_point_inexact_kernel_cell_graph>();
-    //example_gearbox_generic<Bigint_exact_kernel_exact_graph>();
+    //gearbox_generic<Floating_point_inexact_kernel_raster_graph>();
+    gearbox_generic<Floating_point_inexact_kernel_cell_graph>();
+    //gearbox_generic<Bigint_exact_kernel_exact_graph>();
 }

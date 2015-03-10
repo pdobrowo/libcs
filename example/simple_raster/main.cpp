@@ -17,9 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_FIND_PATH_H
-#define EXAMPLE_FIND_PATH_H
+#include "simple_raster.h"
+#include <log4cxx/propertyconfigurator.h>
 
-void example_find_path();
+int main()
+{
+    log4cxx::PropertyConfigurator::configure("../../bin/logger.conf");
 
-#endif // EXAMPLE_FIND_PATH_H
+    simple_raster();
+
+    return 0;
+}

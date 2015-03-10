@@ -25,8 +25,7 @@
 #include "Predicate_bb_3_list_generator.h"
 #include "Predicate_h_3_list_generator.h"
 #include <log4cxx/logger.h>
-#include <boost/scoped_ptr.hpp>
-#include <boost/foreach.hpp>
+#include <memory>
 #include <cassert>
 
 namespace CS
@@ -130,7 +129,7 @@ private:
     Spin_quadric_container                  m_spin_quadrics;
 
     // representation: cell graph or exact graph
-    boost::scoped_ptr<Representation>       m_representation;
+    std::unique_ptr<Representation>         m_representation;
 
     // logger
     log4cxx::LoggerPtr                      m_logger;

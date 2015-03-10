@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EXAMPLE_BALL_KNOB_H
-#define EXAMPLE_BALL_KNOB_H
+#ifndef SIMPLE_RASTER_H
+#define SIMPLE_RASTER_H
 
-void example_ball_knob();
+void simple_raster();
 
-#endif // EXAMPLE_BALL_KNOB_H
+#endif // SIMPLE_RASTER_H

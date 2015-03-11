@@ -24,8 +24,7 @@ namespace CS
 template<class Kernel_>
 Loader_sphere_tree<Kernel_>::Loader_sphere_tree()
     : m_number_of_levels(0),
-      m_level_degree(0),
-      m_logger(log4cxx::Logger::getLogger("CS.Loader_sphere_tree"))
+      m_level_degree(0)
 {
 }
 
@@ -102,9 +101,9 @@ bool Loader_sphere_tree<Kernel_>::load_from_file(const char *file_name, bool nor
                 ball_iterator->scale(scale);
     }
 
-    LOG4CXX_INFO(m_logger, "Loaded sphere tree: " << file_name);
-    LOG4CXX_INFO(m_logger, "  Sphere tree: " << m_number_of_levels << " levels");
-    LOG4CXX_INFO(m_logger, "  Sphere tree: " << m_level_degree << " degree");
+    CS_logger_info(MODULE, "Loaded sphere tree: " << file_name);
+    CS_logger_info(MODULE, "  Sphere tree: " << m_number_of_levels << " levels");
+    CS_logger_info(MODULE, "  Sphere tree: " << m_level_degree << " degree");
 
     return true;
 }

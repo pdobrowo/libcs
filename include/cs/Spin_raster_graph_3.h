@@ -23,7 +23,7 @@
 #include "Coordinate.h"
 #include "Spin_3.h"
 #include "Voxel_3.h"
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <memory>
 #include <boost/heap/fibonacci_heap.hpp>
 #include <functional>
@@ -67,6 +67,9 @@ class Spin_raster_graph_3
 
     // index for a predicate
     typedef bool Predicate_index[SUB_PREDICATE_COUNT];
+
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_raster_graph_3";
 
 public:
     typedef Spin_3<double>                          Sample;
@@ -140,6 +143,9 @@ public:
     // route container
     class Route
     {
+        // module
+        static constexpr char const * const MODULE = "CS.Spin_raster_graph_3.Route";
+
     public:
         // invalid route
         Route();
@@ -155,8 +161,6 @@ public:
     private:
         bool                    m_valid;
         std::vector<Voxel_link> m_nodes;
-
-        log4cxx::LoggerPtr      m_logger;
     };
 
 public:
@@ -183,8 +187,6 @@ private:
     size_t                      m_number_of_voxels;         // resolution ^ 3
     size_t                      m_number_of_real_voxels;    // pi/6 * voxels
     size_t                      m_number_of_border_voxels;  // 4/3 pi * voxels
-
-    log4cxx::LoggerPtr          m_logger;
 
     Voxel &                     voxel(int u, int v, int w);
     Voxel &                     locate_voxel(const Sample &sample);

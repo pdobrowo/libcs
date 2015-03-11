@@ -51,8 +51,7 @@ template<class Kernel_, class Predicate_>
 Spin_exact_graph_3<Kernel_, Predicate_>::Spin_exact_graph_3(const std::vector<Predicate> &predicates,
                                              const std::vector<Spin_quadric_3> &spin_quadrics,
                                              const Parameters &parameters)
-    : m_spin_quadrics(spin_quadrics),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_exact_graph_3"))
+    : m_spin_quadrics(spin_quadrics)
 {
     (void)parameters;
     (void)predicates;
@@ -79,7 +78,7 @@ Spin_exact_graph_3<Kernel_, Predicate_>::Spin_exact_graph_3(const std::vector<Pr
 
     if (!m_qsics.empty())
     {
-        LOG4CXX_INFO(m_logger, "Computed " << m_qsics.size() << " spin-QSICs [" << (now - checkQsicsBegin) << " ms] [avg: " << (now - checkQsicsBegin) / m_qsics.size() << " ms]");
+        CS_logger_info(MODULE, "Computed " << m_qsics.size() << " spin-QSICs [" << (now - checkQsicsBegin) << " ms] [avg: " << (now - checkQsicsBegin) / m_qsics.size() << " ms]");
 
         // create qsips
         unsigned long long checkQsipsBegin = get_tick_count();
@@ -97,19 +96,19 @@ Spin_exact_graph_3<Kernel_, Predicate_>::Spin_exact_graph_3(const std::vector<Pr
 
         if (!m_qsips.empty())
         {
-            LOG4CXX_INFO(m_logger, "Computed " << m_qsips.size() << " spin-QSIPs [" << (now - checkQsipsBegin) << " ms] [avg: " << (now - checkQsipsBegin) / m_qsips.size() << " ms]");
+            CS_logger_info(MODULE, "Computed " << m_qsips.size() << " spin-QSIPs [" << (now - checkQsipsBegin) << " ms] [avg: " << (now - checkQsipsBegin) / m_qsips.size() << " ms]");
         }
         else
         {
-            LOG4CXX_INFO(m_logger, "no qsips created");
+            CS_logger_info(MODULE, "no qsips created");
         }
     }
     else
     {
-        LOG4CXX_INFO(m_logger, "no qsics created");
+        CS_logger_info(MODULE, "no qsics created");
     }
 
-    LOG4CXX_INFO(m_logger, "Exact representation: " << m_qsics.size() << " spin-QSICs, " << m_qsips.size() << " spin-QSIPs");
+    CS_logger_info(MODULE, "Exact representation: " << m_qsics.size() << " spin-QSICs, " << m_qsips.size() << " spin-QSIPs");
 }
 
 template<class Kernel_, class Predicate_>

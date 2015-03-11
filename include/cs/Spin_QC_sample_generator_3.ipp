@@ -23,7 +23,6 @@ namespace CS
 {
 template<class Kernel_, class FT_>
 Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::Spin_QC_inexact_sample_generator_3()
-    : m_logger(log4cxx::Logger::getLogger("CS.Spin_QC_inexact_sample_generator_3"))
 {
 }
 
@@ -77,7 +76,7 @@ void Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::fetch(Spin_quadric_iterat
     // gather midpoints
     if (circle_cuts.size() < 2)
     {
-        LOG4CXX_DEBUG(m_logger, "Cannot fetch more samples!");
+        CS_logger_debug(MODULE, "Cannot fetch more samples!");
         return;
     }
 
@@ -102,7 +101,7 @@ void Spin_QC_inexact_sample_generator_3<Kernel_, FT_>::fetch(Spin_quadric_iterat
         ++current_iterator;
     }
 
-//  LOG4CXX_DEBUG(m_logger, "Fetched " << m_cached_samples.size() << " samples");
+//  CS_logger_debug(MODULE, "Fetched " << m_cached_samples.size() << " samples");
 }
 
 template<class Kernel_, class FT_>

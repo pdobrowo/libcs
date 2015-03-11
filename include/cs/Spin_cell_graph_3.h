@@ -28,7 +28,7 @@
 #include "Benchmark.h"      // TODO: add Timing.h
 #include "Index_tree_n.h"
 #include <memory>
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <functional>
 #include <cstddef>
 #include <stack>
@@ -66,6 +66,9 @@ class Spin_cell_graph_3
 
     // index for a predicate
     typedef bool Predicate_index[SUB_PREDICATE_COUNT];
+
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_cell_graph_3";
 
 public:
     typedef typename Spin_sample_generator::Sample  Sample;
@@ -150,8 +153,6 @@ private:
     size_t                      m_empty_cell_count;
     size_t                      m_full_cell_count;
     size_t                      m_coordinate_size;
-
-    log4cxx::LoggerPtr          m_logger;
 
     // main subroutines
     size_t compress_duplicated_quadrics(const std::vector<Spin_quadric_3> &quadrics);

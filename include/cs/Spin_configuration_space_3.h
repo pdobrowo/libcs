@@ -24,7 +24,7 @@
 #include "Predicate_tt_3_list_generator.h"
 #include "Predicate_bb_3_list_generator.h"
 #include "Predicate_h_3_list_generator.h"
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <memory>
 #include <cassert>
 
@@ -63,6 +63,9 @@ class Spin_configuration_space_3
     typedef std::vector<Spin_quadric_3>             Spin_quadric_container;
     typedef std::vector<Predicate>                  Predicate_container;
     typedef std::vector<Predicate_g_3>              General_predicate_container;
+
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_configuration_space_3";
 
 public:
     typedef Representation_                         Representation;
@@ -130,9 +133,6 @@ private:
 
     // representation: cell graph or exact graph
     std::unique_ptr<Representation>         m_representation;
-
-    // logger
-    log4cxx::LoggerPtr                      m_logger;
 };
 
 // standard representations

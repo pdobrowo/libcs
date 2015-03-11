@@ -18,13 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "convex.h"
-#include <log4cxx/propertyconfigurator.h>
 
 int main()
 {
-    log4cxx::PropertyConfigurator::configure("../../bin/logger.conf");
-
     convex();
-
     return 0;
 }

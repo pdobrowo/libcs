@@ -30,7 +30,6 @@ template<class K, class P>
 Spin_null_graph_3<K, P>::Spin_null_graph_3(const std::vector<Predicate> &predicates,
                                            const std::vector<Spin_quadric_3> &quadrics,
                                            const Parameters &parameters)
-    : m_logger(log4cxx::Logger::getLogger("CS.Spin_null_graph_3"))
 {
     (void)parameters;
     (void)predicates;
@@ -40,7 +39,7 @@ Spin_null_graph_3<K, P>::Spin_null_graph_3(const std::vector<Predicate> &predica
     assert(predicates.size() * SUB_PREDICATE_COUNT == quadrics.size());
 
     // ok to begin construction
-    LOG4CXX_DEBUG(m_logger, "Creating spin null graph");
+    CS_logger_debug(MODULE, "Creating spin null graph");
 }
 
 template<class K, class P>
@@ -51,8 +50,7 @@ typename Spin_null_graph_3<K, P>::Route Spin_null_graph_3<K, P>::find_route(cons
 
 template<class K, class P>
 Spin_null_graph_3<K, P>::Route::Route()
-    : m_valid(false),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_null_graph_3::Route"))
+    : m_valid(false)
 {
 }
 
@@ -60,8 +58,7 @@ Spin_null_graph_3<K, P>::Route::Route()
 template<class K, class P>
 Spin_null_graph_3<K, P>::Route::Route(const std::vector<Voxel_link> &nodes)
     : m_valid(true),
-      m_nodes(nodes),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_null_graph_3::Route"))
+      m_nodes(nodes)
 {
 }
 #endif

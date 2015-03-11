@@ -125,8 +125,7 @@ Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Spin_cell_graph_3(const
                                               const Parameters &parameters)
     : m_predicates(predicates),
       m_empty_cell_count(0),
-      m_full_cell_count(0),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_cell_graph_3"))
+      m_full_cell_count(0)
 {
     // check if everything is ok with predicates and quadrics
     assert(predicates.size() * SUB_PREDICATE_COUNT == quadrics.size());
@@ -137,22 +136,22 @@ Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Spin_cell_graph_3(const
     // ok to begin construction
     unsigned long long timer_start, timer_end;
 
-    LOG4CXX_DEBUG(m_logger, "Creating spin cell graph");
+    CS_logger_debug(MODULE, "Creating spin cell graph");
 
     // compress quadrics and create predicate-quadric link tab
-    LOG4CXX_DEBUG(m_logger, "Compressing duplicated quadrics...");
+    CS_logger_debug(MODULE, "Compressing duplicated quadrics...");
 
     size_t duplicated_quadrics =
         compress_duplicated_quadrics(quadrics);
 
-    LOG4CXX_DEBUG(m_logger, "Found " << duplicated_quadrics << " duplicated quadrics");
+    CS_logger_debug(MODULE, "Found " << duplicated_quadrics << " duplicated quadrics");
 
     // read coordinate size
     m_coordinate_size = m_quadrics.size();
 
-    LOG4CXX_DEBUG(m_logger, "Compressed coordinate size is " << m_coordinate_size);
+    CS_logger_debug(MODULE, "Compressed coordinate size is " << m_coordinate_size);
 
-    LOG4CXX_DEBUG(m_logger, "Sampling " << sample_point_count << " spin points");
+    CS_logger_debug(MODULE, "Sampling " << sample_point_count << " spin points");
 
     timer_start = get_tick_count();
 
@@ -165,38 +164,38 @@ Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Spin_cell_graph_3(const
 
     timer_end = get_tick_count();
 
-    LOG4CXX_INFO(m_logger, "Sampling result: " << raw_full_cell_count << " full cells, " << raw_empty_cell_count << " empty cells [" << (timer_end - timer_start) << " ms]");
+    CS_logger_info(MODULE, "Sampling result: " << raw_full_cell_count << " full cells, " << raw_empty_cell_count << " empty cells [" << (timer_end - timer_start) << " ms]");
 
     if (raw_empty_cell_count == 0)
-        LOG4CXX_INFO(m_logger, "Configuration space is probably full");
+        CS_logger_info(MODULE, "Configuration space is probably full");
 
     if (raw_full_cell_count == 0)
-        LOG4CXX_INFO(m_logger, "Configuration space is probably empty");
+        CS_logger_info(MODULE, "Configuration space is probably empty");
 
 #if 1
     // Note: sorting is not needed in index-tree version of cell collapsing algorithm
 
     // sort cells
-    LOG4CXX_INFO(m_logger, "Sorting " << raw_cell_list.size() << " cells");
+    CS_logger_info(MODULE, "Sorting " << raw_cell_list.size() << " cells");
 
     sort_cell_list(raw_cell_list);
 
 #endif
 
     // collapse cells
-    LOG4CXX_INFO(m_logger, "Collapsing " << raw_cell_list.size() << " cells");
+    CS_logger_info(MODULE, "Collapsing " << raw_cell_list.size() << " cells");
 
     collapse_cell_list(raw_cell_list);
 
-    LOG4CXX_INFO(m_logger, "Collapsed to " << m_cells.size() << " different cells");
-    LOG4CXX_INFO(m_logger, "Final structure: " << m_full_cell_count << " full cells, " << m_empty_cell_count << " empty cells ("
+    CS_logger_info(MODULE, "Collapsed to " << m_cells.size() << " different cells");
+    CS_logger_info(MODULE, "Final structure: " << m_full_cell_count << " full cells, " << m_empty_cell_count << " empty cells ("
                  << std::fixed << std::setprecision(2) << (float(100 * m_empty_cell_count) / float(m_cells.size())) << "% empty)");
 
     // display best sampled cells
     display_best_sampled_cells(sample_point_count, 10);
 
     // collect neighbour information
-    LOG4CXX_INFO(m_logger, "Collecting cell neighbour information");
+    CS_logger_info(MODULE, "Collecting cell neighbour information");
 
     //display_coordinate_pops_histogram(false);
     //display_coordinate_pops_histogram(true);
@@ -208,19 +207,19 @@ Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Spin_cell_graph_3(const
 
     timer_end = get_tick_count();
 
-    LOG4CXX_INFO(m_logger, "Graph neighbour cell pairs: " << num_neighbour_pairs <<  " [" << (timer_end - timer_start) << " ms]");
+    CS_logger_info(MODULE, "Graph neighbour cell pairs: " << num_neighbour_pairs <<  " [" << (timer_end - timer_start) << " ms]");
 
     display_neighbour_histogram();
 
     // collect components
-    LOG4CXX_INFO(m_logger, "Collecting connected components information");
+    CS_logger_info(MODULE, "Collecting connected components information");
 
     std::pair<int, int> num_connected_components =
         mark_connected_components(m_cells.begin(), m_cells.end());
 
-    LOG4CXX_INFO(m_logger, "Number of empty connected components: " << num_connected_components.first);
-    LOG4CXX_INFO(m_logger, "Number of full connected components: " << num_connected_components.second);
-    LOG4CXX_INFO(m_logger, "Total number of connected components: " << (num_connected_components.first + num_connected_components.second));
+    CS_logger_info(MODULE, "Number of empty connected components: " << num_connected_components.first);
+    CS_logger_info(MODULE, "Number of full connected components: " << num_connected_components.second);
+    CS_logger_info(MODULE, "Total number of connected components: " << (num_connected_components.first + num_connected_components.second));
 }
 
 template<class Kernel_, class Predicate_, class Representation_>
@@ -244,7 +243,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_ite
 template<class Kernel_, class Predicate_, class Representation_>
 typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_iterator Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::add_sample_point(const Sample &sample)
 {
-    LOG4CXX_DEBUG(m_logger, "Adding a custom sample point: " << sample);
+    CS_logger_debug(MODULE, "Adding a custom sample point: " << sample);
 
     // lookup cell coordinate of new sample
     Coordinate coordinate;
@@ -260,7 +259,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_ite
     {
         if (coordinate == iterator->coordinate())
         {
-            LOG4CXX_DEBUG(m_logger, "Sample point was added to an existing cell");
+            CS_logger_debug(MODULE, "Sample point was added to an existing cell");
 
             // just add next sample point to the cell
             iterator->add_sample(sample);
@@ -272,7 +271,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_ite
     if (iterator == m_cells.end())
     {
         // create new cell
-        LOG4CXX_DEBUG(m_logger, "Creating a new cell for the sample point");
+        CS_logger_debug(MODULE, "Creating a new cell for the sample point");
 
         bool value = evaluate_predicate_list_at_cell_coordinate(coordinate);
 
@@ -303,7 +302,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Cell_const_ite
     }
 
     // information
-    LOG4CXX_DEBUG(m_logger, "Updated structure: " << m_full_cell_count << " full cells, " << m_empty_cell_count << " empty cells ("
+    CS_logger_debug(MODULE, "Updated structure: " << m_full_cell_count << " full cells, " << m_empty_cell_count << " empty cells ("
                  << std::fixed << std::setprecision(2) << (float(100 * m_empty_cell_count) / float(m_cells.size())) << "% empty)");
 
     // return new cell iterator
@@ -320,13 +319,13 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cel
     // check cells
     if (!begin_cell->is_empty())
     {
-        LOG4CXX_INFO(m_logger, "Begin cell is forbidden: " << begin);
+        CS_logger_info(MODULE, "Begin cell is forbidden: " << begin);
         return Route();
     }
 
     if (!end_cell->is_empty())
     {
-        LOG4CXX_INFO(m_logger, "End cell is forbidden: " << end);
+        CS_logger_info(MODULE, "End cell is forbidden: " << end);
         return Route();
     }
 
@@ -358,7 +357,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cel
         typename Spin_cell_graph_3::Cell_const_iterator cell,
         const Sample &begin, const Sample &end) const
 {
-    LOG4CXX_DEBUG(m_logger, "Find route: same cell");
+    CS_logger_debug(MODULE, "Find route: same cell");
 
     (void)cell;
     (void)begin;
@@ -373,7 +372,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cel
         typename Spin_cell_graph_3::Cell_const_iterator end_cell,
         const Sample &begin, const Sample &end) const
 {
-    LOG4CXX_DEBUG(m_logger, "Find route: same component");
+    CS_logger_debug(MODULE, "Find route: same component");
 
     (void)begin_cell;
     (void)end_cell;
@@ -388,7 +387,7 @@ typename Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::Route Spin_cel
         typename Spin_cell_graph_3::Cell_const_iterator begin_cell, typename Spin_cell_graph_3::Cell_const_iterator end_cell,
         const Sample &begin, const Sample &end) const
 {
-    LOG4CXX_DEBUG(m_logger, "Find route: general");
+    CS_logger_debug(MODULE, "Find route: general");
 
     (void)begin_cell;
     (void)end_cell;
@@ -501,7 +500,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_sample_cel
     // multi-threaded (OMP)
     int max_threads = omp_get_max_threads();
 
-    LOG4CXX_DEBUG(m_logger, "Multi-threaded collect: " << max_threads << " threads");
+    CS_logger_debug(MODULE, "Multi-threaded collect: " << max_threads << " threads");
 
     boost::scoped_array<Sample>                 samples(new Sample[max_threads]);
     boost::scoped_array<Spin_sample_generator>  generators(new Spin_sample_generator[max_threads]);
@@ -546,7 +545,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_sample_cel
     Sample sample;
     Spin_sample_generator generator;
 
-    LOG4CXX_DEBUG(m_logger, "Single-threaded collect");
+    CS_logger_debug(MODULE, "Single-threaded collect");
 
     Coordinate coordinate;
     coordinate.resize(m_quadrics.size());
@@ -587,7 +586,7 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
     // 3: optimal   O(n * l)
     int neighbour_collect_algorithm = Config::neighbour_collect_algorithm();
 
-    LOG4CXX_DEBUG(m_logger, "Config: neighbour_collect_algorithm = " << neighbour_collect_algorithm);
+    CS_logger_debug(MODULE, "Config: neighbour_collect_algorithm = " << neighbour_collect_algorithm);
 
     if (neighbour_collect_algorithm == 3)
     {
@@ -620,13 +619,13 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
         typedef typename Index_tree_node::Pool Pool;
         typedef typename Pool::Offset Offset;
 
-        LOG4CXX_TRACE(m_logger, "Creating index tree pool");
+        CS_logger_debug(MODULE, "Creating index tree pool");
 
         Pool pool(1 + m_cells.size() * m_coordinate_size);
 
-        LOG4CXX_TRACE(m_logger, "Pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
 
-        LOG4CXX_TRACE(m_logger, "Building cell coordinate lookup tree");
+        CS_logger_debug(MODULE, "Building cell coordinate lookup tree");
 
         // index tree
         Offset cell_index_tree = Index_tree_node::create_root(&pool);
@@ -634,7 +633,7 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
         // groups and initial full group
         Multi_list ropes(m_cells.size() * 2); // * 2 is for each one temporary left group during phase 2. TODO: Optimize
 
-        LOG4CXX_TRACE(m_logger, "Ropes size is: " << std::fixed << std::setprecision(2) << (ropes.memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Ropes size is: " << std::fixed << std::setprecision(2) << (ropes.memsize() / (1024 * 1024)) << " MB");
 
         Multi_list_rope *initial_rope_iterator = ropes.alloc_rope();
         ropes.push_rope(initial_rope_iterator);
@@ -663,7 +662,7 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
         }
 
         // iterate
-        LOG4CXX_TRACE(m_logger, "Searching for neighbour cell indexes");
+        CS_logger_debug(MODULE, "Searching for neighbour cell indexes");
 
         for (size_t l = 0; l < m_coordinate_size; ++l)
         {
@@ -772,8 +771,8 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
             }
         }
 
-        LOG4CXX_TRACE(m_logger, "Pool final usage: " << pool.usage() << " % out of total " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
-        LOG4CXX_TRACE(m_logger, "Pool final allocted size is: " << std::fixed << std::setprecision(2) << (pool.allocated_memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool final usage: " << pool.usage() << " % out of total " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool final allocted size is: " << std::fixed << std::setprecision(2) << (pool.allocated_memsize() / (1024 * 1024)) << " MB");
 
         return num_neighbour_pairs;
     }
@@ -796,13 +795,13 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
         typedef typename Index_tree_node::Pool Pool;
         typedef typename Pool::Offset Offset;
 
-        LOG4CXX_TRACE(m_logger, "Creating index tree pool");
+        CS_logger_debug(MODULE, "Creating index tree pool");
 
         Pool pool(1 + m_cells.size() * m_coordinate_size);
 
-        LOG4CXX_TRACE(m_logger, "Pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
 
-        LOG4CXX_TRACE(m_logger, "Building cell coordinate lookup tree");
+        CS_logger_debug(MODULE, "Building cell coordinate lookup tree");
 
         Offset cell_index_tree = Index_tree_node::create_root(&pool);
 
@@ -816,7 +815,7 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
         }
 
         // iterate
-        LOG4CXX_TRACE(m_logger, "Searching for neighbour cell indexes");
+        CS_logger_debug(MODULE, "Searching for neighbour cell indexes");
 
         for (typename Cell_list::iterator cell_iterator = m_cells.begin(); cell_iterator != m_cells.end(); ++cell_iterator)
         {
@@ -854,8 +853,8 @@ size_t Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collect_cell_nei
             }
         }
 
-        LOG4CXX_TRACE(m_logger, "Pool final usage: " << pool.usage() << " % out of total " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
-        LOG4CXX_TRACE(m_logger, "Pool final allocted size is: " << std::fixed << std::setprecision(2) << (pool.allocated_memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool final usage: " << pool.usage() << " % out of total " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
+        CS_logger_debug(MODULE, "Pool final allocted size is: " << std::fixed << std::setprecision(2) << (pool.allocated_memsize() / (1024 * 1024)) << " MB");
 
         return num_neighbour_pairs;
     }
@@ -962,13 +961,13 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::collapse_cell_list
     typedef Index_tree_node_n<Cell, size_t> Index_tree_node;
     typedef typename Index_tree_node::Pool Pool;
 
-    LOG4CXX_TRACE(m_logger, "Creating reduced index tree pool");
+    CS_logger_debug(MODULE, "Creating reduced index tree pool");
 
     Pool pool(1 + raw_cell_list.size() * m_coordinate_size);
 
-    LOG4CXX_TRACE(m_logger, "Reduced pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
+    CS_logger_debug(MODULE, "Reduced pool size is: " << std::fixed << std::setprecision(2) << (pool.memsize() / (1024 * 1024)) << " MB");
 
-    LOG4CXX_TRACE(m_logger, "Building reduced cell coordinate lookup tree");
+    CS_logger_debug(MODULE, "Building reduced cell coordinate lookup tree");
 
     // index tree
     Index_tree_node *cell_index_tree = Index_tree_node::create_root(&pool);
@@ -1030,7 +1029,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::calculate_cell_coo
         if (sign == 0)
         //if (fabs(dsign) < 10e-6)
         {
-//            LOG4CXX_WARN(m_logger, "Sample point " << sample << " lies on a quadric");
+//            CS_logger_warning(MODULE, "Sample point " << sample << " lies on a quadric");
 
             // TODO: special code is needed to handle degenerate collision cases
         }
@@ -1075,7 +1074,7 @@ bool Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::evaluate_predicate
 template<class Kernel_, class Predicate_, class Representation_>
 void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate_pops_histogram(bool verbose)
 {
-    LOG4CXX_DEBUG(m_logger, "Pops histogram:");
+    CS_logger_debug(MODULE, "Pops histogram:");
 
     std::unique_ptr<size_t []> counts = std::make_unique<size_t []>(m_coordinate_size);
 
@@ -1101,7 +1100,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate
         }
 
         if (verbose)
-            LOG4CXX_DEBUG(m_logger, "Cell(" << index << ") = " << bits);
+            CS_logger_debug(MODULE, "Cell(" << index << ") = " << bits);
 
         ++counts[count];
         ++index;
@@ -1109,7 +1108,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate
 
     for (size_t i = 0; i < m_coordinate_size; ++i)
         if (counts[i] != 0)
-            LOG4CXX_DEBUG(m_logger, "Pops(" << i << ") = " << counts[i]);
+            CS_logger_debug(MODULE, "Pops(" << i << ") = " << counts[i]);
 
     // check cell coordinate compression
     size_t reduce = 0;
@@ -1134,7 +1133,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate
             ++reduce;
     }
 
-    LOG4CXX_DEBUG(m_logger, "Coordinate description may be reduced by " << reduce << " bits");
+    CS_logger_debug(MODULE, "Coordinate description may be reduced by " << reduce << " bits");
 }
 
 template<class Kernel_, class Predicate_, class Representation_>
@@ -1161,7 +1160,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_neighbour_
 
     for (size_t i = 0; i <= max_edges_index; ++i)
         if (counts[i] != 0)
-            LOG4CXX_DEBUG(m_logger, "Edges(" << i << ") = " << counts[i]);
+            CS_logger_debug(MODULE, "Edges(" << i << ") = " << counts[i]);
 
 #else
 
@@ -1223,20 +1222,20 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_neighbour_
         }
     }
 
-    LOG4CXX_DEBUG(m_logger, "All cells histogram:");
+    CS_logger_debug(MODULE, "All cells histogram:");
 
     for (Counts::const_iterator i = general_counts.begin(); i != general_counts.end(); ++i)
-        LOG4CXX_DEBUG(m_logger, "#" << i->first << " degree: " << i->second << " cells");
+        CS_logger_debug(MODULE, "#" << i->first << " degree: " << i->second << " cells");
 
-    LOG4CXX_DEBUG(m_logger, "Empty cells histogram:");
+    CS_logger_debug(MODULE, "Empty cells histogram:");
 
     for (Counts::const_iterator i = empty_counts.begin(); i != empty_counts.end(); ++i)
-        LOG4CXX_DEBUG(m_logger, "#" << i->first << " degree: " << i->second << " cells");
+        CS_logger_debug(MODULE, "#" << i->first << " degree: " << i->second << " cells");
 
-    LOG4CXX_DEBUG(m_logger, "Full cells histogram:");
+    CS_logger_debug(MODULE, "Full cells histogram:");
 
     for (Counts::const_iterator i = full_counts.begin(); i != full_counts.end(); ++i)
-        LOG4CXX_DEBUG(m_logger, "#" << i->first << " degree: " << i->second << " cells");
+        CS_logger_debug(MODULE, "#" << i->first << " degree: " << i->second << " cells");
 
 #endif
 }
@@ -1252,7 +1251,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_best_sampl
 
     std::sort(sizes.begin(), sizes.end(), std::greater<typename Cell::Sample_size_type>());
 
-    LOG4CXX_DEBUG(m_logger, "Best sampled cells histogram:");
+    CS_logger_debug(MODULE, "Best sampled cells histogram:");
 
     if (top_count > m_cells.size())
         top_count = static_cast<size_t>(m_cells.size());
@@ -1264,7 +1263,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_best_sampl
         double fraction = 100.0 * sizes[i] / sample_point_count;
         aggregated_fraction += fraction;
 
-        LOG4CXX_DEBUG(m_logger, "#" << i + 1 << ": " << sizes[i] << " samples" <<
+        CS_logger_debug(MODULE, "#" << i + 1 << ": " << sizes[i] << " samples" <<
                       " (fraction: " << std::fixed << std::setprecision(2) << fraction << "%, aggregated fraction: " << aggregated_fraction << "%)");
     }
 
@@ -1277,7 +1276,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_best_sampl
 
         if (aggregated_fraction >= 90.0)
         {
-            LOG4CXX_DEBUG(m_logger, "" << i + 1 << " cells contain " << std::fixed << std::setprecision(2) << aggregated_fraction << "% of all samples");
+            CS_logger_debug(MODULE, "" << i + 1 << " cells contain " << std::fixed << std::setprecision(2) << aggregated_fraction << "% of all samples");
             break;
         }
     }
@@ -1301,7 +1300,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
     if (SORT_ALGORITHM == 4)
     {
         // Requires: random-access iterator
-        LOG4CXX_DEBUG(m_logger, "Multiway merge sort");
+        CS_logger_debug(MODULE, "Multiway merge sort");
 
         // parallel sort
 //        __gnu_parallel::sort(cells.begin(), cells.end());
@@ -1310,7 +1309,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
     else if (SORT_ALGORITHM == 3)
     {
         // Requires: random-access iterator
-        LOG4CXX_DEBUG(m_logger, "Intrusive sort");
+        CS_logger_debug(MODULE, "Intrusive sort");
 
         // intrusive sort
         std::sort(cells.begin(), cells.end());
@@ -1318,7 +1317,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
     else if (SORT_ALGORITHM == 2)
     {
 #if 0
-        LOG4CXX_DEBUG(m_logger, "Merge sort");
+        CS_logger_debug(MODULE, "Merge sort");
 
         // merge sort
         cells.sort();
@@ -1327,7 +1326,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
     else if (SORT_ALGORITHM == 1)
     {
 #if 0
-        LOG4CXX_DEBUG(m_logger, "Linear sort");
+        CS_logger_debug(MODULE, "Linear sort");
 
         typedef typename Cell_list::iterator Cell_list_iterator;
 
@@ -1350,7 +1349,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
         boost::scoped_array<Cell_list_iterator> buffer_one(new Cell_list_iterator[number_of_cells]);
         size_t buffer_zero_size, buffer_one_size;
 
-        LOG4CXX_DEBUG(m_logger, "Iterating linear sort");
+        CS_logger_debug(MODULE, "Iterating linear sort");
 
         for (bit = static_cast<int>(m_coordinate_size) - 1; bit >= 0; --bit)
         {
@@ -1376,7 +1375,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::sort_cell_list(Cel
                 cell_index[i++] = buffer_one[j];
         }
 
-        LOG4CXX_DEBUG(m_logger, "Back copy from linear sort");
+        CS_logger_debug(MODULE, "Back copy from linear sort");
 
         // copy back indexed cells
         for (i = 0; i < number_of_cells; ++i)

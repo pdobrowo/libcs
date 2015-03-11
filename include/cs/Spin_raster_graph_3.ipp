@@ -188,8 +188,7 @@ Spin_raster_graph_3<K, P>::Spin_raster_graph_3(const std::vector<Predicate> &pre
       m_number_of_mixed_voxels(0),
       m_number_of_voxels(0),
       m_number_of_real_voxels(0),
-      m_number_of_border_voxels(0),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_raster_graph_3"))
+      m_number_of_border_voxels(0)
 {
     // check if everything is ok with predicates and quadrics
     assert(predicates.size() * SUB_PREDICATE_COUNT == quadrics.size());
@@ -199,27 +198,27 @@ Spin_raster_graph_3<K, P>::Spin_raster_graph_3(const std::vector<Predicate> &pre
     m_number_of_voxels = m_resolution * m_resolution * m_resolution;
 
     // ok to begin construction
-    LOG4CXX_DEBUG(m_logger, "Creating spin raster graph");
-    LOG4CXX_DEBUG(m_logger, "Sampling " << m_number_of_voxels << " voxels (density is: " << m_resolution << ")");
+    CS_logger_debug(MODULE, "Creating spin raster graph");
+    CS_logger_debug(MODULE, "Sampling " << m_number_of_voxels << " voxels (density is: " << m_resolution << ")");
 
     collect_samples(predicates, quadrics);
 
-    LOG4CXX_INFO(m_logger, "Final structure: ");
-    LOG4CXX_INFO(m_logger, "    empty voxel(s): "   << m_number_of_empty_voxels);
-    LOG4CXX_INFO(m_logger, "    full voxel(s): "    << m_number_of_full_voxels);
-    LOG4CXX_INFO(m_logger, "    mixed voxel(s): "   << m_number_of_mixed_voxels);
-    LOG4CXX_INFO(m_logger, "    voxel(s): "         << m_number_of_voxels);
-    LOG4CXX_INFO(m_logger, "    real voxel(s): "    << m_number_of_real_voxels);
-    LOG4CXX_INFO(m_logger, "    border voxel(s): "  << m_number_of_border_voxels);
+    CS_logger_info(MODULE, "Final structure: ");
+    CS_logger_info(MODULE, "    empty voxel(s): "   << m_number_of_empty_voxels);
+    CS_logger_info(MODULE, "    full voxel(s): "    << m_number_of_full_voxels);
+    CS_logger_info(MODULE, "    mixed voxel(s): "   << m_number_of_mixed_voxels);
+    CS_logger_info(MODULE, "    voxel(s): "         << m_number_of_voxels);
+    CS_logger_info(MODULE, "    real voxel(s): "    << m_number_of_real_voxels);
+    CS_logger_info(MODULE, "    border voxel(s): "  << m_number_of_border_voxels);
 
     // collect components
-    LOG4CXX_INFO(m_logger, "Collecting connected components information");
+    CS_logger_info(MODULE, "Collecting connected components information");
 
     std::pair<int, int> num_connected_components = mark_connected_components(m_voxels.get(), m_voxels.get() + m_number_of_voxels);
 
-    LOG4CXX_INFO(m_logger, "Number of empty connected components: " << num_connected_components.first);
-    LOG4CXX_INFO(m_logger, "Number of full connected components: " << num_connected_components.second);
-    LOG4CXX_INFO(m_logger, "Total number of connected components: " << (num_connected_components.first + num_connected_components.second));
+    CS_logger_info(MODULE, "Number of empty connected components: " << num_connected_components.first);
+    CS_logger_info(MODULE, "Number of full connected components: " << num_connected_components.second);
+    CS_logger_info(MODULE, "Total number of connected components: " << (num_connected_components.first + num_connected_components.second));
 }
 
 template<class K, class P>
@@ -234,19 +233,19 @@ typename Spin_raster_graph_3<K, P>::Route Spin_raster_graph_3<K, P>::find_route(
     // initial checks
     if (begin_voxel.value(begin_cover)) // check for obstruction at begin or end rotation
     {
-        LOG4CXX_WARN(m_logger, "Route not found: begin rotation is obstructed");
+        CS_logger_warning(MODULE, "Route not found: begin rotation is obstructed");
         return Route();
     }
 
     if (end_voxel.value(end_cover)) // check for obstruction at begin or end rotation
     {
-        LOG4CXX_WARN(m_logger, "Route not found: end rotation is obstructed");
+        CS_logger_warning(MODULE, "Route not found: end rotation is obstructed");
         return Route();
     }
 
     if (begin_voxel.data().component[begin_cover] != end_voxel.data().component[end_cover]) // both begin and end voxels must be in the same component
     {
-        LOG4CXX_WARN(m_logger, "Route not found: different components for begin and end rotation");
+        CS_logger_warning(MODULE, "Route not found: different components for begin and end rotation");
         return Route();
     }
 
@@ -267,7 +266,7 @@ typename Spin_raster_graph_3<K, P>::Route Spin_raster_graph_3<K, P>::find_route(
     // backtrace a route
     collect_backtrace_route(Voxel_link(&end_voxel, end_cover), std::back_inserter(nodes));
 
-    LOG4CXX_INFO(m_logger, "Found a route with " << nodes.size() << " node(s)");
+    CS_logger_info(MODULE, "Found a route with " << nodes.size() << " node(s)");
 
     return Route(nodes);
 }
@@ -276,7 +275,7 @@ typename Spin_raster_graph_3<K, P>::Route Spin_raster_graph_3<K, P>::find_route(
 template<class K, class P>
 void Spin_raster_graph_3<K, P>::mark_routing_distances_bfs(Voxel_link source)
 {
-    LOG4CXX_INFO(m_logger, "BFS routing");
+    CS_logger_info(MODULE, "BFS routing");
 
     // unpack link
     Voxel_iterator source_iterator = source.first;
@@ -436,7 +435,7 @@ template<class K, class P>
 void Spin_raster_graph_3<K, P>::collect_samples(const std::vector<Predicate> &predicates,
                                                 const std::vector<Spin_quadric_3> &quadrics)
 {
-    LOG4CXX_DEBUG(m_logger, "Single-threaded collect");
+    CS_logger_debug(MODULE, "Single-threaded collect");
 
     // initialize buffer
     m_voxels.reset(new Voxel[m_number_of_voxels]);
@@ -502,7 +501,7 @@ void Spin_raster_graph_3<K, P>::collect_samples(const std::vector<Predicate> &pr
         }
     }
 
-    LOG4CXX_DEBUG(m_logger, "Collected " << m_number_of_real_voxels << " real voxel(s)");
+    CS_logger_debug(MODULE, "Collected " << m_number_of_real_voxels << " real voxel(s)");
 
     // find border (not optimized)
     // border are those voxels that have at least one empty neighbour in standard direction
@@ -544,7 +543,7 @@ void Spin_raster_graph_3<K, P>::collect_samples(const std::vector<Predicate> &pr
         }
     }
 
-    LOG4CXX_DEBUG(m_logger, "Collected " << m_number_of_border_voxels << " border voxel(s)");
+    CS_logger_debug(MODULE, "Collected " << m_number_of_border_voxels << " border voxel(s)");
 }
 
 template<class K, class P>
@@ -567,7 +566,7 @@ void Spin_raster_graph_3<K, P>::calculate_raster_coordinate(
         if (sign == 0)
         //if (fabs(dsign) < 10e-6)
         {
-//            LOG4CXX_WARN(m_logger, "Sample point " << sample << " lies on a quadric");
+//            CS_logger_warning(MODULE, "Sample point " << sample << " lies on a quadric");
 
             // TODO: special code is needed to handle degenerate collision cases
         }
@@ -604,25 +603,23 @@ bool Spin_raster_graph_3<K, P>::evaluate_predicate_list_at_raster_coordinate(
 
 template<class K, class P>
 Spin_raster_graph_3<K, P>::Route::Route()
-    : m_valid(false),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_raster_graph_3::Route"))
+    : m_valid(false)
 {
 }
 
 template<class K, class P>
 Spin_raster_graph_3<K, P>::Route::Route(const std::vector<Voxel_link> &nodes)
     : m_valid(true),
-      m_nodes(nodes),
-      m_logger(log4cxx::Logger::getLogger("CS.Spin_raster_graph_3::Route"))
+      m_nodes(nodes)
 {
 #if 0
-    LOG4CXX_DEBUG(m_logger, "Route nodes (" << m_nodes.size() << "):");
+    CS_logger_debug(MODULE, "Route nodes (" << m_nodes.size() << "):");
 
     std::vector<Sample> sample_nodes = this->nodes();
     size_t index = 0;
 
     for (std::vector<Sample>::const_iterator it = sample_nodes.begin(); it != sample_nodes.end(); ++it)
-        LOG4CXX_DEBUG(m_logger, "    Node[" << index++ << "] = " << *it);
+        CS_logger_debug(MODULE, "    Node[" << index++ << "] = " << *it);
 
 #endif
 }
@@ -680,7 +677,7 @@ std::vector<typename Spin_raster_graph_3<K, P>::Sample> Spin_raster_graph_3<K, P
 template<class K, class P>
 void Spin_raster_graph_3<K, P>::mark_routing_distances_dijkstra(Voxel_link source)
 {
-    LOG4CXX_INFO(m_logger, "Dijkstra routing");
+    CS_logger_info(MODULE, "Dijkstra routing");
 
     // unpack link
     Voxel_iterator source_iterator = source.first;

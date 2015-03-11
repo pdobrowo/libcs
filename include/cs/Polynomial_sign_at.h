@@ -31,7 +31,7 @@ namespace CS
  * New algorithm for polynomial interval sign determination
  *
  * It is faster than the algorithm proposed by Hemmer et. al.
- * The idea is to assume that the plynomial is locally mototonic.
+ * The idea is to assume that the plynomial is locally monotonic.
  * By using polynomial sign at point, and polynomial differential it is possible
  * to deduce what the sign of whole interval is.
  */

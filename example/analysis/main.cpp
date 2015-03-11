@@ -18,13 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "analysis.h"
-#include <log4cxx/propertyconfigurator.h>
 
 int main()
 {
-    log4cxx::PropertyConfigurator::configure("../../bin/logger.conf");
-
     analysis();
-
     return 0;
 }

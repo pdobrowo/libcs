@@ -20,7 +20,7 @@
 #ifndef LIBCS_INDEX_TREE_N_H
 #define LIBCS_INDEX_TREE_N_H
 
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <cstdint>
 #include <cassert>
 
@@ -38,6 +38,9 @@ public:
     {
         typedef Index_tree_node_n<Cell_, Node_data_> Index_tree_node;
 
+        // module
+        static constexpr char const * const MODULE = "CS.Index_tree_node_n.Pool";
+
     public:
         // Note: this may be too few in some extreme cases!
         typedef boost::uint32_t     Offset;
@@ -46,10 +49,9 @@ public:
         static const Offset NULL_OFFSET = static_cast<Offset>(-1);
 
         Pool(size_t total)
-            : m_logger(log4cxx::Logger::getLogger("CS.Index_tree_node_n.Pool"))
         {
-            LOG4CXX_DEBUG(m_logger, "Creating a pool for " << total << " structures of size " << sizeof(Index_tree_node) << " bytes");
-            LOG4CXX_DEBUG(m_logger, "Maximum pool size is " << std::fixed << std::setprecision(2) << ((total *  sizeof(Index_tree_node)) / (1024 * 1024)) << " MB");
+            CS_logger_debug(MODULE, "Creating a pool for " << total << " structures of size " << sizeof(Index_tree_node) << " bytes");
+            CS_logger_debug(MODULE, "Maximum pool size is " << std::fixed << std::setprecision(2) << ((total *  sizeof(Index_tree_node)) / (1024 * 1024)) << " MB");
 
             // the pool is very mean at memory allocation - it does allocate only
             // when needed - always increase the side by a factor of two
@@ -66,7 +68,7 @@ public:
             m_total = total;
             m_used = 0;
 
-            LOG4CXX_DEBUG(m_logger, "New allocated pool size is " << std::fixed << std::setprecision(2) << (data_size / (1024 * 1024)) << " MB");
+            CS_logger_debug(MODULE, "New allocated pool size is " << std::fixed << std::setprecision(2) << (data_size / (1024 * 1024)) << " MB");
         }
 
         ~Pool()
@@ -94,14 +96,14 @@ public:
                 // reallocate
                 size_t data_size = m_allocated * sizeof(Index_tree_node);
 
-                LOG4CXX_DEBUG(m_logger, "Reallocating pool...");
+                CS_logger_debug(MODULE, "Reallocating pool...");
 
                 Index_tree_node *data = static_cast<Index_tree_node *>(realloc(m_data, data_size));
                 assert(data);
 
                 m_data = data;
 
-                LOG4CXX_DEBUG(m_logger, "New allocated pool size is " << std::fixed << std::setprecision(2) << (data_size / (1024 * 1024)) << " MB");
+                CS_logger_debug(MODULE, "New allocated pool size is " << std::fixed << std::setprecision(2) << (data_size / (1024 * 1024)) << " MB");
             }
 
             return m_used++;
@@ -139,8 +141,6 @@ public:
         size_t              m_total;
         size_t              m_used;
         size_t              m_allocated;
-
-        log4cxx::LoggerPtr  m_logger;
     };
 
     // an offset to the node in an integrated pool allocator

@@ -31,10 +31,6 @@ INCLUDE(${CGAL_USE_FILE})
 FIND_PACKAGE(Boost COMPONENTS thread REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
-# log4cxx
-find_package(LOG4CXX REQUIRED)
-INCLUDE_DIRECTORIES(${LOG4CXX_INCLUDE_DIRS})
-
 # compiler settings
 SET(LIBCS_DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++14 -Wall -Wextra")
 
@@ -137,10 +133,6 @@ IF(WIN32)
     # APRUTIL
     SET(APRUTIL ${ARCH}/apr-util-1.4.1)
     include_directories(${APRUTIL}/include)
-
-    # LOG4CXX
-    SET(LOG4CXX ${ARCH}/log4cxx-0.10.0)
-    include_directories(${LOG4CXX}/include)
 ENDIF(WIN32)
 
 SET(cs_HEADERS
@@ -174,6 +166,7 @@ SET(cs_HEADERS
     include/cs/Loader_scene.ipp
     include/cs/Loader_sphere_tree.h
     include/cs/Loader_sphere_tree.ipp
+    include/cs/Logger.h
     include/cs/Math_utils.h
     include/cs/Math_utils_exact.h
     include/cs/Math_utils.ipp
@@ -278,6 +271,7 @@ SET(cs_BASE_SOURCES
     src/Benchmark.cpp
     src/Build.cpp
     src/Config.cpp
+    src/Logger.cpp
 )
 
 IF(LIBCS_WITH_EXACT_KERNEL)

@@ -24,7 +24,7 @@
 #include "Spin_3.h"
 #include "Uniform_random_spin_3.h"
 #include "Random_spin_circle_3.h"
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <deque>
 
 namespace CS
@@ -46,8 +46,6 @@ struct Spin_QC_inexact_sample_generator_3
     // cached samples
     Sample_list                     m_cached_samples;
 
-    log4cxx::LoggerPtr              m_logger;
-
     Spin_QC_inexact_sample_generator_3();
 
     template<typename Spin_quadric_iterator_>
@@ -55,6 +53,10 @@ struct Spin_QC_inexact_sample_generator_3
 
     template<typename Spin_quadric_iterator_>
     void operator()(Spin_quadric_iterator_ quadrics_begin, Spin_quadric_iterator_ quadrics_end, Sample &sample);
+
+private:
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_QC_inexact_sample_generator_3";
 };
 
 // QC sample generator

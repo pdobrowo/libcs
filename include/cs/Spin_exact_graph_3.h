@@ -22,7 +22,7 @@
 
 #include "Spin_3.h"             // FIXME: remove
 #include "Benchmark.h"          // TODO: add Timing.h
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 
 namespace CS
 {
@@ -45,6 +45,9 @@ class Spin_exact_graph_3
 
     // index for a predicate
     typedef bool Predicate_index[SUB_PREDICATE_COUNT];
+
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_exact_graph_3";
 
 public:
     typedef Spin_3<double>                          Sample;
@@ -136,9 +139,7 @@ private:
     Qsic_container              m_qsics;
     Qsip_container              m_qsips;
 
-    log4cxx::LoggerPtr          m_logger;
-
-    void release();
+    void                        release();
 };
 } // namespace CS
 

@@ -21,7 +21,7 @@
 #define LIBCS_LOADER_SPHERE_TREE_H
 
 #include "Ball_3.h"
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <vector>
 #include <cstddef>
 #include <fstream>
@@ -37,6 +37,9 @@ class Loader_sphere_tree
     typedef std::vector<Level>              Levels;
 
     typedef typename Kernel_::RT            RT;
+
+    // module
+    static constexpr char const * const MODULE = "CS.Loader_sphere_tree";
 
 public:
     typedef typename Level::const_iterator  const_iterator;
@@ -55,9 +58,6 @@ private:
     size_t      m_number_of_levels;
     size_t      m_level_degree;
     Levels      m_levels;
-
-    // logger
-    log4cxx::LoggerPtr                      m_logger;
 };
 } // namespace CS
 

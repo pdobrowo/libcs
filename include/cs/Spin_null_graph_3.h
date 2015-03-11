@@ -23,7 +23,7 @@
 #include "Coordinate.h"
 #include "Spin_3.h"
 #include "Voxel_3.h"
-#include <log4cxx/logger.h>
+#include <cs/Logger.h>
 #include <functional>
 #include <limits>
 #include <cmath>
@@ -56,6 +56,9 @@ class Spin_null_graph_3
     // index for a predicate
     typedef bool Predicate_index[SUB_PREDICATE_COUNT];
 
+    // module
+    static constexpr char const * const MODULE = "CS.Spin_null_graph_3";
+
 public:
     typedef Spin_3<double>                          Sample;
 
@@ -68,6 +71,9 @@ public:
     // route container
     class Route
     {
+        // module
+        static constexpr char const * const MODULE = "CS.Spin_null_graph_3.Route";
+
     public:
         // invalid route
         Route();
@@ -83,8 +89,6 @@ public:
     private:
         bool                    m_valid;
         //std::vector<Voxel_link> m_nodes;
-
-        log4cxx::LoggerPtr      m_logger;
     };
 
 public:
@@ -94,9 +98,6 @@ public:
 
     // routing
     Route                       find_route(const Sample &begin, const Sample &end);
-
-private:
-    log4cxx::LoggerPtr          m_logger;
 };
 } // namespace CS
 

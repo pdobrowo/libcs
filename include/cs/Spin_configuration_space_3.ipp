@@ -23,7 +23,6 @@ namespace CS
 {
 template<class Kernel_, class Predicate_, class Representation_>
 Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Spin_configuration_space_3()
-    : m_logger(log4cxx::Logger::getLogger("CS.Spin_configuration_space_3"))
 {
 }
 
@@ -37,14 +36,14 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
     size_t number_of_robot_primitives = std::distance(robot_begin, robot_end);
     size_t number_of_obstacle_primitives = std::distance(obstacle_begin, obstacle_end);
 
-    LOG4CXX_INFO(m_logger, "Creating configuration space");
-    LOG4CXX_INFO(m_logger, "Configuration: " << number_of_robot_primitives << " robot primitives; " << number_of_obstacle_primitives << " obstacle primitives");
+    CS_logger_info(MODULE, "Creating configuration space");
+    CS_logger_info(MODULE, "Configuration: " << number_of_robot_primitives << " robot primitives; " << number_of_obstacle_primitives << " obstacle primitives");
 
     // timing
     unsigned long long timer_start, timer_end, timer_all_start, timer_all_end;
 
     // create TT predicate list
-    LOG4CXX_DEBUG(m_logger, "Creating predicate list");
+    CS_logger_debug(MODULE, "Creating predicate list");
 
     timer_all_start = get_tick_count();
     timer_start = get_tick_count();
@@ -60,12 +59,12 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
 
     timer_end = get_tick_count();
 
-    LOG4CXX_INFO(m_logger, "Prepared " << m_predicates.size() << "/" << total_number_of_scene_predicates << " scene predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_scene_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
+    CS_logger_info(MODULE, "Prepared " << m_predicates.size() << "/" << total_number_of_scene_predicates << " scene predicates, " << std::fixed << std::setprecision(2) << (float(100 * m_predicates.size()) / float(total_number_of_scene_predicates)) << "% [" << (timer_end - timer_start) << " ms]");
 
     // prepare general predicate list
-    LOG4CXX_DEBUG(m_logger, "Creating general predicate list");
+    CS_logger_debug(MODULE, "Creating general predicate list");
 
-    LOG4CXX_DEBUG(m_logger, "Sub-predicate count is " << SUB_PREDICATE_COUNT);
+    CS_logger_debug(MODULE, "Sub-predicate count is " << SUB_PREDICATE_COUNT);
 
     m_general_predicates.reserve(SUB_PREDICATE_COUNT * m_predicates.size());
 
@@ -74,35 +73,35 @@ void Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::create_fr
             m_general_predicates.push_back(Predicate_g_3(predicate.sub_predicates()[j]));
 
     // create spin quadric list
-    LOG4CXX_DEBUG(m_logger, "Creating spin quadric list");
+    CS_logger_debug(MODULE, "Creating spin quadric list");
 
     m_spin_quadrics.reserve(m_general_predicates.size());
 
     for (const Predicate_g_3 &general_predicate: m_general_predicates)
         m_spin_quadrics.push_back(Spin_quadric_3(general_predicate));
 
-    LOG4CXX_INFO(m_logger, "Prepared " << m_spin_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");
+    CS_logger_info(MODULE, "Prepared " << m_spin_quadrics.size() << " spin-quadrics [" << (timer_end - timer_start) << " ms]");
 
     // create representation
-    LOG4CXX_DEBUG(m_logger, "Creating representation");
+    CS_logger_debug(MODULE, "Creating representation");
 
     m_representation.reset(new Representation(m_predicates, m_spin_quadrics, parameters));
 
     timer_all_end = get_tick_count();
-    LOG4CXX_INFO(m_logger, "Configuration space created [" << (timer_all_end - timer_all_start) << " ms]");
+    CS_logger_info(MODULE, "Configuration space created [" << (timer_all_end - timer_all_start) << " ms]");
 }
 
 template<class Kernel_, class Predicate_, class Representation_>
 typename Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::Route Spin_configuration_space_3<Kernel_, Predicate_, Representation_>::find_route(const Sample &begin, const Sample &end)
 {
-    LOG4CXX_INFO(m_logger, "Find route: " << begin << " -> " << end);
+    CS_logger_info(MODULE, "Find route: " << begin << " -> " << end);
 
     // select upper hemisphere of Spin(3) as the representation
     // relocate begin and end locations if needed
     Sample normalized_begin = begin.s0() >= 0 ? begin : -begin;
     Sample normalized_end = end.s0() >= 0 ? end : -end;
 
-    LOG4CXX_INFO(m_logger, "Normalized find route: " << begin << " -> " << end);
+    CS_logger_info(MODULE, "Normalized find route: " << begin << " -> " << end);
 
     // use representation
     return rep().find_route(normalized_begin, normalized_end);

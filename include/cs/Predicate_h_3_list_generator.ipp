@@ -75,6 +75,10 @@ void Predicate_list_generator<Kernel_, Predicate_h_3<Kernel_> >::create_predicat
     for (ObstacleInputIterator_ obstacle_iterator = obstacle_begin; obstacle_iterator != obstacle_end; ++obstacle_iterator)
     {
         const Polyhedron_3 &obstacle = *obstacle_iterator;
+
+        if (!obstacle.is_closed())
+            throw std::runtime_error("polyhedron is not a 2-manifold");
+
         convex_decomposition(obstacle, std::back_inserter(obstacle_parts));
     }
 
@@ -84,6 +88,10 @@ void Predicate_list_generator<Kernel_, Predicate_h_3<Kernel_> >::create_predicat
     for (RobotInputIterator_ robot_iterator = robot_begin; robot_iterator != robot_end; ++robot_iterator)
     {
         const Polyhedron_3 &robot = *robot_iterator;
+
+        if (!robot.is_closed())
+            throw std::runtime_error("polyhedron is not a 2-manifold");
+
         convex_decomposition(robot, std::back_inserter(robot_parts));
     }
 

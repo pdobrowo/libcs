@@ -1076,7 +1076,7 @@ void Spin_cell_graph_3<Kernel_, Predicate_, Representation_>::display_coordinate
 {
     CS_logger_debug(MODULE, "Pops histogram:");
 
-    std::unique_ptr<size_t []> counts = std::make_unique<size_t []>(m_coordinate_size);
+    std::unique_ptr<size_t []> counts(new size_t[m_coordinate_size]);
 
     for (size_t i = 0; i < m_coordinate_size; ++i)
         counts[i] = 0;

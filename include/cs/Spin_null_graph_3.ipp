@@ -45,6 +45,9 @@ Spin_null_graph_3<K, P>::Spin_null_graph_3(const std::vector<Predicate> &predica
 template<class K, class P>
 typename Spin_null_graph_3<K, P>::Route Spin_null_graph_3<K, P>::find_route(const Sample &begin, const Sample &end)
 {
+    (void)begin;
+    (void)end;
+
     return Route();
 }
 
@@ -72,6 +75,8 @@ bool Spin_null_graph_3<K, P>::Route::is_valid() const
 template<class K, class P>
 typename Spin_null_graph_3<K, P>::Sample Spin_null_graph_3<K, P>::Route::evaluate(double t) const
 {
+    (void)t;
+
     return Sample();
 }
 

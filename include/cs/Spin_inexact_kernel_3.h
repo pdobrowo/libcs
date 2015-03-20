@@ -157,8 +157,12 @@ inline double to_double(const double &x)
     return x;
 }
 
+// extern instantiations
+extern template struct Spin_inexact_kernel_3<CGAL::Cartesian<double> >;
+
 // default kernel
 typedef Spin_inexact_kernel_3<CGAL::Cartesian<double> > Default_inexact_kernel;
+
 } // namespace CS
 
 #include "Spin_inexact_kernel_3.ipp"

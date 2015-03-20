@@ -365,12 +365,14 @@ void Spin_quadric_mesh_3<Kernel_>::mesh_internal_complex_in_triangulation(
     Point_3 rightOrigin = CGAL::ORIGIN;
 
     // Implicit surface
+    using std::placeholders::_1;
+
     Implicit_surface_3 surface_left(
-        boost::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_left, this, _1),
+        std::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_left, this, _1),
         Sphere_3(leftOrigin, 4.)); // 4 - square of maximum sphere radius for correct evaluation
 
     Implicit_surface_3 surface_right(
-        boost::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_right, this, _1),
+        std::bind(&Spin_quadric_mesh_3<Kernel_>::evaluate_right, this, _1),
         Sphere_3(rightOrigin, 4.));
 
     // meshing criteria

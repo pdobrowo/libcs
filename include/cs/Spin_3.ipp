@@ -24,6 +24,11 @@ namespace CS
 template<class FT_>
 inline void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, const FT_ &s0)
 {
+    (void)s12;
+    (void)s23;
+    (void)s31;
+    (void)s0;
+
     // exact checking
     assert(s12 * s12 + s23 * s23 + s31 * s31 + s0 * s0 == FT_(1));
 }
@@ -31,6 +36,11 @@ inline void check_spin_3_norm(const FT_ &s12, const FT_ &s23, const FT_ &s31, co
 template<>
 inline void check_spin_3_norm<float>(const float &s12, const float &s23, const float &s31, const float &s0)
 {
+    (void)s12;
+    (void)s23;
+    (void)s31;
+    (void)s0;
+
     // double is an inexact type - check norm with an error bound
     const float MAX_ERROR = 10e-6;
     (void)MAX_ERROR;
@@ -44,6 +54,11 @@ inline void check_spin_3_norm<float>(const float &s12, const float &s23, const f
 template<>
 inline void check_spin_3_norm<double>(const double &s12, const double &s23, const double &s31, const double &s0)
 {
+    (void)s12;
+    (void)s23;
+    (void)s31;
+    (void)s0;
+
     // double is an inexact type - check norm with an error bound
     const double MAX_ERROR = 10e-10;
     (void)MAX_ERROR;

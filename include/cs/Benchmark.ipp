@@ -133,16 +133,19 @@ void Benchmark<Kernel_>::intersection_test(const std::vector<Predicate_g_3> &pre
     }
 
     // cleanup
-    for (auto iterator: quadrics)
-        delete *iterator;
+    for (auto quadric: quadrics)
+        delete quadric;
+    
     quadrics.clear();
 
-    for (auto iterator: qsics)
-        delete *iterator;
+    for (auto qsic: qsics)
+        delete qsic;
+    
     qsics.clear();
 
-    for (auto iterator: qsips)
-        delete *iterator;
+    for (auto qsip: qsips)
+        delete qsip;
+    
     qsips.clear();
 }
 } // namespace CS

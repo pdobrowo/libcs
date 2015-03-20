@@ -3,6 +3,7 @@
 #
 # Definitions:
 #   CS_INCLUDE_DIR: include dirs
+#   CS_3RD_INCLUDE_DIR: 3rd include dirs
 #   CS_LIBRARIES: libraries
 #   CS_FOUND: availability flag
 SET(CS_BASE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
@@ -58,6 +59,7 @@ IF(UNIX)
 ENDIF(UNIX)
 
 MESSAGE(STATUS "LIBCS: 3rd libs: " ${ARCH})
+SET(CS_3RD_INCLUDE_DIR ${ARCH})
 
 IF(CS_WITH_EXACT_KERNEL)
     # lidia

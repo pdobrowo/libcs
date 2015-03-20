@@ -21,25 +21,8 @@
 #include <cs/Bigint.h>
 #include <CGAL/Cartesian.h>
 
-// force instantiation
-template<typename RT_>
-struct Force_spin_kernel_3_instantiation
+namespace CS
 {
-    typedef RT_                             RT;
-    typedef CGAL::Cartesian<RT>             Base_kernel;
-    typedef CS::Spin_kernel_3<Base_kernel>  Kernel;
-
-    typedef typename Kernel::Predicate_tt_3 Predicate_tt_3;
-    typedef typename Kernel::Predicate_bb_3 Predicate_bb_3;
-
-    typedef typename Kernel::template Spin_cell_configuration_space_3<Predicate_tt_3>::Type CS_TT_C;
-    typedef typename Kernel::template Spin_cell_configuration_space_3<Predicate_bb_3>::Type CS_BB_C;
-
-    typedef typename Kernel::template Spin_raster_configuration_space_3<Predicate_tt_3>::Type CS_TT_R;
-    typedef typename Kernel::template Spin_raster_configuration_space_3<Predicate_bb_3>::Type CS_BB_R;
-
-    typedef typename Kernel::template Spin_exact_configuration_space_3<Predicate_tt_3>::Type CS_TT_E;
-    typedef typename Kernel::template Spin_exact_configuration_space_3<Predicate_bb_3>::Type CS_BB_E;
-};
-
-typedef Force_spin_kernel_3_instantiation<CGAL::Bigint> Force_spin_inexact_kernel_3_instantiation_bigint;
+// manual instantiations
+Spin_kernel_3<CGAL::Filtered_kernel<CGAL::Cartesian<CGAL::Bigint> > > g_force_instance_filtered_cartesian_bigint;
+} // namespace CS

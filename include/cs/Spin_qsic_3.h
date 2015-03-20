@@ -77,6 +77,7 @@ public:
     void                        extract_self_intersections(OutputIterator output) const
     {
         // this extracts all self-intersections of 1-dimensional components
+        (void)output;
     }
 
 private:

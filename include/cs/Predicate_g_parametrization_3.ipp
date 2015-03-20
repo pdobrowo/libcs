@@ -159,6 +159,9 @@ const typename Predicate_g_parametrization_3<Kernel_>::Vector_3 &Predicate_g_par
 template<class Kernel_>
 Spin_3<double> Predicate_g_parametrization_3<Kernel_>::approx_evaluate(double u, double v) const
 {
+    (void)u;
+    (void)v;
+
     return Spin_3<double>(1, 0, 0, 0);
 }
 } // namespace CS

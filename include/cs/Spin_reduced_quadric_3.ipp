@@ -162,6 +162,8 @@ void Spin_reduced_quadric_3<Kernel_>::squared_s0_and_sign(FT s12, FT s23, FT s31
     FT s0abs = std::sqrt(1 - s12 * s12 - s23 * s23 - s31 * s31);
 
     ; //
+    (void)squared_s0;
+    (void)sign_s0;
 
     return s0abs;
 }

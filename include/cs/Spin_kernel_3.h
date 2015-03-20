@@ -240,14 +240,12 @@ struct Spin_kernel_3
     }
 };
 
+// extern instantiations
+extern template struct Spin_kernel_3<CGAL::Filtered_kernel<CGAL::Cartesian<CGAL::Bigint> > >;
+
 // default kernel
-typedef Spin_kernel_3<
-            CGAL::Filtered_kernel<
-                CGAL::Cartesian<
-                    CGAL::Bigint>
-                >
-            >
-        Default_kernel;
+typedef Spin_kernel_3<CGAL::Filtered_kernel<CGAL::Cartesian<CGAL::Bigint> > > Default_kernel;
+
 } // namespace CS
 
 #include "Spin_kernel_3.ipp"

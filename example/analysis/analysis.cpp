@@ -22,7 +22,9 @@
 #include <cs/Spin_3.h>
 #include <CGAL/Cartesian.h>
 #include <eigen3/Eigen/Dense>
+#include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 
 // kernel settings
@@ -48,6 +50,8 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
 {
     Vector_3 pxq = CGAL::cross_product(p, q);
     Vector_3 uxv = CGAL::cross_product(u, v);
+    Vector_3 pxv = CGAL::cross_product(p, v);
+    Vector_3 qxu = CGAL::cross_product(q, u);
     Vector_3 r = pxq + uxv;
     RT trr = r.x() + r.y() + r.z();
     RT rr = r * r;
@@ -103,6 +107,28 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     RT e2 = a44 * (big_z.x() + small_z);
     RT e3 = a44 * (big_z.y() + small_z);
     RT e4 = -big_z * r - small_z * trr;
+
+    Vector_3 vs_e4 = pxq * (+ 4 * uv * pv * qu)
+                     + uxv * (+ 4 * pq * pv * qu)
+                     + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
+                     + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
+                     + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
+                     + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv))
+                     + (pq + uv + l) * (
+                         + 2 * (uu * vv * pxq + pp * qq * uxv)
+                         + (pxq + uxv) * (l * l - pp * qq - uu * vv)
+                         - l * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v) );
+
+    RT s_e4 = - vs_e4.x() - vs_e4.y() - vs_e4.z();
+    std::cout << std::setprecision(10) << std::fixed << "e4: " << e4 << ", s_e4: " << s_e4 << std::endl;
+
+    RT serr = e4 - s_e4;
+
+    if (std::fabs(serr) > 10e-3)
+    {
+        std::cout << "MISMATCH S/E4; serr = " << serr << std::endl;
+        exit(0);
+    }
 
     RT ee = e1 * e1 + e2 * e2 + e3 * e3 + e4 * e4;
     RT en = std::sqrt(ee);

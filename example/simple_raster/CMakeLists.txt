@@ -28,7 +28,7 @@ find_package(CS REQUIRED)
 include_directories(${CS_INCLUDE_DIR})
 
 # compiler settings
-SET(DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++14 -Wall -Wextra")
+SET(DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++11 -Wall -Wextra")
 
 IF(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 ADD_DEFINITIONS(${DEFAULT_CLANG_AND_GNU_FLAGS})

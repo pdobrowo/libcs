@@ -17,18 +17,18 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ##
-project(convex)
-cmake_minimum_required(VERSION 2.6)
+PROJECT(convex)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 # cmake find
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../../cmake)
 
 # cs
-find_package(CS REQUIRED)
-include_directories(${CS_INCLUDE_DIR})
+FIND_PACKAGE(CS REQUIRED)
+INCLUDE_DIRECTORIES(${CS_INCLUDE_DIR})
 
 # compiler settings
-SET(DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++14 -Wall -Wextra")
+SET(DEFAULT_CLANG_AND_GNU_FLAGS "-std=c++11 -Wall -Wextra")
 
 IF(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 ADD_DEFINITIONS(${DEFAULT_CLANG_AND_GNU_FLAGS})
@@ -39,17 +39,17 @@ ADD_DEFINITIONS(${DEFAULT_CLANG_AND_GNU_FLAGS})
 ENDIF(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
 
 # header
-set(convex_HEADERS
+SET(convex_HEADERS
     convex.h
 )
 
 # source
-set(convex_SOURCES
+SET(convex_SOURCES
     ${convex_HEADERS}
     main.cpp
     convex.cpp
 )
 
 # bin
-add_executable(convex ${convex_SOURCES})
-target_link_libraries(convex ${CS_LIBRARIES})
+ADD_EXECUTABLE(convex ${convex_SOURCES})
+TARGET_LINK_LIBRARIES(convex ${CS_LIBRARIES})

@@ -50,7 +50,7 @@ void convex()
                            Point_3(+0, +0, +2));
     */
 
-    std::ifstream robot_file("models/cube.off");
+    std::ifstream robot_file("h.off");
 
     if (!robot_file.is_open())
         exit(-1);
@@ -67,7 +67,7 @@ void convex()
                               Point_3(+2, +0, +1));
     */
 
-    std::ifstream obstacle_file("models/cube.off");
+    std::ifstream obstacle_file("l.off");
 
     if (!obstacle_file.is_open())
         exit(-1);

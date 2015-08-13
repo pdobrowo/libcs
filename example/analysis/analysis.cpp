@@ -119,6 +119,15 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
                          + (pxq + uxv) * (l * l - pp * qq - uu * vv)
                          - l * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v) );
 
+    Vector_3 test = pxq * (+ 4 * uv * pv * qu)
+            + uxv * (+ 4 * pq * pv * qu)
+            + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
+            + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
+            + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
+            + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv));
+
+    std::cout << "$$$ TEST: " << test << std::endl;
+
     RT s_e4 = - vs_e4.x() - vs_e4.y() - vs_e4.z();
     std::cout << std::setprecision(10) << std::fixed << "e4: " << e4 << ", s_e4: " << s_e4 << std::endl;
 

@@ -71,6 +71,8 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     Vector_3 qxv = CGAL::cross_product(q, v);
     RT trpxu = pxu.x() + pxu.y() + pxu.z();
     RT trqxv = qxv.x() + qxv.y() + qxv.z();
+    RT trpxq = pxq.x() + pxq.y() + pxq.z();
+    RT truxv = uxv.x() + uxv.y() + uxv.z();
     RT l = alpha * std::sqrt(pp * qq) + beta * std::sqrt(uu * vv);
     RT ll = l * l;
     RT a44 = pq + uv + l;
@@ -108,34 +110,60 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     RT e3 = a44 * (big_z.y() + small_z);
     RT e4 = -big_z * r - small_z * trr;
 
-    Vector_3 vs_e4 = pxq * (+ 4 * uv * pv * qu)
-                     + uxv * (+ 4 * pq * pv * qu)
-                     + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
-                     + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
-                     + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
-                     + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv))
-                     + (pq + uv + l) * (
-                         + 2 * (uu * vv * pxq + pp * qq * uxv)
-                         + (pxq + uxv) * (l * l - pp * qq - uu * vv)
-                         - l * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v) );
+    // normalization: let e4 be always non-negative
+    if (e4 < 0)
+    {
+        e1 = -e1;
+        e2 = -e2;
+        e3 = -e3;
+        e4 = -e4;
+    }
 
-    Vector_3 test = pxq * (+ 4 * uv * pv * qu)
-            + uxv * (+ 4 * pq * pv * qu)
-            + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
-            + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
-            + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
-            + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv));
+    Vector_3 e_old = - ( pxq * (+ 4 * uv * pv * qu)
+                       + uxv * (+ 4 * pq * pv * qu)
+                       + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
+                       + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
+                       + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
+                       + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv))
+                       + (pq + uv + l) * (
+                           + 2 * (uu * vv * pxq + pp * qq * uxv)
+                           + (pxq + uxv) * (l * l - pp * qq - uu * vv)
+                           - l * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v) ) );
 
-    std::cout << "$$$ TEST: " << test << std::endl;
+    Vector_3 chk = - ( pxq * (+ 4 * uv * pv * qu)
+                      + uxv * (+ 4 * pq * pv * qu)
+                      + pxu * (- 2 * qq * uv * pv + 2 * vv * pq * qu)
+                      + qxv * (+ 2 * pp * uv * qu - 2 * uu * pq * pv)
+                      + pxv * (- 2 * qu * pq * uv + 2 * pv * (qq * uu - qu * qu))
+                      + qxu * (+ 2 * pv * pq * uv - 2 * qu * (pp * vv - pv * pv)) );
 
-    RT s_e4 = - vs_e4.x() - vs_e4.y() - vs_e4.z();
-    std::cout << std::setprecision(10) << std::fixed << "e4: " << e4 << ", s_e4: " << s_e4 << std::endl;
+    std::cout << "$$$ CHK: " << chk << std::endl;
 
-    RT serr = e4 - s_e4;
+    /*
+    Vector_3 xf_e = l * (pq + uv + l) * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v
+                                           - 2 * (alpha * std::sqrt(pp * qq) * uxv + beta * std::sqrt(uu * vv) * pxq) );
+
+    RT xf_e4 = xf_e.x() + xf_e.y() + xf_e.z();
+    */
+
+    RT xf_e4 = l * (pq + uv + l) * ( r * (p * trq + q * trp + u * trv + v * tru) - 2 * (alpha * std::sqrt(pp * qq) * truxv + beta * std::sqrt(uu * vv) * trpxq) );
+
+    // normalization: let xf_e4 be always non-negative
+    if (xf_e4 < 0)
+    {
+        // xf_e1 = -xf_e1;
+        // xf_e2 = -xf_e2;
+        // xf_e3 = -xf_e3;
+        xf_e4 = -xf_e4;
+    }
+
+    std::cout << std::setprecision(10) << std::fixed << "e4: " << e4 << ", xf_e4: " << xf_e4 /* << ", xf_e: " << xf_e */ << std::endl;
+
+    RT serr = e4 - xf_e4;
 
     if (std::fabs(serr) > 10e-3)
     {
-        std::cout << "MISMATCH S/E4; serr = " << serr << std::endl;
+        std::cout << "MISMATCH XF/E4; serr = " << serr << std::endl;
         exit(0);
     }
 

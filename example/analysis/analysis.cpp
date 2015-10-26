@@ -76,7 +76,8 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     RT l = alpha * std::sqrt(pp * qq) + beta * std::sqrt(uu * vv);
     RT ll = l * l;
     RT a44 = pq + uv + l;
-    
+
+    // big Z
     Vector_3 big_z = a44 * (qxv * trpxu
                             + pxu * trqxv
                             + p * qq * trp
@@ -103,21 +104,25 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
                      + v * pq * trv * uu
                      + l * trr * r;
   
+    // small Z
     RT small_z = - l * rr + a44 * (ll - pp * qq - uu * vv);
 
-    RT e1 = a44 * (big_z.z() + small_z);
-    RT e2 = a44 * (big_z.x() + small_z);
-    RT e3 = a44 * (big_z.y() + small_z);
-    RT e4 = -big_z * r - small_z * trr;
+    // W
+    RT w1 = a44 * (big_z.z() + small_z);
+    RT w2 = a44 * (big_z.x() + small_z);
+    RT w3 = a44 * (big_z.y() + small_z);
+    RT w4 = -big_z * r - small_z * trr;
 
-    // normalization: let e4 be always non-negative
-    if (e4 < 0)
-    {
-        e1 = -e1;
-        e2 = -e2;
-        e3 = -e3;
-        e4 = -e4;
-    }
+    Vector_3 w123(w1, w2, w3);
+
+#if 0
+
+    // W normalization
+    if (w4 < 0) { w1 = -w1; w2 = -w2; w3 = -w3; w4 = -w4; }
+
+#endif
+
+#if 0
 
     Vector_3 e_old = - ( pxq * (+ 4 * uv * pv * qu)
                        + uxv * (+ 4 * pq * pv * qu)
@@ -139,46 +144,93 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
 
     std::cout << "$$$ CHK: " << chk << std::endl;
 
-    /*
-    Vector_3 xf_e = l * (pq + uv + l) * ( (uxv * q) * p + (uxv * p) * q + (pxq * v) * u + (pxq * u) * v
-                                           - 2 * (alpha * std::sqrt(pp * qq) * uxv + beta * std::sqrt(uu * vv) * pxq) );
+#endif
 
-    RT xf_e4 = xf_e.x() + xf_e.y() + xf_e.z();
-    */
+    RT w4_final = l * (pq + uv + l) * ( r * (p * trq + q * trp + u * trv + v * tru) - 2 * (alpha * std::sqrt(pp * qq) * truxv + beta * std::sqrt(uu * vv) * trpxq) );
 
-    RT xf_e4 = l * (pq + uv + l) * ( r * (p * trq + q * trp + u * trv + v * tru) - 2 * (alpha * std::sqrt(pp * qq) * truxv + beta * std::sqrt(uu * vv) * trpxq) );
+#if 0
 
-    // normalization: let xf_e4 be always non-negative
-    if (xf_e4 < 0)
+    // W_4 normalization
+    if (w4_final < 0) { w4_final = -w4_final; }
+
+#endif
+
+#if 1
+
+    // print
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: W4: " << w4 << ", W4_FINAL: " << w4_final << std::endl;
+
+    RT w4_error = w4 - w4_final;
+
+    if (std::fabs(w4_error) > 10e-3)
     {
-        // xf_e1 = -xf_e1;
-        // xf_e2 = -xf_e2;
-        // xf_e3 = -xf_e3;
-        xf_e4 = -xf_e4;
+        std::cout << "ERROR: W4_ERROR = " << w4_error << std::endl;
+        exit(1);
     }
 
-    std::cout << std::setprecision(10) << std::fixed << "e4: " << e4 << ", xf_e4: " << xf_e4 /* << ", xf_e: " << xf_e */ << std::endl;
+#endif
 
-    RT serr = e4 - xf_e4;
+#if 1
 
-    if (std::fabs(serr) > 10e-3)
+    // J
+    Vector_3 j(1, 1, 1);
+
+    // D
+    Vector_3 d = (pq + uv + l) * (qxv * trpxu + pxu * trqxv)
+                - (p * tru + u * trp) * (pv * qq + qu * vv)
+                - (q * trv + v * trq) * (pv * uu + qu * pp)
+                + (p * trq + q * trp) * (pp * qq + pv * qu - pq * uv - l * (uv + l))
+                + (u * trv + v * tru) * (uu * vv + pv * qu - pq * uv - l * (pq + l))
+                + 2 * (p * trp * qq + q * trq * pp) * uv
+                + 2 * (u * tru * vv + v * trv * uu) * pq
+                + l * pv * (q * tru + u * trq)
+                + l * qu * (p * trv + v * trp)
+                + j * (pq + uv + l) * (l * l - pp * qq - uu * vv);
+
+    Vector_3 w123_final(a44 * d.z(), a44 * d.x(), a44 * d.y());
+
+    Vector_3 w123_error = w123 - w123_final;
+
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: W123_ERROR: " << w123_error.x() << ", " << w123_error.y() << ", " << w123_error.z() << ", " << std::endl;
+
+    if (std::fabs(std::sqrt(w123_error.squared_length())) > 10e-6)
     {
-        std::cout << "MISMATCH XF/E4; serr = " << serr << std::endl;
-        exit(0);
+        std::cout << "ERROR: W123_ERROR = " << w123_error << std::endl;
+        exit(1);
     }
 
-    RT ee = e1 * e1 + e2 * e2 + e3 * e3 + e4 * e4;
-    RT en = std::sqrt(ee);
+
+    // test
+    Vector_3 test = (pq + uv + l) * (qxv * trpxu + pxu * trqxv)
+                - (p * tru + u * trp) * (pv * qq + qu * vv)
+                - (q * trv + v * trq) * (pv * uu + qu * pp)
+                + (p * trq + q * trp) * (pp * qq + pv * qu - pq * uv - l * (uv + l))
+                + (u * trv + v * tru) * (uu * vv + pv * qu - pq * uv - l * (pq + l))
+                + 2 * (p * trp * qq + q * trq * pp) * uv
+                + 2 * (u * tru * vv + v * trv * uu) * pq
+                + l * pv * (q * tru + u * trq)
+                + l * qu * (p * trv + v * trp);
+
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: TEST: " << test.x() << ", " << test.y() << ", " << test.z() << ", " << std::endl;
+
+#endif
+
+#if 1
+
+    RT w_norm_sqr = w1 * w1 + w2 * w2 + w3 * w3 + w4 * w4;
+    RT w_norm = std::sqrt(w_norm_sqr);
     
-    std::cout << "norm: " << en << std::endl;
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: ||W||: " << w_norm << std::endl;
 
-    if (std::fabs(en) < 0.0000001)
+    if (std::fabs(w_norm) < 10e-10)
     {
-        std::cout << "ZERO NORM" << std::endl;
-        return Spin();
+        std::cout << "ERROR: W_NORM = " << w_norm << std::endl;
+        exit(1);
     }
+
+#endif
     
-    return Spin(e1 / en, e2 / en, e3 / en, e4 / en);
+    return Spin(w1 / w_norm, w2 / w_norm, w3 / w_norm, w4 / w_norm);
 }
 
 void analysis()

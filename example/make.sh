@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ( cd convex && cmake . -DCMAKE_BUILD_TYPE=Release && make )
 ( cd analysis && cmake . -DCMAKE_BUILD_TYPE=Release && make )
 ( cd ball_knob && EXACT=1 cmake . -DCMAKE_BUILD_TYPE=Release && make )

@@ -46,6 +46,11 @@ typedef Kernel::Predicate_g_3 Predicate_g_3;
 
 typedef CS::Spin_3<double> Spin;
 
+bool almost_zero(RT x)
+{
+    return std::fabs(x) < 10e-10;
+}
+
 Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vector_3 &u, const Vector_3 &v, RT alpha, RT beta)
 {
     Vector_3 pxq = CGAL::cross_product(p, q);
@@ -77,6 +82,21 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     RT ll = l * l;
     RT a44 = pq + uv + l;
 
+    // prechecks
+    bool is_proper = (pp > 0 && qq > 0) || (uu > 0 && vv > 0);
+    bool is_cylindrical = is_proper && (almost_zero(pp) || almost_zero(qq) || almost_zero(uu) || almost_zero(vv));
+    bool is_ellipsoidal = is_proper && (!almost_zero(pp) && !almost_zero(qq) && !almost_zero(uu) && !almost_zero(vv));
+
+    std::cout << std::endl << "PREDICATE:" << std::endl;
+
+    std::cout << "proper: " << (is_proper ? "yes" : "no") << std::endl;
+    std::cout << "cylindrical: " << (is_cylindrical ? "yes" : "no") << std::endl;
+    std::cout << "ellipsoidal: " << (is_ellipsoidal ? "yes" : "no") << std::endl;
+
+    // accept only ellipsoidal predicates
+    if (!is_ellipsoidal)
+        return Spin(0, 0, 0, 1);
+
     // big Z
     Vector_3 big_z = a44 * (qxv * trpxu
                             + pxu * trqxv
@@ -103,7 +123,7 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
                      + u * pq * tru * vv
                      + v * pq * trv * uu
                      + l * trr * r;
-  
+
     // small Z
     RT small_z = - l * rr + a44 * (ll - pp * qq - uu * vv);
 
@@ -191,9 +211,11 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
 
     Vector_3 w123_error = w123 - w123_final;
 
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: W123: " << w123.x() << ", " << w123.y() << ", " << w123.z() << ", " << std::endl;
+    std::cout << std::setprecision(10) << std::fixed << "CHECK: W123_FINAL: " << w123_final.x() << ", " << w123_final.y() << ", " << w123_final.z() << ", " << std::endl;
     std::cout << std::setprecision(10) << std::fixed << "CHECK: W123_ERROR: " << w123_error.x() << ", " << w123_error.y() << ", " << w123_error.z() << ", " << std::endl;
 
-    if (std::fabs(std::sqrt(w123_error.squared_length())) > 10e-6)
+    if (std::fabs(std::sqrt(w123_error.squared_length())) > 10e-4)
     {
         std::cout << "ERROR: W123_ERROR = " << w123_error << std::endl;
         exit(1);
@@ -219,7 +241,7 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
 
     RT w_norm_sqr = w1 * w1 + w2 * w2 + w3 * w3 + w4 * w4;
     RT w_norm = std::sqrt(w_norm_sqr);
-    
+
     std::cout << std::setprecision(10) << std::fixed << "CHECK: ||W||: " << w_norm << std::endl;
 
     if (std::fabs(w_norm) < 10e-10)
@@ -229,7 +251,7 @@ Spin calculate_analysis_vector(const Vector_3 &p, const Vector_3 &q, const Vecto
     }
 
 #endif
-    
+
     return Spin(w1 / w_norm, w2 / w_norm, w3 / w_norm, w4 / w_norm);
 }
 
@@ -323,7 +345,7 @@ void analysis()
                 << eigensolver.eigenvalues()[1].real() << std::endl
                 << eigensolver.eigenvalues()[2].real() << std::endl
                 << eigensolver.eigenvalues()[3].real() << std::endl;
-                
+
             std::cout << "eigen vector 1: [" << eigensolver.eigenvectors()(0, 0).real() << ", " << eigensolver.eigenvectors()(1, 0).real() << ", " << eigensolver.eigenvectors()(2, 0).real() << ", " << eigensolver.eigenvectors()(3, 0).real() << "]" << std::endl;
             std::cout << "eigen vector 2: [" << eigensolver.eigenvectors()(0, 1).real() << ", " << eigensolver.eigenvectors()(1, 1).real() << ", " << eigensolver.eigenvectors()(2, 1).real() << ", " << eigensolver.eigenvectors()(3, 1).real() << "]" << std::endl;
             std::cout << "eigen vector 3: [" << eigensolver.eigenvectors()(0, 2).real() << ", " << eigensolver.eigenvectors()(1, 2).real() << ", " << eigensolver.eigenvectors()(2, 2).real() << ", " << eigensolver.eigenvectors()(3, 2).real() << "]" << std::endl;
@@ -333,7 +355,7 @@ void analysis()
             std::cout << "failed to calculate eigenvalues!" << std::endl;
 
         std::cout << std::endl;
-        
+
         // analysis
         Vector_3 k = general_predicate.k();
         Vector_3 l = general_predicate.l();
@@ -366,7 +388,7 @@ void analysis()
         Spin e2 = calculate_analysis_vector(p, q, u, v, +1, -1);
         Spin e3 = calculate_analysis_vector(p, q, u, v, -1, +1);
         Spin e4 = calculate_analysis_vector(p, q, u, v, -1, -1);
-        
+
         std::cout << "analysis vector 1: [" << e1.s12() << ", " << e1.s23() << ", " << e1.s31() << ", " << e1.s0() << "]" << std::endl;
         std::cout << "analysis vector 2: [" << e2.s12() << ", " << e2.s23() << ", " << e2.s31() << ", " << e2.s0() << "]" << std::endl;
         std::cout << "analysis vector 3: [" << e3.s12() << ", " << e3.s23() << ", " << e3.s31() << ", " << e3.s0() << "]" << std::endl;

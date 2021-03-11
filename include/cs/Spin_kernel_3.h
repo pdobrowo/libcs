@@ -228,7 +228,7 @@ struct Spin_kernel_3
     typedef CS::Matrix_44<RT>   Matrix;
     typedef LiDIA::matrix<RT>   LidiaMatrix;
 
-    static LidiaMatrix to_lidia_matrix(const Matrix &matrix)
+    LidiaMatrix to_lidia_matrix(const Matrix &matrix)
     {
         LidiaMatrix result(4, 4);
 

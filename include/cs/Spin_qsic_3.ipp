@@ -32,7 +32,8 @@ Spin_qsic_3<Kernel_>::Spin_qsic_3(const Spin_quadric_3 &q1, const Spin_quadric_3
     std::ostringstream logger;
     int opt_level = 0;
 
-    m_qsic = QI::intersection(Kernel::to_lidia_matrix(m_q1.matrix()), Kernel::to_lidia_matrix(m_q2.matrix()), opt_level, logger);
+    Kernel kernel;
+    m_qsic = QI::intersection(kernel.to_lidia_matrix(m_q1.matrix()), kernel.to_lidia_matrix(m_q2.matrix()), opt_level, logger);
 
     // spin qsic quadric is: N[m_qsic]
 }

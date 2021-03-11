@@ -335,8 +335,8 @@ void Spin_quadric_mesh_3<Kernel_>::mesh_polyhedron(
     mesh_surface_triangulation(c2t3_left, c2t3_right, angular_bound, radius_bound, distance_bound);
 
     // convert to poyhedron
-    CGAL::output_surface_facets_to_polyhedron(c2t3_left, polyhedron_left);
-    CGAL::output_surface_facets_to_polyhedron(c2t3_right, polyhedron_right);
+    CGAL::facets_in_complex_2_to_triangle_mesh(c2t3_left, polyhedron_left);
+    CGAL::facets_in_complex_2_to_triangle_mesh(c2t3_right, polyhedron_right);
 }
 
 template<class Kernel_>
